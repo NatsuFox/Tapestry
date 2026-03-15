@@ -1,0 +1,33 @@
+# Local Python environments and caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+skills/tapestry/_tests/coverage.xml
+
+# Local project configuration
+.env
+.env.local
+
+# Editor-local settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Zhihu crawler local dependencies
+skills/tapestry/_src/crawlers/zhihu/node_modules/
+
+# Generated project content
+/data/
+/knowledge-base/
+
+# Temporary scratch files
+*.tmp

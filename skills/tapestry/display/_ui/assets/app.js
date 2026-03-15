@@ -1,0 +1,568 @@
+const state = {
+  manifest: null,
+  documents: {},
+  nodes: new Map(),
+  activePath: null,
+  query: "",
+  expanded: new Set(["."]),
+};
+
+const treeEl = document.getElementById("tree");
+const searchEl = document.getElementById("search");
+const searchResultsEl = document.getElementById("search-results");
+const titleEl = document.getElementById("page-title");
+const subtitleEl = document.getElementById("page-subtitle");
+const heroStatsEl = document.getElementById("hero-stats");
+const bodyEl = document.getElementById("content-body");
+const relatedSectionEl = document.getElementById("related-section");
+const tocEl = document.getElementById("toc");
+const metaEl = document.getElementById("doc-meta");
+const siblingLinksEl = document.getElementById("sibling-links");
+const breadcrumbsEl = document.getElementById("breadcrumbs");
+const navToggleEl = document.getElementById("nav-toggle");
+const sidebarEl = document.getElementById("sidebar");
+const homeLinkEl = document.getElementById("home-link");
+const focusSearchEl = document.getElementById("focus-search");
+
+function escapeHtml(text = "") {
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function inlineMarkdown(text = "", currentPath = "") {
+  let rendered = escapeHtml(text);
+  rendered = rendered.replace(/`([^`]+)`/g, "<code>$1</code>");
+  rendered = rendered.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  rendered = rendered.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+  rendered = rendered.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+    const resolved = resolveLink(currentPath, href);
+    if (resolved.internal) {
+      return `<a href="#/${resolved.path}" data-doc-link="${resolved.path}">${escapeHtml(label)}</a>`;
+    }
+    return `<a href="${escapeHtml(href)}" target="_blank" rel="noreferrer noopener">${escapeHtml(label)}</a>`;
+  });
+  return rendered;
+}
+
+function resolveLink(currentPath, href) {
+  if (/^(https?:)?\/\//.test(href)) {
+    return { internal: false, path: href };
+  }
+  if (!href.endsWith(".md")) {
+    return { internal: false, path: href };
+  }
+  const currentParts = currentPath.split("/").slice(0, -1);
+  const rawParts = [...currentParts, ...href.split("/")];
+  const normalized = [];
+  for (const part of rawParts) {
+    if (!part || part === ".") continue;
+    if (part === "..") {
+      normalized.pop();
+      continue;
+    }
+    normalized.push(part);
+  }
+  return { internal: true, path: normalized.join("/") };
+}
+
+function renderMarkdown(markdown = "", currentPath = "") {
+  const lines = markdown.replace(/\r/g, "").split("\n");
+  const out = [];
+  let inList = false;
+  let inCode = false;
+  let codeBuffer = [];
+  let listTag = "ul";
+
+  const flushList = () => {
+    if (inList) {
+      out.push(`</${listTag}>`);
+      inList = false;
+    }
+  };
+
+  const flushCode = () => {
+    if (inCode) {
+      out.push(`<pre><code>${escapeHtml(codeBuffer.join("\n"))}</code></pre>`);
+      codeBuffer = [];
+      inCode = false;
+    }
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trimEnd();
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith("```")) {
+      flushList();
+      if (inCode) {
+        flushCode();
+      } else {
+        inCode = true;
+      }
+      continue;
+    }
+
+    if (inCode) {
+      codeBuffer.push(rawLine);
+      continue;
+    }
+
+    if (!trimmed) {
+      flushList();
+      out.push("");
+      continue;
+    }
+
+    if (/^#{1,6}\s+/.test(trimmed)) {
+      flushList();
+      const level = trimmed.match(/^#+/)[0].length;
+      const title = trimmed.slice(level).trim();
+      const slug = slugify(title);
+      out.push(`<h${level} id="${slug}">${inlineMarkdown(title, currentPath)}</h${level}>`);
+      continue;
+    }
+
+    const orderedMatch = trimmed.match(/^(\d+)\.\s+(.*)$/);
+    if (orderedMatch || trimmed.startsWith("- ")) {
+      const targetTag = orderedMatch ? "ol" : "ul";
+      const content = orderedMatch ? orderedMatch[2] : trimmed.slice(2);
+      if (!inList || listTag !== targetTag) {
+        flushList();
+        listTag = targetTag;
+        out.push(`<${listTag}>`);
+        inList = true;
+      }
+      out.push(`<li>${inlineMarkdown(content, currentPath)}</li>`);
+      continue;
+    }
+
+    if (trimmed.startsWith("> ")) {
+      flushList();
+      out.push(`<blockquote>${inlineMarkdown(trimmed.slice(2), currentPath)}</blockquote>`);
+      continue;
+    }
+
+    flushList();
+    out.push(`<p>${inlineMarkdown(trimmed, currentPath)}</p>`);
+  }
+
+  flushList();
+  flushCode();
+  return out.join("\n");
+}
+
+function slugify(text = "") {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\- ]+/g, "")
+    .trim()
+    .replace(/[\s\-]+/g, "-") || "section";
+}
+
+function documentRecord(path) {
+  return state.documents[path];
+}
+
+function nodeRecord(path) {
+  return state.nodes.get(path);
+}
+
+function flattenNode(node, paths = []) {
+  if (node.index) paths.push(node.index);
+  for (const doc of node.documents) paths.push(doc);
+  for (const child of node.children) flattenNode(child, paths);
+  return paths;
+}
+
+function matchesQuery(doc) {
+  const q = state.query.trim().toLowerCase();
+  if (!q) return true;
+  return (
+    doc.title.toLowerCase().includes(q) ||
+    doc.path.toLowerCase().includes(q) ||
+    (doc.excerpt || "").toLowerCase().includes(q)
+  );
+}
+
+function buildLookups(node, parent = null) {
+  state.nodes.set(node.path, { ...node, parent });
+  for (const child of node.children) {
+    buildLookups(child, node.path);
+  }
+}
+
+function expandForPath(path) {
+  const doc = documentRecord(path);
+  if (!doc) return;
+  let current = doc.parent ?? ".";
+  while (current) {
+    state.expanded.add(current);
+    const record = nodeRecord(current);
+    current = record?.parent ?? null;
+  }
+}
+
+function searchResults() {
+  const q = state.query.trim();
+  if (!q) return [];
+  return Object.values(state.documents)
+    .filter(matchesQuery)
+    .sort((a, b) => {
+      const aTitle = a.title.toLowerCase().includes(q.toLowerCase()) ? 0 : 1;
+      const bTitle = b.title.toLowerCase().includes(q.toLowerCase()) ? 0 : 1;
+      return aTitle - bTitle || a.title.localeCompare(b.title);
+    })
+    .slice(0, 12);
+}
+
+function renderSearchResults() {
+  const results = searchResults();
+  searchResultsEl.innerHTML = "";
+  if (!results.length) return;
+  for (const doc of results) {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "search-result";
+    item.innerHTML = `
+      <div class="search-result-title">${escapeHtml(doc.title)}</div>
+      <div class="search-result-meta">${escapeHtml(doc.path)}</div>
+    `;
+    item.addEventListener("click", () => openDoc(doc.path));
+    searchResultsEl.appendChild(item);
+  }
+}
+
+function renderTreeNode(node) {
+  const candidatePaths = flattenNode(node).map((path) => documentRecord(path));
+  if (!candidatePaths.some((doc) => matchesQuery(doc))) return null;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "tree-group";
+  wrapper.setAttribute("aria-expanded", String(state.expanded.has(node.path)));
+
+  const header = document.createElement("button");
+  header.type = "button";
+  header.className = "tree-header";
+  header.innerHTML = `
+    <span class="tree-caret">▶</span>
+    <span class="tree-title">${escapeHtml(node.title)}</span>
+    <span class="tree-meta">${node.documentCount}</span>
+  `;
+  header.addEventListener("click", () => {
+    if (state.expanded.has(node.path)) {
+      state.expanded.delete(node.path);
+    } else {
+      state.expanded.add(node.path);
+    }
+    renderTree();
+  });
+  wrapper.appendChild(header);
+
+  const children = document.createElement("div");
+  children.className = "tree-children";
+
+  if (node.index) {
+    const indexDoc = documentRecord(node.index);
+    const link = document.createElement("a");
+    link.href = `#/${node.index}`;
+    link.className = `tree-link${state.activePath === node.index ? " is-active" : ""}`;
+    link.textContent = indexDoc.title;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openDoc(node.index);
+    });
+    children.appendChild(link);
+  }
+
+  for (const docPath of node.documents) {
+    const doc = documentRecord(docPath);
+    if (!matchesQuery(doc)) continue;
+    const link = document.createElement("a");
+    link.href = `#/${doc.path}`;
+    link.className = `tree-link${state.activePath === doc.path ? " is-active" : ""}`;
+    link.textContent = doc.title;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openDoc(doc.path);
+    });
+    children.appendChild(link);
+  }
+
+  for (const child of node.children) {
+    const childEl = renderTreeNode(child);
+    if (childEl) children.appendChild(childEl);
+  }
+
+  wrapper.appendChild(children);
+  return wrapper;
+}
+
+function renderTree() {
+  treeEl.innerHTML = "";
+  const rendered = renderTreeNode(state.manifest.root);
+  if (rendered) treeEl.appendChild(rendered);
+}
+
+function renderBreadcrumbs(doc) {
+  const parts = [];
+  let current = doc.parent ?? ".";
+  while (current) {
+    const node = nodeRecord(current);
+    if (!node) break;
+    if (node.index) {
+      parts.unshift({
+        title: documentRecord(node.index).title,
+        path: node.index,
+      });
+    }
+    current = node.parent;
+  }
+  breadcrumbsEl.innerHTML = "";
+  parts.forEach((part, index) => {
+    if (index > 0) {
+      const sep = document.createElement("span");
+      sep.textContent = "›";
+      breadcrumbsEl.appendChild(sep);
+    }
+    const link = document.createElement("a");
+    link.href = `#/${part.path}`;
+    link.textContent = part.title;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openDoc(part.path);
+    });
+    breadcrumbsEl.appendChild(link);
+  });
+  if (parts.length) {
+    const sep = document.createElement("span");
+    sep.textContent = "›";
+    breadcrumbsEl.appendChild(sep);
+  }
+  const currentLabel = document.createElement("span");
+  currentLabel.textContent = doc.title;
+  breadcrumbsEl.appendChild(currentLabel);
+}
+
+function renderHeroStats(doc) {
+  const node = nodeRecord(doc.parent ?? ".");
+  const stats = [
+    { label: "Word Count", value: doc.wordCount ?? 0 },
+    { label: "Headings", value: (doc.headings || []).length },
+    { label: "Section Depth", value: doc.depth ?? 0 },
+    { label: "Sibling Docs", value: (node?.documents || []).length },
+  ];
+  heroStatsEl.innerHTML = "";
+  for (const stat of stats) {
+    const el = document.createElement("div");
+    el.className = "stat-card";
+    el.innerHTML = `
+      <div class="stat-label">${escapeHtml(String(stat.label))}</div>
+      <div class="stat-value">${escapeHtml(String(stat.value))}</div>
+    `;
+    heroStatsEl.appendChild(el);
+  }
+}
+
+function renderMeta(doc) {
+  metaEl.innerHTML = "";
+  const rows = [
+    ["Kind", doc.kind],
+    ["Path", doc.path],
+    ["Updated", doc.updatedAt ? new Date(doc.updatedAt * 1000).toLocaleString() : "unknown"],
+    ["Word Count", doc.wordCount ?? 0],
+  ];
+  for (const [label, value] of rows) {
+    const pill = document.createElement("div");
+    pill.className = "meta-pill";
+    pill.innerHTML = `<strong>${escapeHtml(label)}:</strong> ${escapeHtml(String(value))}`;
+    metaEl.appendChild(pill);
+  }
+}
+
+function renderToc(doc) {
+  tocEl.innerHTML = "";
+  if (!(doc.headings || []).length) {
+    tocEl.innerHTML = `<div class="empty-state">No section headings detected.</div>`;
+    return;
+  }
+  for (const heading of doc.headings) {
+    const link = document.createElement("a");
+    link.href = `#/${doc.path}::${heading.slug}`;
+    link.className = `toc-link level-${heading.level}`;
+    link.textContent = heading.title;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const target = document.getElementById(heading.slug);
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    tocEl.appendChild(link);
+  }
+}
+
+function renderSiblings(doc) {
+  siblingLinksEl.innerHTML = "";
+  const parentNode = nodeRecord(doc.parent ?? ".");
+  if (!parentNode) {
+    siblingLinksEl.innerHTML = `<div class="empty-state">No nearby sections available.</div>`;
+    return;
+  }
+  const candidates = [];
+  if (parentNode.index && parentNode.index !== doc.path) candidates.push(parentNode.index);
+  for (const item of parentNode.documents) if (item !== doc.path) candidates.push(item);
+  for (const child of parentNode.children) if (child.index && child.index !== doc.path) candidates.push(child.index);
+
+  if (!candidates.length) {
+    siblingLinksEl.innerHTML = `<div class="empty-state">No nearby sections available.</div>`;
+    return;
+  }
+
+  for (const path of candidates.slice(0, 8)) {
+    const related = documentRecord(path);
+    const link = document.createElement("a");
+    link.href = `#/${related.path}`;
+    link.className = "context-link";
+    link.textContent = related.title;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openDoc(related.path);
+    });
+    siblingLinksEl.appendChild(link);
+  }
+}
+
+function relatedCards(doc) {
+  const node = nodeRecord(doc.parent ?? ".");
+  const cards = [];
+  if (node) {
+    for (const child of node.children) {
+      if (child.index) cards.push(documentRecord(child.index));
+    }
+    for (const docPath of node.documents) {
+      if (docPath !== doc.path) cards.push(documentRecord(docPath));
+    }
+  }
+  return cards.slice(0, 6);
+}
+
+function renderRelated(doc) {
+  const cards = relatedCards(doc);
+  if (!cards.length) {
+    relatedSectionEl.innerHTML = "";
+    return;
+  }
+  relatedSectionEl.innerHTML = `
+    <div class="context-label">Continue Exploring</div>
+    <div class="related-grid">
+      ${cards.map((item) => `
+        <article class="related-card" data-doc-link="${item.path}">
+          <div class="related-label">${escapeHtml(item.kind)}</div>
+          <div class="related-title">${escapeHtml(item.title)}</div>
+          <div class="related-excerpt">${escapeHtml(item.excerpt || "No excerpt available.")}</div>
+        </article>
+      `).join("")}
+    </div>
+  `;
+
+  relatedSectionEl.querySelectorAll("[data-doc-link]").forEach((card) => {
+    card.addEventListener("click", () => openDoc(card.dataset.docLink));
+  });
+}
+
+function enhanceRenderedLinks(currentPath) {
+  bodyEl.querySelectorAll("[data-doc-link]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openDoc(link.dataset.docLink);
+    });
+  });
+}
+
+function animateDocumentSwap() {
+  bodyEl.classList.remove("is-transitioning");
+  void bodyEl.offsetWidth;
+  bodyEl.classList.add("is-transitioning");
+}
+
+function openDoc(path) {
+  const doc = documentRecord(path);
+  if (!doc) return;
+  state.activePath = path;
+  expandForPath(path);
+  renderTree();
+  renderSearchResults();
+  renderBreadcrumbs(doc);
+  renderHeroStats(doc);
+  renderMeta(doc);
+  renderToc(doc);
+  renderSiblings(doc);
+  renderRelated(doc);
+
+  titleEl.textContent = doc.title;
+  subtitleEl.textContent = doc.excerpt || doc.path;
+
+  bodyEl.innerHTML = `
+    <div class="meta-line">${doc.kind.toUpperCase()} • ${escapeHtml(doc.path)}</div>
+    ${renderMarkdown(doc.markdown, doc.path)}
+  `;
+  enhanceRenderedLinks(doc.path);
+  animateDocumentSwap();
+  history.replaceState(null, "", `#/${doc.path}`);
+  if (window.innerWidth < 980) sidebarEl.classList.remove("is-open");
+}
+
+function openHome() {
+  openDoc(state.manifest.root.index);
+}
+
+function renderInitialState() {
+  buildLookups(state.manifest.root);
+  const initialPath = decodeURIComponent(location.hash.replace(/^#\//, "")) || state.manifest.root.index;
+  renderTree();
+  renderSearchResults();
+  openDoc(state.documents[initialPath] ? initialPath : state.manifest.root.index);
+}
+
+async function loadManifest() {
+  const response = await fetch("data/knowledge-base.json");
+  state.manifest = await response.json();
+  state.documents = state.manifest.documents;
+  renderInitialState();
+}
+
+searchEl.addEventListener("input", () => {
+  state.query = searchEl.value;
+  renderSearchResults();
+  renderTree();
+});
+
+searchEl.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    const first = searchResults()[0];
+    if (first) openDoc(first.path);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "/" && document.activeElement !== searchEl) {
+    event.preventDefault();
+    searchEl.focus();
+    searchEl.select();
+  }
+});
+
+window.addEventListener("hashchange", () => {
+  const path = decodeURIComponent(location.hash.replace(/^#\//, ""));
+  if (state.documents[path]) openDoc(path);
+});
+
+navToggleEl.addEventListener("click", () => sidebarEl.classList.toggle("is-open"));
+homeLinkEl.addEventListener("click", openHome);
+focusSearchEl.addEventListener("click", () => searchEl.focus());
+
+loadManifest().catch((error) => {
+  titleEl.textContent = "Viewer Error";
+  subtitleEl.textContent = "Could not load knowledge-base data";
+  bodyEl.innerHTML = `<pre>${escapeHtml(String(error))}</pre>`;
+});

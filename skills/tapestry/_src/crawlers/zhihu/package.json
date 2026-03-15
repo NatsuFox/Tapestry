@@ -1,0 +1,20 @@
+{
+  "name": "zhihu-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local reusable Zhihu browser-backed API for challenge-aware fetching and parsing.",
+  "bin": {
+    "zhihu-parse": "./src/cli.mjs"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "check": "node --check src/server.mjs && node --check src/cli.mjs && node --check src/fetcher.mjs && node --check src/request-options.mjs && node --check src/parsers/common.mjs && node --check src/parsers/index.mjs && node --check src/parsers/column-article.mjs && node --check src/parsers/question.mjs && node --check src/parsers/answer.mjs && node --check src/parsers/profile.mjs && node --check scripts/smoke.mjs",
+    "test": "node --test test/_tests/*.test.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "cli": "node src/cli.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.55.0"
+  }
+}

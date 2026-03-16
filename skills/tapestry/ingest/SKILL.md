@@ -1,11 +1,20 @@
 ---
-name: tapestry-ingest
+name: ingest
 description: Primitive web crawling and scraping for one or more URLs. Use when a user shares links, asks to ingest or archive web content, or needs raw source artifacts normalized into reusable local records before feed-building or synthesis.
 argument-hint: [url-or-free-form-text]
 allowed-tools: Bash(*), Read, Glob, Grep, Write, Edit
 ---
 
 # Tapestry Ingest
+
+## When to use this skill
+
+Use this skill when:
+- A user shares URLs or links to web content
+- You need to archive or ingest web content into the local knowledge base
+- Raw source artifacts need to be normalized before feed-building or synthesis
+- The user asks to "save", "archive", "ingest", or "capture" web content
+- You need deterministic crawling and scraping before model-based analysis
 
 ## Overview
 
@@ -32,9 +41,28 @@ python _scripts/run.py \
 4. Use `--list-crawlers` if you need to inspect the currently available crawler ids.
 5. Use `--crawler <id>` only when the user explicitly wants to force a particular crawler instead of automatic matching.
 6. Review the command output for the created feed, note, and handoff-ready artifacts.
-7. If the user wants a rigorous structured feed instead of the raw normalized artifact, route the next step through `$tapestry-feed`.
-8. If the user wants interpretation or synthesis, route the next step through `$tapestry-synthesis` instead of inventing an in-skill summary pipeline.
-9. Report back with the successful URLs, created paths, matched crawlers when available, and any failures.
+7. **Auto-synthesis**: If `tapestry.config.json` has `synthesis.mode: "auto"` (default), the ingest will indicate which URLs need synthesis. You should then invoke `$tapestry-synthesis` for each URL automatically.
+8. If the user wants a rigorous structured feed instead of the raw normalized artifact, route the next step through `$tapestry-feed`.
+9. If synthesis mode is "manual", only invoke `$tapestry-synthesis` when the user explicitly requests interpretation or synthesis.
+10. Report back with the successful URLs, created paths, matched crawlers when available, and any failures.
+
+## Configuration
+
+The behavior is controlled by `tapestry.config.json` at the project root:
+
+```json
+{
+  "synthesis": {
+    "mode": "auto",  // "auto", "manual", or "batch"
+    "description": "Controls when synthesis runs after ingestion"
+  }
+}
+```
+
+**Modes**:
+- `"auto"` (default): Automatically invoke synthesis after each successful ingest
+- `"manual"`: Only synthesize when user explicitly requests it
+- `"batch"`: Ingest multiple URLs, then synthesize all at once when requested
 
 ## Operating Rules
 

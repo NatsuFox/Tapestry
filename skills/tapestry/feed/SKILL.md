@@ -1,5 +1,5 @@
 ---
-name: tapestry-feed
+name: feed
 description: Turn a crawler-produced Tapestry artifact into a source-appropriate structured feed. Use when a user wants a rigorous feed entry, normalized text output, or source-specific organization rather than a loose free-form summary.
 argument-hint: [note-path-or-url]
 allowed-tools: Bash(*), Read, Glob, Grep, Write, Edit
@@ -8,6 +8,15 @@ allowed-tools: Bash(*), Read, Glob, Grep, Write, Edit
 # Tapestry Feed
 
 Build a structured feed entry for: **$ARGUMENTS**
+
+## When to use this skill
+
+Use this skill when:
+- A user wants a rigorous, structured feed entry from ingested content
+- You need source-appropriate normalized text output
+- The user asks for a "feed", "structured output", or "formatted entry"
+- Source-specific organization is needed rather than free-form summary
+- Platform-native context (counts, tags, thread structure) should be preserved
 
 ## Purpose
 
@@ -27,6 +36,23 @@ The source-specific rules live in natural-language spec files under `_specs/`. T
 5. Open the matching source spec in `_specs/`.
 6. Also read `_specs/_shared-standard.md` before drafting the final feed.
 7. Produce the final feed text exactly in the structure required by the source spec.
+
+### Example: Building a feed from an ingested URL
+
+```bash
+# First, ensure the content is ingested
+$tapestry-ingest "https://news.ycombinator.com/item?id=12345"
+
+# Then build the structured feed
+$tapestry-feed "https://news.ycombinator.com/item?id=12345"
+```
+
+### Example: Building a feed from a stored note
+
+```bash
+# Use the note path directly
+$tapestry-feed "knowledge-base/notes/2024-01-15-hn-discussion.md"
+```
 
 ## Rules
 

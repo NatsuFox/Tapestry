@@ -1,5 +1,5 @@
 ---
-name: tapestry-display
+name: display
 description: Expose the organized knowledge base through a readable frontend experience. Use when a user wants to browse the knowledge base visually as a lightweight site instead of reading raw Markdown files directly.
 argument-hint: [optional-project-root]
 allowed-tools: Bash(*), Read, Glob, Grep, Write, Edit
@@ -8,6 +8,15 @@ allowed-tools: Bash(*), Read, Glob, Grep, Write, Edit
 # Tapestry Display
 
 Publish a readable frontend for the knowledge base: **$ARGUMENTS**
+
+## When to use this skill
+
+Use this skill when:
+- A user wants to browse the knowledge base visually
+- You need to generate a readable frontend for the organized content
+- The user asks to "view", "display", "publish", or "preview" the knowledge base
+- A lightweight site presentation is preferred over raw Markdown files
+- The user wants a blog-like or research portal view of the content
 
 ## Purpose
 

@@ -9,7 +9,7 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
-skills/tapestry/_tests/coverage.xml
+coverage.xml
 
 # Local project configuration
 .env
@@ -25,9 +25,14 @@ skills/tapestry/_tests/coverage.xml
 # Zhihu crawler local dependencies
 skills/tapestry/_src/crawlers/zhihu/node_modules/
 
-# Generated project content
+# Generated project content (all under data/)
 /data/
-/knowledge-base/
 
 # Temporary scratch files
 *.tmp
+
+# User config overrides (default is in skills/tapestry/config/)
+/tapestry.config.json
+
+# Git credentials (SECURITY - never commit)
+.git/credentials

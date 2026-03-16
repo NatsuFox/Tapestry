@@ -266,6 +266,88 @@ ln -s "$(pwd)/skills/tapestry" ~/.codex/skills/tapestry
 
 如果看到支持的平台列表，说明安装成功！
 
+#### 自动安装依赖（推荐）
+
+Tapestry 提供了智能依赖安装功能，可以自动检测你的环境并安装所需的依赖包。
+
+**使用方法：**
+
+安装技能包后，只需在 Agent 框架中输入：
+
+```
+"安装 Tapestry 的依赖"
+或
+"设置 Tapestry 项目"
+```
+
+**工作原理：**
+
+1. **环境检测**：自动识别你的 Python 环境
+   - 虚拟环境（venv、virtualenv）
+   - Conda 环境
+   - 系统 Python
+   - 包管理器（pip、conda、poetry、uv）
+
+2. **依赖分析**：扫描 `pyproject.toml` 并识别：
+   - 核心依赖（httpx、pydantic、selectolax 等）
+   - 可选依赖（playwright 用于浏览器渲染）
+   - 开发工具（pytest、black、ruff 等）
+
+3. **生成安装计划**：创建详细的安装方案
+   - Python 包安装命令
+   - 系统级工具（如 `playwright install chromium`）
+   - 可选组件和推荐
+
+4. **用户确认**：展示计划并等待你的批准
+
+5. **执行安装**：运行批准的命令并报告结果
+
+**安装选项：**
+
+- **全部安装（推荐）**：核心依赖 + 浏览器支持 + 后续工具
+- **仅核心**：只安装必需的依赖，跳过可选包
+- **自定义选择**：手动选择要安装的组件
+
+**示例输出：**
+
+```
+环境：Python 3.11.5 在 conda 环境 'myenv' 中
+包管理器：conda（pip 作为后备）
+
+安装步骤：
+1. 安装核心依赖：
+   pip install -e .
+
+2. 安装浏览器支持（推荐用于 JavaScript 密集型网站）：
+   pip install -e .[browser]
+   playwright install chromium
+
+3. [可选] 安装开发工具：
+   pip install -e .[dev]
+```
+
+**重要提示：**
+
+- 如果使用系统 Python，会收到警告并建议创建虚拟环境
+- 所有安装操作都需要你的明确批准
+- 安装完成后会自动验证所有包是否正确导入
+
+**手动安装（备选方案）：**
+
+如果你更喜欢手动控制，可以直接运行：
+
+```bash
+# 安装核心依赖
+pip install -e .
+
+# 安装浏览器支持（可选，用于 JavaScript 渲染）
+pip install -e .[browser]
+playwright install chromium
+
+# 安装开发工具（可选）
+pip install -e .[dev]
+```
+
 #### 第一次使用
 
 **摄取一个知乎回答：**
@@ -952,6 +1034,88 @@ Open your agent framework and type:
 ```
 
 If you see the list of supported platforms, installation is successful!
+
+#### Automatic Dependency Installation (Recommended)
+
+Tapestry provides intelligent dependency installation that automatically detects your environment and installs required packages.
+
+**How to Use:**
+
+After installing the skill pack, simply type in your agent framework:
+
+```
+"Install Tapestry dependencies"
+or
+"Set up the Tapestry project"
+```
+
+**How It Works:**
+
+1. **Environment Detection**: Automatically identifies your Python environment
+   - Virtual environments (venv, virtualenv)
+   - Conda environments
+   - System Python
+   - Package managers (pip, conda, poetry, uv)
+
+2. **Dependency Analysis**: Scans `pyproject.toml` and identifies:
+   - Core dependencies (httpx, pydantic, selectolax, etc.)
+   - Optional dependencies (playwright for browser rendering)
+   - Development tools (pytest, black, ruff, etc.)
+
+3. **Generate Installation Plan**: Creates a detailed installation plan
+   - Python package installation commands
+   - System-level tools (e.g., `playwright install chromium`)
+   - Optional components and recommendations
+
+4. **User Confirmation**: Presents the plan and waits for your approval
+
+5. **Execute Installation**: Runs approved commands and reports results
+
+**Installation Options:**
+
+- **Install all (recommended)**: Core dependencies + browser support + post-install tools
+- **Core only**: Install only required dependencies, skip optional packages
+- **Custom selection**: Manually choose which components to install
+
+**Example Output:**
+
+```
+Environment: Python 3.11.5 in conda environment 'myenv'
+Package Manager: conda (with pip fallback)
+
+Installation Steps:
+1. Install core dependencies:
+   pip install -e .
+
+2. Install browser support (recommended for JavaScript-heavy sites):
+   pip install -e .[browser]
+   playwright install chromium
+
+3. [Optional] Install development tools:
+   pip install -e .[dev]
+```
+
+**Important Notes:**
+
+- If using system Python, you'll receive a warning and recommendation to create a virtual environment
+- All installation operations require your explicit approval
+- After installation, automatic verification ensures all packages import correctly
+
+**Manual Installation (Alternative):**
+
+If you prefer manual control, you can run directly:
+
+```bash
+# Install core dependencies
+pip install -e .
+
+# Install browser support (optional, for JavaScript rendering)
+pip install -e .[browser]
+playwright install chromium
+
+# Install development tools (optional)
+pip install -e .[dev]
+```
 
 #### First Use
 

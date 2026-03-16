@@ -10,7 +10,7 @@
 ## 启动
 
 ```bash
-cd /root/Workspace/PROJECTS/powers/Tapestry/skills/tapestry/_src/crawlers/zhihu
+cd /path/to/tapestry/skills/tapestry/_src/crawlers/zhihu
 npm install
 node src/server.mjs
 
@@ -176,7 +176,7 @@ zhihu-api
 然后一次跑多个 URL：
 
 ```bash
-cd /root/Workspace/PROJECTS/powers/Tapestry/skills/tapestry/_src/crawlers/zhihu
+cd /path/to/tapestry/skills/tapestry/_src/crawlers/zhihu
 npm run smoke -- \
   https://zhuanlan.zhihu.com/p/2014452522178334926 \
   https://www.zhihu.com/question/610072126/answer/2013215979509940714 \
@@ -186,7 +186,7 @@ npm run smoke -- \
 还可以跑基础测试：
 
 ```bash
-cd /root/Workspace/PROJECTS/powers/Tapestry/skills/tapestry/_src/crawlers/zhihu
+cd /path/to/tapestry/skills/tapestry/_src/crawlers/zhihu
 npm test
 ```
 

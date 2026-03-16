@@ -2,6 +2,8 @@
 
 from _src.models import (
     AnalysisHandoff,
+    FetchMode,
+    WorkflowFetch,
     WorkflowKnowledgeBase,
     WorkflowMeta,
     WorkflowParse,
@@ -16,16 +18,23 @@ CRAWLER = CrawlerDefinition(
         id="generic_html",
         meta=WorkflowMeta(
             title="Generic HTML",
-            description="Fallback crawler for article-like HTML pages.",
+            description="Fallback crawler for article-like HTML pages with browser rendering support.",
             content_type="article",
         ),
-        parse=WorkflowParse(),
+        fetch=WorkflowFetch(
+            mode=FetchMode.http,
+            fallback=FetchMode.browser,
+        ),
+        parse=WorkflowParse(
+            title="h1, .title, [class*='title'], [id*='title']",
+            body="article, main, .content, [role='main'], .main-content, #content",
+        ),
         analysis=AnalysisHandoff(
             skill="tapestry-synthesis",
-            deliverable="Write a concise synthesis or research note grounded in the stored article.",
+            deliverable="Create a well-organized synthesis note from the article.",
             instructions=(
-                "Read the stored note, feed JSON, and capture JSON before synthesizing.\n"
-                "Focus on the article's thesis, strongest concrete claims, and the parts worth preserving for later reuse."
+                "Focus on the article's main thesis, key arguments, and concrete claims. "
+                "Preserve technical details and important context."
             ),
         ),
         kb=WorkflowKnowledgeBase(collection="web-clippings"),

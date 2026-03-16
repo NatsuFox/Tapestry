@@ -7,6 +7,7 @@ import asyncio
 import re
 from pathlib import Path
 
+from _src.config import TapestryConfig
 from _src.ingest import IngestionService
 from _src.registry import CrawlerRegistry
 
@@ -72,6 +73,7 @@ async def run_cli(args: argparse.Namespace) -> int:
         raise ValueError("No URLs found. Pass URLs directly or use --text.")
 
     target_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
+    config = TapestryConfig.load()  # Will find config in skills/tapestry/config/
     service = IngestionService.for_project_root(target_root, registry=registry)
     report = await service.ingest_urls(urls, forced_crawler_id=None if args.crawler == "auto" else args.crawler)
 
@@ -83,14 +85,31 @@ async def run_cli(args: argparse.Namespace) -> int:
         f"Processed {len(report.requested_urls)} URL(s): "
         f"{report.stored_count} stored, {report.duplicate_count} duplicates."
     )
+
+    synthesis_urls = []
     for result in report.results:
+        # Convert relative paths to absolute paths for display
+        feed_abs = (target_root / result.feed_path).resolve()
+        note_abs = (target_root / result.note_path).resolve()
+
         print(
             f"[{result.status}] {result.title or result.canonical_url}\n"
             f"  crawler={result.workflow_id} collection={result.collection}\n"
-            f"  feed={result.feed_path}\n"
-            f"  note={result.note_path}\n"
+            f"  feed={feed_abs}\n"
+            f"  note={note_abs}\n"
             f"  analysis_skill={result.analysis.skill or '-'}"
         )
+
+        # Collect URLs for synthesis if status is 'stored' and synthesis is configured
+        if result.status == "stored" and result.analysis.skill:
+            synthesis_urls.append(result.canonical_url)
+
+    # Auto-synthesis if configured
+    if config.should_auto_synthesize() and synthesis_urls:
+        print(f"\n[Auto-synthesis enabled] Triggering synthesis for {len(synthesis_urls)} URL(s)...")
+        print("Note: Synthesis requires the tapestry-synthesis skill to be invoked by the agent.")
+        print(f"URLs to synthesize: {', '.join(synthesis_urls)}")
+
     return 0
 
 

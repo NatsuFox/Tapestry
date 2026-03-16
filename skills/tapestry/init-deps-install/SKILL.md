@@ -15,34 +15,43 @@ This skill is automatically triggered when Tapestry is first launched on a new e
 ## When This Skill is Triggered
 
 This skill is automatically invoked when:
-- Tapestry is first launched on a new environment
+- Tapestry is first launched on a new environment (one-time auto-trigger)
 - Required dependencies are missing or cannot be imported
 - The user explicitly asks to "install dependencies" or "set up the project"
 - After creating a new project that requires dependencies
 
+**Important**: The automatic trigger only occurs the first time Tapestry runs in a new environment. After successful initialization, the skill will not auto-trigger on subsequent runs to avoid wasting tokens. Manual invocation is always available if needed.
+
 ## How This Skill Works
 
-1. **Environment Detection**: Analyzes the current environment to determine:
+1. **Configuration Setup**: Checks for user configuration and creates it if missing:
+   - Detects if `tapestry.config.json` exists
+   - If not, copies from `tapestry.config.example.json`
+   - Determines the real project root path
+   - Updates `paths.project_root` in the config with the actual path
+
+2. **Environment Detection**: Analyzes the current environment to determine:
    - Python version and location
    - Virtual environment status (venv, virtualenv, conda)
    - Package manager availability (pip, conda, poetry, uv)
    - Existing installed packages
 
-2. **Dependency Analysis**: Scans for dependency files:
+3. **Dependency Analysis**: Scans for dependency files:
    - `pyproject.toml` (preferred)
    - `requirements.txt`
    - `setup.py`
    - `environment.yml` (conda)
 
-3. **Plan Generation**: Creates a comprehensive installation plan including:
+4. **Plan Generation**: Creates a comprehensive installation plan including:
+   - Configuration file setup (if needed)
    - Python package installation commands
    - System-level dependencies (e.g., `playwright install chromium`)
    - Optional dependencies and recommendations
    - Environment-specific considerations
 
-4. **User Confirmation**: Presents the plan and asks for approval before executing
+5. **User Confirmation**: Presents the plan and asks for approval before executing
 
-5. **Installation**: Executes the approved plan and reports results
+6. **Installation**: Executes the approved plan and reports results
 
 ## Usage
 
@@ -60,11 +69,57 @@ This skill is automatically triggered when dependencies are missing. It can also
 
 When this skill is invoked:
 
-1. **Detect the environment** by running the detection script
-2. **Analyze dependencies** from project files
-3. **Generate an installation plan** with clear steps
-4. **Present the plan** to the user with AskUserQuestion
-5. **Execute approved steps** and report results
+1. **Check and setup configuration** if needed
+2. **Detect the environment** by running the detection script
+3. **Analyze dependencies** from project files
+4. **Generate an installation plan** with clear steps
+5. **Present the plan** to the user with AskUserQuestion
+6. **Execute approved steps** and report results
+
+### Step 0: Configuration Setup
+
+Before installing dependencies, check if this is the first run:
+
+```bash
+# Check if already initialized
+python skills/tapestry/init-deps-install/_scripts/check_initialized.py
+# Exit code 0 = already initialized, 1 = needs initialization
+
+# If not initialized, setup configuration
+python skills/tapestry/init-deps-install/_scripts/setup_config.py [project-root]
+```
+
+The setup script will:
+1. Check if `tapestry.config.json` exists
+2. If not, copy from `tapestry.config.example.json`
+3. Determine the project root path (argument or CWD)
+4. Update `paths.project_root` in the config
+
+**Project Root Detection:**
+- If invoked with an argument, use that path as project root
+- Otherwise, use the current working directory
+- Convert to absolute path
+- Update the `paths.project_root` field in `tapestry.config.json`
+
+**Example Output:**
+```json
+{
+  "config_existed": false,
+  "config_path": "/path/to/skills/tapestry/config/tapestry.config.json",
+  "project_root": "/home/user/my-tapestry-project",
+  "created": true,
+  "updated": true
+}
+```
+
+**Initialization Marker:**
+After successful setup and installation, create a marker file:
+```bash
+# Create .tapestry_initialized marker
+python skills/tapestry/init-deps-install/_scripts/mark_initialized.py
+```
+
+This marker file indicates that Tapestry has been successfully initialized and prevents the skill from auto-triggering on future runs, saving tokens.
 
 ### Step 1: Environment Detection
 
@@ -112,6 +167,10 @@ Create a structured plan with:
 
 **Example Plan:**
 ```
+Configuration:
+✓ Created tapestry.config.json from example
+✓ Set project_root to: /home/user/my-project
+
 Environment: Python 3.11.5 in conda environment 'myenv'
 Package Manager: conda (with pip fallback)
 
@@ -221,6 +280,9 @@ skills/tapestry/init-deps-install/
 ├── SKILL.md                    # This file
 ├── README.md                   # Developer documentation
 ├── _scripts/
+│   ├── check_initialized.py   # Check if Tapestry is initialized
+│   ├── setup_config.py        # Configuration setup from example
+│   ├── mark_initialized.py    # Create initialization marker
 │   ├── detect_env.py          # Environment detection
 │   ├── parse_deps.py          # Dependency parsing utilities
 │   ├── verify_install.py      # Post-install verification
@@ -236,15 +298,19 @@ skills/tapestry/init-deps-install/
 User: "Set up this project"
 
 Actions:
-1. Detect environment (conda with Python 3.11)
-2. Find pyproject.toml with dependencies
-3. Generate plan:
+1. Check for tapestry.config.json, create from example if missing
+2. Detect project root and update config
+3. Detect environment (conda with Python 3.11)
+4. Find pyproject.toml with dependencies
+5. Generate plan:
+   - Configuration setup
    - pip install -e .
    - playwright install chromium
-4. Ask user for confirmation
-5. Execute approved steps
-6. Verify installation
-7. Report: "✅ Installed 8 packages successfully. Project ready!"
+6. Ask user for confirmation
+7. Execute approved steps
+8. Verify installation
+9. Create .tapestry_initialized marker
+10. Report: "✅ Installed 8 packages successfully. Project ready!"
 ```
 
 ### Workflow 2: Missing Dependencies

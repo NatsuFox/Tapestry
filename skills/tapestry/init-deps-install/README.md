@@ -14,6 +14,13 @@ This skill is automatically invoked when:
 ### Manual Testing
 
 ```bash
+# Test initialization check
+python skills/tapestry/init-deps-install/_scripts/check_initialized.py
+
+# Test configuration setup
+python skills/tapestry/init-deps-install/_scripts/setup_config.py
+python skills/tapestry/init-deps-install/_scripts/setup_config.py /custom/project/path
+
 # Test environment detection
 python skills/tapestry/init-deps-install/_scripts/detect_env.py
 
@@ -25,6 +32,9 @@ python skills/tapestry/init-deps-install/_scripts/install_deps.py --dry-run
 
 # Test verification
 python skills/tapestry/init-deps-install/_scripts/verify_install.py
+
+# Test marking as initialized
+python skills/tapestry/init-deps-install/_scripts/mark_initialized.py
 ```
 
 ## Architecture
@@ -34,6 +44,9 @@ skills/tapestry/init-deps-install/
 ├── SKILL.md                    # Main skill documentation
 ├── README.md                   # Developer documentation
 ├── _scripts/
+│   ├── check_initialized.py   # Check if Tapestry is initialized
+│   ├── setup_config.py        # Configuration setup from example
+│   ├── mark_initialized.py    # Create initialization marker
 │   ├── detect_env.py          # Environment detection
 │   ├── parse_deps.py          # Dependency parsing utilities
 │   ├── install_deps.py        # Installation orchestrator
@@ -44,29 +57,41 @@ skills/tapestry/init-deps-install/
 
 ## Workflow
 
-1. **Detection Phase**
+1. **Initialization Check**
+   - Run `check_initialized.py` to see if this is the first run
+   - If already initialized, skip auto-trigger
+
+2. **Configuration Phase**
+   - Run `setup_config.py` to create/update tapestry.config.json
+   - Detect project root and update config
+
+3. **Detection Phase**
    - Run `detect_env.py` to get environment info
    - Parse `pyproject.toml` or `requirements.txt`
    - Identify missing dependencies
 
-2. **Planning Phase**
+4. **Planning Phase**
    - Generate installation commands based on environment
    - Categorize dependencies (core, optional, dev)
    - Identify post-install commands (e.g., playwright install)
 
-3. **Confirmation Phase**
+5. **Confirmation Phase**
    - Present plan to user with `AskUserQuestion`
    - Allow user to choose: all, core only, or custom
 
-4. **Execution Phase**
+6. **Execution Phase**
    - Run approved installation commands
    - Monitor progress and capture output
    - Handle errors gracefully
 
-5. **Verification Phase**
+7. **Verification Phase**
    - Run `verify_install.py` to check imports
    - Verify system tools (e.g., playwright browsers)
    - Report final status
+
+8. **Finalization Phase**
+   - Run `mark_initialized.py` to create marker file
+   - Prevents auto-trigger on subsequent runs
 
 ## Environment Support
 

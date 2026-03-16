@@ -177,16 +177,29 @@ function detectLanguage(text) {
 
 function inlineMarkdown(text = "", currentPath = "") {
   let rendered = escapeHtml(text);
-  rendered = rendered.replace(/`([^`]+)`/g, "<code>$1</code>");
-  rendered = rendered.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  rendered = rendered.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+
+  // Handle links first (before other formatting to avoid conflicts)
   rendered = rendered.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
     const resolved = resolveLink(currentPath, href);
     if (resolved.internal) {
-      return `<a href="#/${resolved.path}" data-doc-link="${resolved.path}">${escapeHtml(label)}</a>`;
+      return `<a href="#/${resolved.path}" data-doc-link="${resolved.path}">${label}</a>`;
     }
-    return `<a href="${escapeHtml(href)}" target="_blank" rel="noreferrer noopener">${escapeHtml(label)}</a>`;
+    return `<a href="${href}" target="_blank" rel="noreferrer noopener">${label}</a>`;
   });
+
+  // Handle inline code (before bold/italic to avoid conflicts)
+  rendered = rendered.replace(/`([^`]+)`/g, "<code>$1</code>");
+
+  // Handle bold and italic
+  rendered = rendered.replace(/\*\*\*([^*]+)\*\*\*/g, "<strong><em>$1</em></strong>");
+  rendered = rendered.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  rendered = rendered.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+
+  // Handle underscores for bold/italic as well
+  rendered = rendered.replace(/___([^_]+)___/g, "<strong><em>$1</em></strong>");
+  rendered = rendered.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+  rendered = rendered.replace(/_([^_]+)_/g, "<em>$1</em>");
+
   return rendered;
 }
 
@@ -489,12 +502,24 @@ function renderBreadcrumbs(doc) {
     current = node.parent;
   }
   breadcrumbsEl.innerHTML = "";
+
+  // Add home icon
+  const homeLink = document.createElement("a");
+  homeLink.href = "#/";
+  homeLink.textContent = "🏠";
+  homeLink.title = "Home";
+  homeLink.style.fontSize = "1rem";
+  homeLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    openDoc(".");
+  });
+  breadcrumbsEl.appendChild(homeLink);
+
   parts.forEach((part, index) => {
-    if (index > 0) {
-      const sep = document.createElement("span");
-      sep.textContent = "›";
-      breadcrumbsEl.appendChild(sep);
-    }
+    const sep = document.createElement("span");
+    sep.textContent = "›";
+    breadcrumbsEl.appendChild(sep);
+
     const link = document.createElement("a");
     link.href = `#/${part.path}`;
     link.textContent = part.title;
@@ -504,11 +529,13 @@ function renderBreadcrumbs(doc) {
     });
     breadcrumbsEl.appendChild(link);
   });
-  if (parts.length) {
+
+  if (parts.length || true) {
     const sep = document.createElement("span");
     sep.textContent = "›";
     breadcrumbsEl.appendChild(sep);
   }
+
   const currentLabel = document.createElement("span");
   currentLabel.textContent = doc.title;
   breadcrumbsEl.appendChild(currentLabel);
@@ -674,7 +701,7 @@ function openDoc(path) {
   renderRelated(doc);
 
   titleEl.textContent = doc.title;
-  subtitleEl.textContent = doc.excerpt || doc.path;
+  subtitleEl.innerHTML = inlineMarkdown(doc.excerpt || doc.path, doc.path);
 
   // Detect language and apply appropriate styling
   let lang = state.langPreference;

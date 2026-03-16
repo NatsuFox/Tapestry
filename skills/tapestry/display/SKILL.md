@@ -43,13 +43,21 @@ python ../synthesis/_scripts/bootstrap_kb.py
 python _scripts/publish_viewer.py
 ```
 
-4. If the user wants to preview it locally, serve the generated frontend directory:
+4. **IMPORTANT**: Before serving the frontend, ensure the data symlink exists in `_ui/`:
 
 ```bash
-python -m http.server 8766 --directory knowledge-base/_viewer
+# The frontend expects data/knowledge-base.json to be accessible
+# Create symlink if it doesn't exist
+ln -sf "$(pwd)/data/books/_viewer/data" _ui/data
 ```
 
-5. Report back with:
+5. If the user wants to preview it locally, serve the generated frontend directory:
+
+```bash
+python -m http.server 8766 --directory _ui
+```
+
+6. Report back with:
    - the output directory
    - the generated manifest path
    - the local preview URL if served
@@ -61,6 +69,20 @@ python -m http.server 8766 --directory knowledge-base/_viewer
 - Preserve topic-level separation so semantically distant materials remain clearly separated.
 - Make documents readable first, but keep enough structural information visible for navigation.
 - If the knowledge base is sparse or incomplete, still generate the frontend and let empty sections remain honest rather than faking content.
+
+## Common Issues
+
+### Data Path Not Found
+
+The frontend (`_ui/index.html`) expects to load `data/knowledge-base.json` relative to its location. If you see a JSON parsing error like "Unexpected token '<'", it means the data directory is missing.
+
+**Solution**: Create a symlink from `_ui/data` to the actual data location:
+
+```bash
+ln -sf "$(pwd)/data/books/_viewer/data" _ui/data
+```
+
+This ensures the frontend can access the manifest and document data without duplicating files.
 
 ## Resources
 

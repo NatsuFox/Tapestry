@@ -499,10 +499,10 @@ body {
 .breadcrumbs {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
   min-height: 40px;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface-strong);
@@ -510,15 +510,32 @@ body {
   min-width: 0;
 }
 
-.breadcrumbs a,
-.breadcrumbs span {
+.breadcrumbs a {
   color: var(--muted);
   text-decoration: none;
   font-size: 0.88rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 180ms ease;
+  font-weight: 500;
 }
 
 .breadcrumbs a:hover {
   color: var(--accent-strong);
+  background: var(--accent-soft);
+}
+
+.breadcrumbs span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  opacity: 0.5;
+}
+
+.breadcrumbs span:last-child {
+  color: var(--ink);
+  font-weight: 500;
+  padding: 4px 8px;
+  opacity: 1;
 }
 
 .search-trigger {
@@ -567,6 +584,9 @@ body {
   max-width: 70ch;
   color: var(--muted);
   line-height: 1.6;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .hero-stats {

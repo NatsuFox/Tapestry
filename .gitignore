@@ -36,3 +36,4 @@ skills/tapestry/_src/crawlers/zhihu/node_modules/
 
 # Git credentials (SECURITY - never commit)
 .git/credentials
+misc/

@@ -201,12 +201,12 @@ flowchart LR
     D --> E[展示<br/>tapestry-display]
     E --> F[知识库网站]
 
-    style A fill:#4A90E2,stroke:#2E5C8A,stroke-width:2px,color:#fff
-    style B fill:#50C878,stroke:#2E7D4E,stroke-width:2px,color:#fff
-    style C fill:#9B59B6,stroke:#6C3483,stroke-width:2px,color:#fff
-    style D fill:#E67E22,stroke:#A04000,stroke-width:2px,color:#fff
-    style E fill:#E74C3C,stroke:#A93226,stroke-width:2px,color:#fff
-    style F fill:#4A90E2,stroke:#2E5C8A,stroke-width:2px,color:#fff
+    style A fill:#7CB9E8,stroke:#5A9FD4,stroke-width:2px,color:#fff
+    style B fill:#77DD77,stroke:#5FBB5F,stroke-width:2px,color:#fff
+    style C fill:#B19CD9,stroke:#9B7FD1,stroke-width:2px,color:#fff
+    style D fill:#FFB347,stroke:#E69A2E,stroke-width:2px,color:#fff
+    style E fill:#FF6961,stroke:#E65550,stroke-width:2px,color:#fff
+    style F fill:#7CB9E8,stroke:#5A9FD4,stroke-width:2px,color:#fff
 ```
 
 ---
@@ -236,13 +236,13 @@ flowchart TB
     C --> D
     D --> E
 
-    style A fill:#667EEA,stroke:#4C51BF,stroke-width:3px,color:#fff
-    style B1 fill:#48BB78,stroke:#2F855A,stroke-width:2px,color:#fff
-    style B2 fill:#48BB78,stroke:#2F855A,stroke-width:2px,color:#fff
-    style B3 fill:#48BB78,stroke:#2F855A,stroke-width:2px,color:#fff
-    style C fill:#ED8936,stroke:#C05621,stroke-width:3px,color:#fff
-    style D fill:#9F7AEA,stroke:#6B46C1,stroke-width:3px,color:#fff
-    style E fill:#F56565,stroke:#C53030,stroke-width:3px,color:#fff
+    style A fill:#8B9FDE,stroke:#6B7FBE,stroke-width:3px,color:#fff
+    style B1 fill:#90EE90,stroke:#70CE70,stroke-width:2px,color:#fff
+    style B2 fill:#90EE90,stroke:#70CE70,stroke-width:2px,color:#fff
+    style B3 fill:#90EE90,stroke:#70CE70,stroke-width:2px,color:#fff
+    style C fill:#FFB366,stroke:#DF9346,stroke-width:3px,color:#fff
+    style D fill:#C5A3E0,stroke:#A583C0,stroke-width:3px,color:#fff
+    style E fill:#FF8A80,stroke:#DF6A60,stroke-width:3px,color:#fff
 ```
 
 #### 分层职责
@@ -729,12 +729,12 @@ flowchart LR
     D --> E[DISPLAY<br/>tapestry-display]
     E --> F[Knowledge Base<br/>Website]
 
-    style A fill:#4A90E2,stroke:#2E5C8A,stroke-width:2px,color:#fff
-    style B fill:#50C878,stroke:#2E7D4E,stroke-width:2px,color:#fff
-    style C fill:#9B59B6,stroke:#6C3483,stroke-width:2px,color:#fff
-    style D fill:#E67E22,stroke:#A04000,stroke-width:2px,color:#fff
-    style E fill:#E74C3C,stroke:#A93226,stroke-width:2px,color:#fff
-    style F fill:#4A90E2,stroke:#2E5C8A,stroke-width:2px,color:#fff
+    style A fill:#7CB9E8,stroke:#5A9FD4,stroke-width:2px,color:#fff
+    style B fill:#77DD77,stroke:#5FBB5F,stroke-width:2px,color:#fff
+    style C fill:#B19CD9,stroke:#9B7FD1,stroke-width:2px,color:#fff
+    style D fill:#FFB347,stroke:#E69A2E,stroke-width:2px,color:#fff
+    style E fill:#FF6961,stroke:#E65550,stroke-width:2px,color:#fff
+    style F fill:#7CB9E8,stroke:#5A9FD4,stroke-width:2px,color:#fff
 ```
 
 ---
@@ -764,13 +764,13 @@ flowchart TB
     C --> D
     D --> E
 
-    style A fill:#667EEA,stroke:#4C51BF,stroke-width:3px,color:#fff
-    style B1 fill:#48BB78,stroke:#2F855A,stroke-width:2px,color:#fff
-    style B2 fill:#48BB78,stroke:#2F855A,stroke-width:2px,color:#fff
-    style B3 fill:#48BB78,stroke:#2F855A,stroke-width:2px,color:#fff
-    style C fill:#ED8936,stroke:#C05621,stroke-width:3px,color:#fff
-    style D fill:#9F7AEA,stroke:#6B46C1,stroke-width:3px,color:#fff
-    style E fill:#F56565,stroke:#C53030,stroke-width:3px,color:#fff
+    style A fill:#8B9FDE,stroke:#6B7FBE,stroke-width:3px,color:#fff
+    style B1 fill:#90EE90,stroke:#70CE70,stroke-width:2px,color:#fff
+    style B2 fill:#90EE90,stroke:#70CE70,stroke-width:2px,color:#fff
+    style B3 fill:#90EE90,stroke:#70CE70,stroke-width:2px,color:#fff
+    style C fill:#FFB366,stroke:#DF9346,stroke-width:3px,color:#fff
+    style D fill:#C5A3E0,stroke:#A583C0,stroke-width:3px,color:#fff
+    style E fill:#FF8A80,stroke:#DF6A60,stroke-width:3px,color:#fff
 ```
 
 This architecture ensures:

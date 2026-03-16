@@ -365,6 +365,17 @@ AI 助手会：
    - `feeds/` - 规范化 JSON
    - `notes/` - Markdown 笔记
 
+**终端演示：**
+
+<div align="center">
+  <a href="https://asciinema.org/a/demo" target="_blank">
+    <img src="assets/demo.gif" width="90%" alt="Tapestry 终端演示" />
+  </a>
+  <p><em>点击查看完整终端录制 | 或查看本地文件: <code>demo.cast</code></em></p>
+</div>
+
+> **提示**：如果你有 `demo.cast` 文件，可以使用 `asciinema play demo.cast` 在终端中播放，或使用 `agg demo.cast demo.gif` 转换为 GIF 动图。
+
 **查看结果：**
 
 ```
@@ -386,6 +397,11 @@ AI 助手会分析内容并自动决定放在哪个主题/章节下。
 ```
 
 AI 助手会生成静态前端并启动本地服务器（通常是 `http://localhost:8766`）。
+
+<div align="center">
+  <img src="assets/knowledge_base_demo.png" width="90%" alt="知识库前端界面演示" />
+  <p><em>知识库可视化界面 - 书籍式层次结构，支持主题导航和章节浏览</em></p>
+</div>
 
 #### 常见使用场景
 
@@ -412,11 +428,6 @@ https://www.xiaohongshu.com/user/profile/xxx"
 
 "生成这个用户的内容摘要"
 ```
-
-<div align="center">
-  <img src="assets/zhihu_cc_start.png" width="49%" alt="Tapestry 使用示例 - 开始" />
-  <img src="assets/zhihu_cc_end.png" width="49%" alt="Tapestry 使用示例 - 结果" />
-</div>
 
 ---
 
@@ -1139,6 +1150,17 @@ Your AI assistant will:
    - `feeds/` - Normalized JSON
    - `notes/` - Markdown notes
 
+**Terminal Demo:**
+
+<div align="center">
+  <a href="https://asciinema.org/a/demo" target="_blank">
+    <img src="assets/demo.gif" width="90%" alt="Tapestry Terminal Demo" />
+  </a>
+  <p><em>Click to view full terminal recording | Or view local file: <code>demo.cast</code></em></p>
+</div>
+
+> **Tip**: If you have the `demo.cast` file, use `asciinema play demo.cast` to play in terminal, or `agg demo.cast demo.gif` to convert to animated GIF.
+
 **View results:**
 
 ```
@@ -1160,6 +1182,11 @@ Your AI assistant will analyze the content and automatically decide which topic/
 ```
 
 Your AI assistant will generate a static frontend and start a local server (usually `http://localhost:8766`).
+
+<div align="center">
+  <img src="assets/knowledge_base_demo.png" width="90%" alt="Knowledge Base Frontend Demo" />
+  <p><em>Knowledge Base Visualization - Book-like hierarchical structure with topic navigation and chapter browsing</em></p>
+</div>
 
 #### Common Use Cases
 
@@ -1186,11 +1213,6 @@ https://www.xiaohongshu.com/user/profile/xxx"
 
 "Generate a content summary for this user"
 ```
-
-<div align="center">
-  <img src="assets/zhihu_cc_start.png" width="49%" alt="Tapestry Usage Example - Start" />
-  <img src="assets/zhihu_cc_end.png" width="49%" alt="Tapestry Usage Example - Result" />
-</div>
 
 ---
 

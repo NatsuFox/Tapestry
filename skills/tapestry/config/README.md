@@ -1,23 +1,24 @@
 # Tapestry Configuration
 
-Default configuration for Tapestry. Users can override this by creating `tapestry.config.json` at the project root.
+Configuration for Tapestry. Users can customize by creating their own `tapestry.config.json`.
 
-## Configuration File
+## Configuration Files
 
-`tapestry.config.json` - Default configuration with sensible defaults
+- `tapestry.config.example.json` - Example configuration template (tracked in git)
+- `tapestry.config.json` - User configuration (ignored by git)
 
 ## Customization
 
 To customize configuration:
 
-1. Copy this file to your project root:
+1. Copy the example file:
    ```bash
-   cp skills/tapestry/config/tapestry.config.json ./tapestry.config.json
+   cp skills/tapestry/config/tapestry.config.example.json skills/tapestry/config/tapestry.config.json
    ```
 
-2. Edit the copied file with your preferences
+2. Edit `tapestry.config.json` with your preferences
 
-3. The project root config takes precedence over this default
+3. Your config is automatically ignored by git (won't be committed)
 
 ## Configuration Options
 
@@ -26,9 +27,10 @@ See [Configuration Reference](../../docs/reference/configuration.md) for detaile
 ### Quick Reference
 
 **Synthesis Modes**:
-- `"auto"` (default): Synthesis runs after each ingest
+- `"auto"` (default): Agent evaluates and decides when to merge
 - `"manual"`: Synthesis only when explicitly requested
 - `"batch"`: Ingest multiple, synthesize all at once
+- `"deterministic"`: Force merge after every ingest (high overhead)
 
 **Example**:
 ```json

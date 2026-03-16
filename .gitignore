@@ -31,7 +31,8 @@ skills/tapestry/_src/crawlers/zhihu/node_modules/
 # Temporary scratch files
 *.tmp
 
-# User config overrides (default is in skills/tapestry/config/)
+# User config overrides (use tapestry.config.example.json as template)
+skills/tapestry/config/tapestry.config.json
 /tapestry.config.json
 
 # Git credentials (SECURITY - never commit)

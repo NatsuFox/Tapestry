@@ -107,9 +107,7 @@ AI 助手会：
 **终端演示：**
 
 <div align="center">
-  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
     <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry 终端演示" />
-  </a>
 </div>
 
 **🎬 实际测试展示**
@@ -1047,9 +1045,7 @@ Your AI assistant will:
 **Terminal Demo:**
 
 <div align="center">
-  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
-    <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry Terminal Demo" />
-  </a>
+  <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry Terminal Demo" />
 </div>
 
 **🎬 Real-World Test Demonstration**

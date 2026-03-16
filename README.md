@@ -1060,7 +1060,7 @@ During this actual Zhihu content fetching test, Tapestry demonstrated powerful a
 2. **Successful Content Retrieval**: After dependency repair, successfully completed full Zhihu content capture (including main text and comments)
 3. **Knowledge Base Integration**: Captured content was automatically analyzed and integrated into the appropriate topics in the core knowledge base
 
-This entire process is fully automated—users simply issue one command, and the system handles all technical details.
+This entire process is fully automated—users simply issue natural language commands, and the system handles all technical details.
 
 **View results:**
 

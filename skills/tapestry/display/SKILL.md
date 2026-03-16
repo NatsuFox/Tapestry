@@ -1,7 +1,7 @@
 ---
 name: display
-description: Expose the organized knowledge base through a readable frontend experience. Use when a user wants to browse the knowledge base visually as a lightweight site instead of reading raw Markdown files directly.
-argument-hint: [optional-project-root]
+description: Expose the organized knowledge base through a readable frontend experience. Use when a user wants to browse the knowledge base visually as a lightweight site instead of reading raw Markdown files directly. Supports building viewers for specific data paths (e.g., individual books) or the entire knowledge base.
+argument-hint: [optional-data-path]
 allowed-tools: Bash(*), Read, Glob, Grep, Write, Edit
 ---
 
@@ -14,7 +14,7 @@ Publish a readable frontend for the knowledge base: **$ARGUMENTS**
 Use this skill when:
 - A user wants to browse the knowledge base visually
 - You need to generate a readable frontend for the organized content
-- The user asks to "view", "display", "publish", or "preview" the knowledge base
+- The user asks to "view", "display", "publish", or "preview" the knowledge base or a specific book
 - A lightweight site presentation is preferred over raw Markdown files
 - The user wants a blog-like or research portal view of the content
 
@@ -24,41 +24,49 @@ This skill acts as the presentation layer for the knowledge base.
 
 It should:
 
-- scan the `knowledge-base/` hierarchy
+- scan the specified data directory hierarchy (or default to `data/books/`)
 - preserve the topic and chapter structure defined by `index.md`
 - generate a readable frontend that feels closer to a blog, notebook, or research portal than to a file browser
+- support building viewers for specific books or the entire knowledge base
 
 ## Workflow
 
-1. Resolve the project root from the argument if one is provided. Otherwise use the current working directory.
-2. Ensure the knowledge-base hierarchy exists:
+1. Resolve the data path from the argument:
+   - If a specific path is provided (e.g., "markets-and-trading"), use `data/books/markets-and-trading`
+   - If no argument is provided, default to `data/books/` (entire knowledge base)
+
+2. Ensure the data directory exists and contains markdown files
+
+3. Publish the frontend bundle with the appropriate data path:
 
 ```bash
-python ../synthesis/_scripts/bootstrap_kb.py
+# For a specific book
+python _scripts/publish_viewer.py --data-path data/books/markets-and-trading --force
+
+# For the entire knowledge base (default)
+python _scripts/publish_viewer.py --force
 ```
 
-3. Publish the frontend bundle:
+4. **IMPORTANT**: The viewer is created at `<data-path>/_viewer`. Before serving, ensure the data symlink exists:
 
 ```bash
-python _scripts/publish_viewer.py
+# Navigate to the viewer directory
+cd <data-path>/_viewer
+
+# Create symlink if it doesn't exist (the viewer expects data/knowledge-base.json)
+ln -sf "$(pwd)/data" data 2>/dev/null || true
 ```
 
-4. **IMPORTANT**: Before serving the frontend, ensure the data symlink exists in `_ui/`:
+5. Serve the generated frontend:
 
 ```bash
-# The frontend expects data/knowledge-base.json to be accessible
-# Create symlink if it doesn't exist
-ln -sf "$(pwd)/data/books/_viewer/data" _ui/data
-```
-
-5. If the user wants to preview it locally, serve the generated frontend directory:
-
-```bash
-python -m http.server 8766 --directory _ui
+# Serve from the viewer directory
+python -m http.server 8766 --directory <data-path>/_viewer
 ```
 
 6. Report back with:
-   - the output directory
+   - the data source path
+   - the viewer output directory
    - the generated manifest path
    - the local preview URL if served
 

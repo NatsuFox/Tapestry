@@ -570,6 +570,11 @@ body {
   margin-bottom: 22px;
 }
 
+.hero-copy {
+  min-width: 0;
+  overflow: hidden;
+}
+
 .hero-copy h2 {
   margin: 6px 0 10px;
   font-size: clamp(2.15rem, 4vw, 3.5rem);
@@ -584,9 +589,16 @@ body {
   max-width: 70ch;
   color: var(--muted);
   line-height: 1.6;
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  display: block !important;
+}
+
+#page-subtitle {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 .hero-stats {

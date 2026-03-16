@@ -20,6 +20,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Project root containing data/books/. Defaults to the current working directory.",
     )
     parser.add_argument(
+        "--data-path",
+        default="",
+        help="Specific data directory to build viewer for (e.g., data/books/markets-and-trading). If not specified, builds for entire data/books/.",
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Overwrite the existing frontend bundle if present.",
@@ -164,25 +169,44 @@ def build_tree(root: Path) -> dict:
 def main() -> int:
     args = build_parser().parse_args()
     project_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
-    kb_root = project_root / "data" / "books"
-    if not kb_root.exists():
-        raise SystemExit("data/books/ does not exist. Run synthesis bootstrap first.")
 
-    viewer_root = kb_root / "_viewer"
+    # Determine the data source path
+    if args.data_path:
+        data_source = Path(args.data_path).expanduser().resolve()
+        if not data_source.is_absolute():
+            data_source = project_root / args.data_path
+    else:
+        data_source = project_root / "data" / "books"
+
+    if not data_source.exists():
+        raise SystemExit(f"Data source {data_source} does not exist.")
+
+    # Determine viewer output path
+    viewer_root = data_source / "_viewer"
     if viewer_root.exists() and args.force:
         shutil.rmtree(viewer_root)
     viewer_root.mkdir(parents=True, exist_ok=True)
 
     ui_root = Path(__file__).resolve().parent.parent / "_ui"
-    shutil.copytree(ui_root, viewer_root, dirs_exist_ok=True)
 
-    manifest = build_tree(kb_root)
+    # Copy UI files, but skip the data symlink if it exists
+    for item in ui_root.iterdir():
+        if item.name == "data" and item.is_symlink():
+            continue
+        dest = viewer_root / item.name
+        if item.is_dir():
+            shutil.copytree(item, dest, dirs_exist_ok=True)
+        else:
+            shutil.copy2(item, dest)
+
+    manifest = build_tree(data_source)
     data_dir = viewer_root / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
     manifest_path = data_dir / "knowledge-base.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(json.dumps({
+        "data_source": data_source.as_posix(),
         "viewer_root": viewer_root.as_posix(),
         "manifest_path": manifest_path.as_posix(),
     }, ensure_ascii=False, indent=2))

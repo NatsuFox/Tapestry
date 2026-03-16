@@ -368,13 +368,13 @@ AI 助手会：
 **终端演示：**
 
 <div align="center">
-  <a href="https://asciinema.org/a/demo" target="_blank">
-    <img src="assets/demo.gif" width="90%" alt="Tapestry 终端演示" />
+  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
+    <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry 终端演示" />
   </a>
-  <p><em>点击查看完整终端录制 | 或查看本地文件: <code>demo.cast</code></em></p>
+  <p><em>点击查看完整终端录制 | 或查看本地文件: <code>assets/zhihu_fetch.cast</code></em></p>
 </div>
 
-> **提示**：如果你有 `demo.cast` 文件，可以使用 `asciinema play demo.cast` 在终端中播放，或使用 `agg demo.cast demo.gif` 转换为 GIF 动图。
+> **提示**：如果你有 `assets/zhihu_fetch.cast` 文件，可以使用 `asciinema play assets/zhihu_fetch.cast` 在终端中播放，或使用 `agg assets/zhihu_fetch.cast assets/zhihu_fetch.gif` 转换为 GIF 动图。
 
 **查看结果：**
 
@@ -1153,13 +1153,13 @@ Your AI assistant will:
 **Terminal Demo:**
 
 <div align="center">
-  <a href="https://asciinema.org/a/demo" target="_blank">
-    <img src="assets/demo.gif" width="90%" alt="Tapestry Terminal Demo" />
+  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
+    <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry Terminal Demo" />
   </a>
-  <p><em>Click to view full terminal recording | Or view local file: <code>demo.cast</code></em></p>
+  <p><em>Click to view full terminal recording | Or view local file: <code>assets/zhihu_fetch.cast</code></em></p>
 </div>
 
-> **Tip**: If you have the `demo.cast` file, use `asciinema play demo.cast` to play in terminal, or `agg demo.cast demo.gif` to convert to animated GIF.
+> **Tip**: If you have the `assets/zhihu_fetch.cast` file, use `asciinema play assets/zhihu_fetch.cast` to play in terminal, or `agg assets/zhihu_fetch.cast assets/zhihu_fetch.gif` to convert to animated GIF.
 
 **View results:**
 

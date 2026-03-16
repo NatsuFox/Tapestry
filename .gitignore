@@ -38,3 +38,4 @@ skills/tapestry/config/tapestry.config.json
 # Git credentials (SECURITY - never commit)
 .git/credentials
 misc/
+scripts/

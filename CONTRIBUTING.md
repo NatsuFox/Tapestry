@@ -48,7 +48,7 @@ git checkout -b fix/issue-description
 #### 3. 开发和测试
 
 ```bash
-# 安装到 Claude Code 进行测试
+# 安装到 Agent 框架进行测试
 cp -r skills/tapestry/* ~/.claude/skills/
 
 # 运行测试
@@ -240,7 +240,7 @@ pytest --cov=_src --cov-report=html
 1. **环境信息**
    - 操作系统
    - Python 版本
-   - Claude Code 版本
+   - Agent 框架版本
 
 2. **重现步骤**
    - 详细的操作步骤
@@ -339,7 +339,7 @@ git checkout -b fix/issue-description
 #### 3. Develop and Test
 
 ```bash
-# Install to Claude Code for testing
+# Install to your AI agent framework for testing
 cp -r skills/tapestry/* ~/.claude/skills/
 
 # Run tests
@@ -531,7 +531,7 @@ When creating a bug report, include:
 1. **Environment Information**
    - Operating system
    - Python version
-   - Claude Code version
+   - Agent framework version
 
 2. **Reproduction Steps**
    - Detailed operation steps

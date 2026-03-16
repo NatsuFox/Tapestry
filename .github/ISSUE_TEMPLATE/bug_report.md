@@ -25,7 +25,7 @@ assignees: ''
 ## 环境信息 | Environment
 - 操作系统 | OS: [e.g., macOS 14.0, Ubuntu 22.04, Windows 11]
 - Python 版本 | Python Version: [e.g., 3.10.5]
-- Claude Code 版本 | Claude Code Version: [e.g., 1.0.0]
+- Agent 框架 | Agent Framework: [e.g., Claude Code 1.0.0, OpenClaw 2.0.0]
 - Tapestry 版本 | Tapestry Version: [e.g., commit hash or tag]
 
 ## 错误日志 | Error Logs

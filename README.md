@@ -293,11 +293,6 @@ https://www.xiaohongshu.com/user/profile/xxx"
 "生成这个用户的内容摘要"
 ```
 
-<div align="center">
-  <img src="assets/zhihu_cc_start.png" width="49%" alt="Tapestry 使用示例 - 开始" />
-  <img src="assets/zhihu_cc_end.png" width="49%" alt="Tapestry 使用示例 - 结果" />
-</div>
-
 ---
 
 ### ⚙️ 配置与合并频率

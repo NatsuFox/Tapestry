@@ -21,17 +21,19 @@ Use this skill when the user:
 
 ## Workflow Overview
 
-Tapestry has four internal sub-skills that work together:
+Tapestry has five internal sub-skills that work together:
 
-1. **Ingest** (`ingest/SKILL.md`) - Crawl and capture URLs (Phase 1: deterministic)
-2. **Synthesis** (`synthesis/SKILL.md`) - Analyze and organize into knowledge base (Phase 2: AI-driven)
-3. **Feed** (`feed/SKILL.md`) - Generate structured, source-aware feeds
-4. **Display** (`display/SKILL.md`) - Visualize the knowledge base as a website
+1. **Init Deps Install** (`init-deps-install/SKILL.md`) - Auto-triggered dependency installation (Phase 0: setup)
+2. **Ingest** (`ingest/SKILL.md`) - Crawl and capture URLs (Phase 1: deterministic)
+3. **Synthesis** (`synthesis/SKILL.md`) - Analyze and organize into knowledge base (Phase 2: AI-driven)
+4. **Feed** (`feed/SKILL.md`) - Generate structured, source-aware feeds
+5. **Display** (`display/SKILL.md`) - Visualize the knowledge base as a website
 
 ### Two-Phase Architecture
 
-Tapestry uses a two-phase design:
+Tapestry uses a two-phase design with automatic dependency setup:
 
+**Phase 0 (Init)**: Auto-triggered dependency installation when first launched or dependencies missing
 **Phase 1 (Ingest)**: Deterministic extraction → `knowledge-base/notes/YYYY/MM/` (date-organized)
 **Phase 2 (Synthesis)**: AI-driven analysis → `knowledge-base/{topic}/{chapter}/` (book-organized)
 
@@ -51,6 +53,16 @@ Analyze what the user wants:
 ### Step 2: Execute the Appropriate Sub-Skill(s)
 
 Read and follow the instructions in the relevant sub-skill SKILL.md files:
+
+#### For Dependency Installation (Auto-Triggered)
+```bash
+# This is automatically triggered when dependencies are missing
+# Read the init-deps-install sub-skill instructions
+cat init-deps-install/SKILL.md
+
+# Manual trigger if needed
+python init-deps-install/_scripts/detect_env.py
+```
 
 #### For URL Ingestion
 ```bash
@@ -112,6 +124,7 @@ The sub-skills reference each other. When one sub-skill says to "route to" anoth
 ```
 tapestry/
 ├── SKILL.md (this file)          # Main orchestrator
+├── init-deps-install/SKILL.md     # Dependency installation sub-skill
 ├── ingest/SKILL.md                # URL crawling sub-skill
 ├── feed/SKILL.md                  # Feed generation sub-skill
 ├── synthesis/SKILL.md             # Analysis & KB sub-skill

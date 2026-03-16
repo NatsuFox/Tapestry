@@ -1,20 +1,22 @@
 ---
-name: tapestry-install
-description: Intelligently detect environment and install Tapestry dependencies with user confirmation. Handles virtual environments, conda, package managers, and system-level dependencies.
+name: init-deps-install
+description: Automatically triggered when Tapestry is first launched on a new environment or lacks dependencies. Intelligently detects environment and installs Tapestry dependencies with user confirmation.
 argument-hint: [project-path-or-empty]
+auto-trigger: true
+trigger-condition: missing-dependencies
 ---
 
-# 📦 Tapestry Install
+# 📦 Tapestry Init Deps Install
 
-**Smart Dependency Installation with Environment Detection**
+**Automatic Dependency Installation with Environment Detection**
 
-This skill detects the user's Python environment (venv, conda, system Python, etc.) and provides a comprehensive installation plan for all project dependencies, including both Python packages and system-level tools.
+This skill is automatically triggered when Tapestry is first launched on a new environment or when dependencies are missing. It detects the user's Python environment (venv, conda, system Python, etc.) and provides a comprehensive installation plan for all project dependencies, including both Python packages and system-level tools.
 
-## When to Use This Skill
+## When This Skill is Triggered
 
-Use this skill when:
-- A user clones or opens a project for the first time
-- Dependencies are missing or outdated
+This skill is automatically invoked when:
+- Tapestry is first launched on a new environment
+- Required dependencies are missing or cannot be imported
 - The user explicitly asks to "install dependencies" or "set up the project"
 - After creating a new project that requires dependencies
 
@@ -44,12 +46,14 @@ Use this skill when:
 
 ## Usage
 
+This skill is automatically triggered when dependencies are missing. It can also be manually invoked:
+
 ```bash
-# From the project root
-/tapestry-install
+# Manually trigger from the project root
+/init-deps-install
 
 # Or specify a project path
-/tapestry-install /path/to/project
+/init-deps-install /path/to/project
 ```
 
 ## Implementation
@@ -67,7 +71,7 @@ When this skill is invoked:
 Run the environment detection script:
 
 ```bash
-python skills/tapestry-install/_scripts/detect_env.py
+python skills/tapestry/init-deps-install/_scripts/detect_env.py
 ```
 
 This outputs JSON with:
@@ -176,7 +180,7 @@ Monitor output and report:
 
 After installation, verify:
 ```bash
-python skills/install/_scripts/verify_install.py
+python skills/tapestry/init-deps-install/_scripts/verify_install.py
 ```
 
 This checks:
@@ -213,10 +217,12 @@ Common issues and solutions:
 ## Directory Structure
 
 ```
-tapestry-install/
+skills/tapestry/init-deps-install/
 ├── SKILL.md                    # This file
+├── README.md                   # Developer documentation
 ├── _scripts/
 │   ├── detect_env.py          # Environment detection
+│   ├── parse_deps.py          # Dependency parsing utilities
 │   ├── verify_install.py      # Post-install verification
 │   └── install_deps.py        # Installation orchestrator
 └── _specs/

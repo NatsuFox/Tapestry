@@ -1,39 +1,36 @@
-# Tapestry Install Skill - README
+# Tapestry Init Deps Install Skill - README
 
 ## Quick Start
 
-The tapestry-install skill provides intelligent dependency installation with environment detection for the Tapestry project.
+The init-deps-install skill provides automatic dependency installation with environment detection for the Tapestry project. It is automatically triggered when Tapestry is first launched on a new environment or when dependencies are missing.
 
-### Usage from Claude Code
+### Auto-Trigger Behavior
 
-When a user needs to install Tapestry dependencies:
-
-```
-User: "Install the dependencies for this project"
-User: "Set up Tapestry"
-User: "Install missing packages"
-```
+This skill is automatically invoked when:
+- Tapestry is first launched on a new environment
+- Required dependencies are missing or cannot be imported
+- The user explicitly asks to "install dependencies" or "set up the project"
 
 ### Manual Testing
 
 ```bash
 # Test environment detection
-python skills/tapestry-install/_scripts/detect_env.py
+python skills/tapestry/init-deps-install/_scripts/detect_env.py
 
 # Test dependency parsing
-python skills/tapestry-install/_scripts/parse_deps.py
+python skills/tapestry/init-deps-install/_scripts/parse_deps.py
 
 # Test installation (dry run)
-python skills/tapestry-install/_scripts/install_deps.py --dry-run
+python skills/tapestry/init-deps-install/_scripts/install_deps.py --dry-run
 
 # Test verification
-python skills/tapestry-install/_scripts/verify_install.py
+python skills/tapestry/init-deps-install/_scripts/verify_install.py
 ```
 
 ## Architecture
 
 ```
-tapestry-install/
+skills/tapestry/init-deps-install/
 ├── SKILL.md                    # Main skill documentation
 ├── README.md                   # Developer documentation
 ├── _scripts/
@@ -43,9 +40,6 @@ tapestry-install/
 │   └── verify_install.py      # Post-install verification
 └── _specs/
     └── env_detection.md       # Environment detection specification
-
-tests/
-└── test_tapestry_install_skill.py      # Integration tests
 ```
 
 ## Workflow
@@ -103,7 +97,7 @@ For full functionality:
 ### Example 1: Fresh Conda Environment
 
 ```bash
-$ python skills/install/_scripts/detect_env.py
+$ python skills/tapestry/init-deps-install/_scripts/detect_env.py
 {
   "python_version": "3.11.5",
   "python_path": "/home/user/.conda/envs/myenv/bin/python",
@@ -114,7 +108,7 @@ $ python skills/install/_scripts/detect_env.py
   "installed_packages": []
 }
 
-$ python skills/install/_scripts/install_deps.py --dry-run
+$ python skills/tapestry/init-deps-install/_scripts/install_deps.py --dry-run
 Dry run - commands that would be executed:
 
 CORE: Install core dependencies (editable mode)
@@ -130,7 +124,7 @@ POST_INSTALL: Install Chromium browser for Playwright
 ### Example 2: System Python (Warning)
 
 ```bash
-$ python skills/install/_scripts/detect_env.py
+$ python skills/tapestry/init-deps-install/_scripts/detect_env.py
 {
   "python_version": "3.10.12",
   "python_path": "/usr/bin/python3",
@@ -150,20 +144,20 @@ Run the test suite:
 
 ```bash
 # Test environment detection
-python skills/install/_scripts/detect_env.py
+python skills/tapestry/init-deps-install/_scripts/detect_env.py
 
 # Test with different environments
-conda activate myenv && python skills/install/_scripts/detect_env.py
-source venv/bin/activate && python skills/install/_scripts/detect_env.py
+conda activate myenv && python skills/tapestry/init-deps-install/_scripts/detect_env.py
+source venv/bin/activate && python skills/tapestry/init-deps-install/_scripts/detect_env.py
 
 # Test dependency parsing
-python skills/install/_scripts/parse_deps.py
+python skills/tapestry/init-deps-install/_scripts/parse_deps.py
 
 # Test full installation (dry run)
-python skills/install/_scripts/install_deps.py --dry-run
+python skills/tapestry/init-deps-install/_scripts/install_deps.py --dry-run
 
 # Test verification
-python skills/install/_scripts/verify_install.py
+python skills/tapestry/init-deps-install/_scripts/verify_install.py
 ```
 
 ## Troubleshooting

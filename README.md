@@ -84,16 +84,6 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 - **🔧 自动依赖修复**：智能检测并自动修复缺失的依赖包，无需手动干预
 - **🛡️ 智能容错**：自动检测项目根目录，修正配置路径，确保在任何目录下都能正常运行
 
-### 🎬 实际演示
-
-在知乎内容抓取的实际测试中，Tapestry 展现了强大的自动修复能力：
-
-1. **自动依赖修复**：在建立连接过程中，系统检测到缺失的包依赖，自动完成安装和配置
-2. **成功获取内容**：依赖修复后，顺利完成知乎内容的完整抓取（包括正文和评论）
-3. **知识库整合**：抓取的内容已自动分析并整合到核心知识库的相应主题下
-
-这个过程完全自动化，用户只需发出一条指令，系统会处理所有技术细节。
-
 ---
 
 ### ⚙️ 配置与合并频率
@@ -387,6 +377,16 @@ AI 助手会：
 </div>
 
 > **提示**：如果你有 `assets/zhihu_fetch.cast` 文件，可以使用 `asciinema play assets/zhihu_fetch.cast` 在终端中播放，或使用 `agg assets/zhihu_fetch.cast assets/zhihu_fetch.gif` 转换为 GIF 动图。
+
+**🎬 实际测试展示**
+
+在这次知乎内容抓取的实际测试中，Tapestry 展现了强大的自动修复能力：
+
+1. **自动依赖修复**：在建立连接过程中，系统检测到缺失的包依赖，自动完成安装和配置
+2. **成功获取内容**：依赖修复后，顺利完成知乎内容的完整抓取（包括正文和评论）
+3. **知识库整合**：抓取的内容已自动分析并整合到核心知识库的相应主题下
+
+这个过程完全自动化，用户只需发出一条指令，系统会处理所有技术细节。
 
 **查看结果：**
 
@@ -1023,16 +1023,6 @@ Bookmarks lose the "why" behind saving them. Tapestry preserves your original in
 - **🔧 Automatic Dependency Repair**: Intelligently detects and auto-fixes missing dependencies without manual intervention
 - **🛡️ Smart Fault Tolerance**: Auto-detects project root, corrects config paths, ensures smooth operation from any directory
 
-### 🎬 Real-World Demo
-
-During actual testing with Zhihu content fetching, Tapestry demonstrated powerful auto-repair capabilities:
-
-1. **Automatic Dependency Repair**: System detected missing package dependencies during connection setup and automatically completed installation and configuration
-2. **Successful Content Retrieval**: After dependency repair, successfully completed full Zhihu content capture (including main text and comments)
-3. **Knowledge Base Integration**: Captured content was automatically analyzed and integrated into the appropriate topics in the core knowledge base
-
-This entire process is fully automated—users simply issue one command, and the system handles all technical details.
-
 ---
 
 ### 🚀 Quick Start
@@ -1184,6 +1174,16 @@ Your AI assistant will:
 </div>
 
 > **Tip**: If you have the `assets/zhihu_fetch.cast` file, use `asciinema play assets/zhihu_fetch.cast` to play in terminal, or `agg assets/zhihu_fetch.cast assets/zhihu_fetch.gif` to convert to animated GIF.
+
+**🎬 Real-World Test Demonstration**
+
+During this actual Zhihu content fetching test, Tapestry demonstrated powerful auto-repair capabilities:
+
+1. **Automatic Dependency Repair**: System detected missing package dependencies during connection setup and automatically completed installation and configuration
+2. **Successful Content Retrieval**: After dependency repair, successfully completed full Zhihu content capture (including main text and comments)
+3. **Knowledge Base Integration**: Captured content was automatically analyzed and integrated into the appropriate topics in the core knowledge base
+
+This entire process is fully automated—users simply issue one command, and the system handles all technical details.
 
 **View results:**
 

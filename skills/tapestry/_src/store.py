@@ -38,8 +38,9 @@ class KnowledgeBaseStore:
         self._project_root = Path(project_root).resolve()
         self._capture_root = self._project_root / "data" / "captures"
         self._feed_root = self._project_root / "data" / "feeds"
-        self._note_root = self._project_root / "knowledge-base" / "notes"
-        self._catalog_path = self._project_root / "knowledge-base" / "catalog.jsonl"
+        self._note_root = self._project_root / "data" / "notes"
+        self._catalog_path = self._project_root / "data" / "catalog.jsonl"
+        self._books_root = self._project_root / "data" / "books"
         self._ensure_layout()
 
     def save_capture(self, capture: CapturedPage) -> str:
@@ -141,11 +142,17 @@ class KnowledgeBaseStore:
         self._capture_root.mkdir(parents=True, exist_ok=True)
         self._feed_root.mkdir(parents=True, exist_ok=True)
         self._note_root.mkdir(parents=True, exist_ok=True)
+        self._books_root.mkdir(parents=True, exist_ok=True)
         self._catalog_path.parent.mkdir(parents=True, exist_ok=True)
 
     @property
     def project_root(self) -> Path:
         return self._project_root
+
+    @property
+    def books_root(self) -> Path:
+        """Return the root directory for book-like knowledge base."""
+        return self._books_root
 
     def _relative(self, path: Path) -> str:
         return path.relative_to(self._project_root).as_posix()

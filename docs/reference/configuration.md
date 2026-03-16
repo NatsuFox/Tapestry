@@ -43,20 +43,21 @@ If no configuration file exists, Tapestry uses sensible defaults.
 ### Synthesis Mode
 
 **Field**: `synthesis.mode`
-**Type**: `"auto" | "manual" | "batch"`
+**Type**: `"auto" | "manual" | "batch" | "deterministic"`
 **Default**: `"auto"`
 
 Controls when synthesis runs after content ingestion:
 
 #### `"auto"` (Recommended)
-- Synthesis runs automatically after each successful ingest
-- Best for: Real-time knowledge base building
-- Workflow: Ingest URL → Synthesize immediately → Organized in book structure
+- Agent automatically assesses the current accumulation of notes and decides whether to proceed with merge
+- Best for: Daily usage, balancing real-time updates with performance
+- Workflow: Ingest URLs → Agent evaluates → Merge when appropriate
+- Avoids forced merge after every single ingest
 
 **Example**:
 ```bash
 $tapestry-ingest https://example.com/article
-# Automatically triggers synthesis and organizes into KB
+# Agent evaluates note accumulation and decides merge timing
 ```
 
 #### `"manual"`
@@ -78,6 +79,18 @@ $tapestry-synthesis https://example.com/article1
 - Ingest multiple URLs, then synthesize all at once
 - Best for: Bulk processing with single synthesis pass
 - Workflow: Ingest many URLs → Synthesize all together
+
+#### `"deterministic"`
+- Synthesis runs automatically after each successful ingest (forced merge)
+- Best for: Real-time knowledge base updates, low ingest frequency
+- Workflow: Ingest URL → Synthesize immediately → Organized in book structure
+- **Warning**: High overhead, frequent merging may impact performance
+
+**Example**:
+```bash
+$tapestry-ingest https://example.com/article
+# Automatically triggers synthesis and organizes into KB immediately
+```
 
 ### Default Crawler
 

@@ -41,10 +41,17 @@ python _scripts/run.py \
 4. Use `--list-crawlers` if you need to inspect the currently available crawler ids.
 5. Use `--crawler <id>` only when the user explicitly wants to force a particular crawler instead of automatic matching.
 6. Review the command output for the created feed, note, and handoff-ready artifacts.
-7. **Auto-synthesis**: If `tapestry.config.json` has `synthesis.mode: "auto"` (default), the ingest will indicate which URLs need synthesis. You should then invoke `$tapestry-synthesis` for each URL automatically.
+7. **Synthesis behavior based on mode**:
+   - `"auto"`: Agent evaluates note accumulation and decides whether to invoke `$tapestry-synthesis`. The decision should be based on:
+     - Number of unmerged notes accumulated
+     - Content relevance and importance
+     - Whether immediate merge provides value vs. waiting for more content
+     - System load and performance considerations
+   - `"deterministic"`: Automatically invoke `$tapestry-synthesis` after every successful ingest
+   - `"manual"`: Only invoke `$tapestry-synthesis` when user explicitly requests it
+   - `"batch"`: Wait until user requests batch synthesis of multiple ingests
 8. If the user wants a rigorous structured feed instead of the raw normalized artifact, route the next step through `$tapestry-feed`.
-9. If synthesis mode is "manual", only invoke `$tapestry-synthesis` when the user explicitly requests interpretation or synthesis.
-10. Report back with the successful URLs, created paths, matched crawlers when available, and any failures.
+9. Report back with the successful URLs, created paths, matched crawlers when available, and any failures.
 
 ## Configuration
 
@@ -53,16 +60,17 @@ The behavior is controlled by `tapestry.config.json` at the project root:
 ```json
 {
   "synthesis": {
-    "mode": "auto",  // "auto", "manual", or "batch"
+    "mode": "auto",  // "auto", "manual", "batch", or "deterministic"
     "description": "Controls when synthesis runs after ingestion"
   }
 }
 ```
 
 **Modes**:
-- `"auto"` (default): Automatically invoke synthesis after each successful ingest
+- `"auto"` (default): Agent evaluates note accumulation and decides whether to merge. This is intelligent and load-based, avoiding forced merge after every ingest.
 - `"manual"`: Only synthesize when user explicitly requests it
 - `"batch"`: Ingest multiple URLs, then synthesize all at once when requested
+- `"deterministic"`: Automatically invoke synthesis after every successful ingest (high overhead, use cautiously)
 
 ## Operating Rules
 

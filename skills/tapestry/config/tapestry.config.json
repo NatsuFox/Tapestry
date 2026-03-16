@@ -2,7 +2,7 @@
   "synthesis": {
     "mode": "auto",
     "kb_template": "default",
-    "description": "Controls synthesis behavior. mode: 'auto' (after each fetch), 'manual' (explicit), 'batch' (multiple then all). kb_template: 'default' (minimal) or 'comprehensive' (predefined topics)"
+    "description": "Controls synthesis behavior. mode: 'auto' (intelligent assessment based on note accumulation), 'manual' (explicit only), 'batch' (multiple then all at once), 'deterministic' (after every ingest). kb_template: 'default' (minimal) or 'comprehensive' (predefined topics)"
   },
   "ingest": {
     "default_crawler": "auto",

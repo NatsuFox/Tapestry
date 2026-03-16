@@ -84,6 +84,148 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 
 ---
 
+### ⚙️ 配置与合并频率
+
+#### 合并频率设置
+
+**重要提醒**：频繁合并到知识库会导致高开销，特别是在每次摄取后都执行合并时。Tapestry 提供了灵活的合并策略来平衡实时性和性能。
+
+配置文件位置：`skills/tapestry/config/tapestry.config.json`
+
+```json
+{
+  "synthesis": {
+    "mode": "auto",
+    "kb_template": "default"
+  }
+}
+```
+
+#### 合并模式详解
+
+**1. Auto 模式（智能自动）**
+```json
+"mode": "auto"
+```
+
+- **行为**：Agent 根据当前笔记积累情况自动评估是否执行合并
+- **优势**：基于负载的自动化决策，避免不必要的合并开销
+- **适用场景**：
+  - 日常使用，平衡实时性和性能
+  - 不确定何时合并最合适
+  - 希望 AI 智能管理知识库更新
+
+**工作原理**：
+- Agent 评估当前未合并笔记的数量和质量
+- 考虑内容的相关性和重要性
+- 决定是立即合并、延迟合并还是批量合并
+- 避免在每次摄取后强制执行合并
+
+**2. Manual 模式（手动控制）**
+```json
+"mode": "manual"
+```
+
+- **行为**：仅在明确调用时执行合并
+- **优势**：完全控制合并时机，零自动开销
+- **适用场景**：
+  - 批量捕获内容，稍后统一整理
+  - 需要先审查笔记再决定是否合并
+  - 对性能要求极高的场景
+
+**工作流示例**：
+```bash
+# 快速捕获多个 URL
+"摄取这个知乎回答：https://..."
+"摄取这个 HN 讨论：https://..."
+"摄取这篇文章：https://..."
+
+# 稍后选择性合并
+"把第一个回答综合到知识库"
+"把 HN 讨论综合到技术讨论主题下"
+```
+
+**3. Batch 模式（批量处理）**
+```json
+"mode": "batch"
+```
+
+- **行为**：摄取多个 URL 后，一次性合并所有内容
+- **优势**：最小化合并次数，适合大规模内容采集
+- **适用场景**：
+  - 批量导入历史内容
+  - 定期整理大量资料
+  - 需要统一分析多个来源
+
+**工作流示例**：
+```bash
+# 批量摄取
+"摄取这些 URL：
+https://example.com/1
+https://example.com/2
+https://example.com/3"
+
+# 自动触发批量合并
+# Agent 会分析所有内容并统一组织到知识库
+```
+
+#### 确定性选项（Deterministic Mode）
+
+如果需要在每次摄取后强制更新知识库，可以使用确定性模式：
+
+```json
+{
+  "synthesis": {
+    "mode": "deterministic",
+    "kb_template": "default"
+  }
+}
+```
+
+- **行为**：每次摄取后立即执行知识库合并
+- **优势**：知识库始终保持最新状态
+- **劣势**：高开销，频繁合并可能影响性能
+- **适用场景**：
+  - 实时知识库更新需求
+  - 摄取频率较低（每天几次）
+  - 性能不是主要考虑因素
+
+#### 性能考虑
+
+**合并开销来源**：
+- 读取和分析现有知识库结构
+- 语义匹配和主题决策
+- 更新多个 `index.md` 文件
+- 维护导航和交叉引用
+
+**推荐策略**：
+- **日常使用**：`auto` 模式（推荐）
+- **批量导入**：`batch` 模式
+- **精细控制**：`manual` 模式
+- **实时更新**：`deterministic` 模式（谨慎使用）
+
+**优化建议**：
+- 避免在短时间内摄取大量内容后逐个合并
+- 使用 `batch` 或 `auto` 模式让 Agent 优化合并时机
+- 定期而非频繁地更新知识库
+- 考虑在非工作时间批量处理历史内容
+
+#### 修改配置
+
+编辑配置文件：
+```bash
+# 编辑配置
+vim skills/tapestry/config/tapestry.config.json
+
+# 或让 Agent 帮你修改
+"把合并模式改为 manual"
+"启用 auto 模式的智能合并"
+```
+
+配置立即生效，无需重启。
+
+---
+
 ### 🚀 快速开始
 
 #### 安装
@@ -584,6 +726,148 @@ ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 ### 📄 许可证
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+
+---
+
+### ⚙️ Configuration and Merge Frequency
+
+#### Merge Frequency Settings
+
+**Important Reminder**: Frequent merging into the knowledge base can lead to high overhead, especially if you perform a merge after every single ingest. Tapestry provides flexible merge strategies to balance real-time updates with performance.
+
+Configuration file location: `skills/tapestry/config/tapestry.config.json`
+
+```json
+{
+  "synthesis": {
+    "mode": "auto",
+    "kb_template": "default"
+  }
+}
+```
+
+#### Merge Modes Explained
+
+**1. Auto Mode (Intelligent Automatic)**
+```json
+"mode": "auto"
+```
+
+- **Behavior**: Agent automatically assesses the current accumulation of notes and decides whether to proceed with merge
+- **Advantages**: Automated decision-making based on load, avoids unnecessary merge overhead
+- **Use Cases**:
+  - Daily usage, balancing real-time updates with performance
+  - Uncertain when merging is most appropriate
+  - Want AI to intelligently manage knowledge base updates
+
+**How it works**:
+- Agent evaluates the quantity and quality of unmerged notes
+- Considers content relevance and importance
+- Decides whether to merge immediately, delay, or batch merge
+- Avoids forced merge after every single ingest
+
+**2. Manual Mode (Manual Control)**
+```json
+"mode": "manual"
+```
+
+- **Behavior**: Synthesis only runs when explicitly invoked
+- **Advantages**: Complete control over merge timing, zero automatic overhead
+- **Use Cases**:
+  - Batch capture content, organize later
+  - Need to review notes before deciding to merge
+  - Performance-critical scenarios
+
+**Workflow Example**:
+```bash
+# Quickly capture multiple URLs
+"Ingest this Zhihu answer: https://..."
+"Ingest this HN discussion: https://..."
+"Ingest this article: https://..."
+
+# Later, selectively merge
+"Synthesize the first answer into the knowledge base"
+"Synthesize the HN discussion under technical discussions topic"
+```
+
+**3. Batch Mode (Batch Processing)**
+```json
+"mode": "batch"
+```
+
+- **Behavior**: Ingest multiple URLs, then merge all content at once
+- **Advantages**: Minimizes merge count, suitable for large-scale content collection
+- **Use Cases**:
+  - Bulk import historical content
+  - Periodic organization of large amounts of material
+  - Need unified analysis of multiple sources
+
+**Workflow Example**:
+```bash
+# Batch ingest
+"Ingest these URLs:
+https://example.com/1
+https://example.com/2
+https://example.com/3"
+
+# Automatically triggers batch merge
+# Agent analyzes all content and organizes into knowledge base
+```
+
+#### Deterministic Option (Deterministic Mode)
+
+If you need to force knowledge base updates after every ingest, use deterministic mode:
+
+```json
+{
+  "synthesis": {
+    "mode": "deterministic",
+    "kb_template": "default"
+  }
+}
+```
+
+- **Behavior**: Immediately executes knowledge base merge after each ingest
+- **Advantages**: Knowledge base always stays up-to-date
+- **Disadvantages**: High overhead, frequent merging may impact performance
+- **Use Cases**:
+  - Real-time knowledge base update requirements
+  - Low ingest frequency (few times per day)
+  - Performance is not a primary concern
+
+#### Performance Considerations
+
+**Merge Overhead Sources**:
+- Reading and analyzing existing knowledge base structure
+- Semantic matching and topic decision-making
+- Updating multiple `index.md` files
+- Maintaining navigation and cross-references
+
+**Recommended Strategies**:
+- **Daily use**: `auto` mode (recommended)
+- **Bulk import**: `batch` mode
+- **Fine control**: `manual` mode
+- **Real-time updates**: `deterministic` mode (use cautiously)
+
+**Optimization Tips**:
+- Avoid merging individually after ingesting large amounts of content in a short time
+- Use `batch` or `auto` mode to let Agent optimize merge timing
+- Update knowledge base regularly rather than frequently
+- Consider batch processing historical content during off-hours
+
+#### Modifying Configuration
+
+Edit the configuration file:
+```bash
+# Edit configuration
+vim skills/tapestry/config/tapestry.config.json
+
+# Or let Agent help you modify
+"Change merge mode to manual"
+"Enable auto mode intelligent merging"
+```
+
+Configuration takes effect immediately, no restart required.
 
 ---
 

@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 
 
 class SynthesisConfig(BaseModel):
-    mode: Literal["auto", "manual", "batch"] = "auto"
+    mode: Literal["auto", "manual", "batch", "deterministic"] = "auto"
     kb_template: Literal["default", "comprehensive"] = "default"
     description: str = ""
 
@@ -54,4 +54,8 @@ class TapestryConfig(BaseModel):
 
     def should_auto_synthesize(self) -> bool:
         """Check if synthesis should run automatically after ingest."""
-        return self.synthesis.mode == "auto"
+        return self.synthesis.mode in ("auto", "deterministic")
+
+    def should_deterministic_synthesize(self) -> bool:
+        """Check if synthesis should run deterministically after every ingest."""
+        return self.synthesis.mode == "deterministic"

@@ -33,6 +33,14 @@ The package runtime does not call any model APIs directly. This skill owns the i
 
 This skill is also responsible for maintaining the book-like knowledge base under `knowledge-base/`.
 
+**Important**: The synthesis mode configuration controls when this skill should be invoked:
+- `auto`: Agent evaluates note accumulation and decides whether to merge (intelligent, load-based)
+- `manual`: Only runs when explicitly requested by user
+- `batch`: Runs after multiple ingests to process all at once
+- `deterministic`: Runs automatically after every single ingest (high overhead)
+
+See `config/tapestry.config.json` for current mode setting.
+
 ## Workflow
 
 1. Identify the target:

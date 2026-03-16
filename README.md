@@ -6,7 +6,6 @@
 
 *Turn scattered web content into organized, searchable knowledge*
 
-[![GitHub stars](https://img.shields.io/github/stars/your-username/Tapestry?style=social)](https://github.com/your-username/Tapestry/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Status](https://img.shields.io/badge/Status-Early%20Access-orange)
 ![WIP](https://img.shields.io/badge/WIP-Work%20In%20Progress-yellow)

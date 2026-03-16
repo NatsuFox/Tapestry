@@ -62,6 +62,10 @@ The behavior is controlled by `tapestry.config.json` at the project root:
   "synthesis": {
     "mode": "auto",  // "auto", "manual", "batch", or "deterministic"
     "description": "Controls when synthesis runs after ingestion"
+  },
+  "paths": {
+    "project_root": ".",  // Auto-corrected if invalid
+    "data_dir": "data"
   }
 }
 ```
@@ -71,6 +75,15 @@ The behavior is controlled by `tapestry.config.json` at the project root:
 - `"manual"`: Only synthesize when user explicitly requests it
 - `"batch"`: Ingest multiple URLs, then synthesize all at once when requested
 - `"deterministic"`: Automatically invoke synthesis after every successful ingest (high overhead, use cautiously)
+
+**Project Root Auto-Correction**:
+If the `project_root` path in the config is incorrect or invalid, the system will automatically:
+1. Search upward from the current directory to find the correct Tapestry project root
+2. Validate by checking for `skills/tapestry/` directory or `pyproject.toml` with tapestry metadata
+3. Update the config file with the correct path
+4. Continue execution with the corrected path
+
+This ensures the skill works correctly even if the user runs it from a different directory or if the project structure has changed.
 
 ## Operating Rules
 

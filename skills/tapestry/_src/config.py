@@ -59,3 +59,101 @@ class TapestryConfig(BaseModel):
     def should_deterministic_synthesize(self) -> bool:
         """Check if synthesis should run deterministically after every ingest."""
         return self.synthesis.mode == "deterministic"
+
+
+def find_project_root(start_path: Path | None = None) -> Path | None:
+    """
+    Search upward from start_path to find the Tapestry project root.
+
+    A valid project root contains:
+    - skills/tapestry/ directory structure
+    - OR pyproject.toml with tapestry project metadata
+
+    Returns None if no valid project root is found.
+    """
+    current = Path(start_path or Path.cwd()).resolve()
+
+    # Search up to 10 levels to avoid infinite loops
+    for _ in range(10):
+        # Check for skills/tapestry structure
+        if (current / "skills" / "tapestry").is_dir():
+            return current
+
+        # Check for pyproject.toml with tapestry metadata
+        pyproject = current / "pyproject.toml"
+        if pyproject.exists():
+            try:
+                content = pyproject.read_text(encoding="utf-8")
+                if 'name = "tapestry"' in content or '"tapestry"' in content:
+                    return current
+            except Exception:
+                pass
+
+        # Move up one directory
+        parent = current.parent
+        if parent == current:  # Reached filesystem root
+            break
+        current = parent
+
+    return None
+
+
+def validate_and_fix_project_root(config_path: Path, current_root: Path) -> Path:
+    """
+    Validate the project root in config. If invalid, search for correct root and update config.
+
+    Args:
+        config_path: Path to the config file
+        current_root: The project root path from config
+
+    Returns:
+        The validated (and possibly corrected) project root path
+    """
+    # Check if current root is valid
+    if _is_valid_project_root(current_root):
+        return current_root
+
+    # Current root is invalid, search for the correct one
+    correct_root = find_project_root()
+
+    if correct_root is None:
+        # Could not find valid project root, return current as fallback
+        return current_root
+
+    # Found correct root, update config file
+    try:
+        config_data = json.loads(config_path.read_text(encoding="utf-8"))
+        if "paths" not in config_data:
+            config_data["paths"] = {}
+        config_data["paths"]["project_root"] = str(correct_root)
+
+        config_path.write_text(
+            json.dumps(config_data, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8"
+        )
+    except Exception:
+        # If update fails, just return the found root
+        pass
+
+    return correct_root
+
+
+def _is_valid_project_root(path: Path) -> bool:
+    """Check if a path is a valid Tapestry project root."""
+    path = Path(path).resolve()
+
+    # Check for skills/tapestry structure
+    if (path / "skills" / "tapestry").is_dir():
+        return True
+
+    # Check for pyproject.toml with tapestry metadata
+    pyproject = path / "pyproject.toml"
+    if pyproject.exists():
+        try:
+            content = pyproject.read_text(encoding="utf-8")
+            if 'name = "tapestry"' in content:
+                return True
+        except Exception:
+            pass
+
+    return False

@@ -72,7 +72,33 @@ async def run_cli(args: argparse.Namespace) -> int:
     if not urls:
         raise ValueError("No URLs found. Pass URLs directly or use --text.")
 
+    # Load config and validate/fix project root
+    from _src.config import validate_and_fix_project_root, find_project_root
+
     target_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
+
+    # Try to find and load config
+    config_candidates = [
+        Path(__file__).resolve().parents[2] / "config" / "tapestry.config.json",  # skills/tapestry/config/
+        target_root / "tapestry.config.json",  # Project root (legacy)
+        target_root / "skills" / "tapestry" / "config" / "tapestry.config.json",  # From project root
+    ]
+
+    config_path = None
+    for candidate in config_candidates:
+        if candidate.exists():
+            config_path = candidate
+            break
+
+    # Validate and auto-correct project root if needed
+    if config_path:
+        target_root = validate_and_fix_project_root(config_path, target_root)
+    else:
+        # No config found, try to find project root automatically
+        found_root = find_project_root(target_root)
+        if found_root:
+            target_root = found_root
+
     config = TapestryConfig.load()  # Will find config in skills/tapestry/config/
     service = IngestionService.for_project_root(target_root, registry=registry)
     report = await service.ingest_urls(urls, forced_crawler_id=None if args.crawler == "auto" else args.crawler)

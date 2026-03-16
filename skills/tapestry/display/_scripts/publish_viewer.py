@@ -17,7 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--project-root",
         default="",
-        help="Project root containing knowledge-base/. Defaults to the current working directory.",
+        help="Project root containing data/books/. Defaults to the current working directory.",
     )
     parser.add_argument(
         "--force",
@@ -164,9 +164,9 @@ def build_tree(root: Path) -> dict:
 def main() -> int:
     args = build_parser().parse_args()
     project_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
-    kb_root = project_root / "knowledge-base"
+    kb_root = project_root / "data" / "books"
     if not kb_root.exists():
-        raise SystemExit("knowledge-base/ does not exist. Run synthesis bootstrap first.")
+        raise SystemExit("data/books/ does not exist. Run synthesis bootstrap first.")
 
     viewer_root = kb_root / "_viewer"
     if viewer_root.exists() and args.force:

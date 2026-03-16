@@ -56,9 +56,9 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/tapestry"
-Repository = "https://github.com/yourusername/tapestry"
-Issues = "https://github.com/yourusername/tapestry/issues"
+Homepage = "https://github.com/NatsuFox/Tapestry"
+Repository = "https://github.com/NatsuFox/Tapestry"
+Issues = "https://github.com/NatsuFox/Tapestry/issues"
 
 [tool.setuptools]
 packages = ["_src", "_src.crawlers"]

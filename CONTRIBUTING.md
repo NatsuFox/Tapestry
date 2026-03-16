@@ -32,7 +32,7 @@ git clone https://github.com/your-username/Tapestry.git
 cd Tapestry
 
 # 添加上游仓库
-git remote add upstream https://github.com/original-owner/Tapestry.git
+git remote add upstream https://github.com/NatsuFox/Tapestry.git
 ```
 
 #### 2. 创建分支

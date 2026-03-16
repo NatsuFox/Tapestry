@@ -310,13 +310,13 @@ See [Troubleshooting Guide](reference/troubleshooting.md) for solutions.
 
 ### How do I report a bug?
 
-1. Check [existing issues](https://github.com/your-username/Tapestry/issues)
+1. Check [existing issues](https://github.com/NatsuFox/Tapestry/issues)
 2. Gather information:
    - Python version
    - Error message
    - URL that failed
    - Steps to reproduce
-3. [Open a new issue](https://github.com/your-username/Tapestry/issues/new)
+3. [Open a new issue](https://github.com/NatsuFox/Tapestry/issues/new)
 
 ## Comparison with Other Tools
 
@@ -375,7 +375,7 @@ See [ROADMAP.md](../ROADMAP.md) for details. Highlights:
 
 ### Can I request features?
 
-Yes! [Open a feature request](https://github.com/your-username/Tapestry/issues/new?template=feature_request.md) or join the [discussion](https://github.com/your-username/Tapestry/discussions).
+Yes! [Open a feature request](https://github.com/NatsuFox/Tapestry/issues/new?template=feature_request.md) or join the [discussion](https://github.com/NatsuFox/Tapestry/discussions).
 
 ### How can I contribute?
 
@@ -398,7 +398,7 @@ See [Contributing Guide](../CONTRIBUTING.md). Ways to contribute:
 
 ### How do I stay updated?
 
-- Watch the [GitHub repository](https://github.com/your-username/Tapestry)
+- Watch the [GitHub repository](https://github.com/NatsuFox/Tapestry)
 - Read [CHANGELOG.md](../CHANGELOG.md) for updates
 - Follow [ROADMAP.md](../ROADMAP.md) for future plans
 
@@ -406,6 +406,6 @@ See [Contributing Guide](../CONTRIBUTING.md). Ways to contribute:
 
 If your question isn't answered here:
 1. Check the [full documentation](README.md)
-2. Search [GitHub issues](https://github.com/your-username/Tapestry/issues)
-3. Ask in [GitHub discussions](https://github.com/your-username/Tapestry/discussions)
-4. [Open a new issue](https://github.com/your-username/Tapestry/issues/new)
+2. Search [GitHub issues](https://github.com/NatsuFox/Tapestry/issues)
+3. Ask in [GitHub discussions](https://github.com/NatsuFox/Tapestry/discussions)
+4. [Open a new issue](https://github.com/NatsuFox/Tapestry/issues/new)

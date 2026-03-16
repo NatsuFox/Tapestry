@@ -463,7 +463,7 @@ asyncio.run(test())
 ### Search Issues
 
 Check if your issue has been reported:
-- GitHub Issues: https://github.com/your-username/Tapestry/issues
+- GitHub Issues: https://github.com/NatsuFox/Tapestry/issues
 
 ### Report a Bug
 
@@ -487,7 +487,7 @@ If you've found a bug:
 
 ### Ask for Help
 
-- GitHub Discussions: https://github.com/your-username/Tapestry/discussions
+- GitHub Discussions: https://github.com/NatsuFox/Tapestry/discussions
 - Include relevant details from debugging steps above
 
 ## Common Error Messages

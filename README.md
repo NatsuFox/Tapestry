@@ -36,7 +36,7 @@
 >
 > Your Star is not just recognition of the developer's work, but also motivation for continuous improvement. Every Star encourages us to develop more useful features, fix bugs and improve stability, enhance documentation and guides, and support more platforms and languages.
 >
-> [⭐ Star this project on GitHub](https://github.com/your-username/Tapestry/stargazers)
+> [⭐ Star this project on GitHub](https://github.com/NatsuFox/Tapestry/stargazers)
 
 </div>
 
@@ -232,7 +232,7 @@ vim skills/tapestry/config/tapestry.config.json
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/Tapestry.git
+git clone https://github.com/NatsuFox/Tapestry.git
 cd Tapestry
 
 # 方法 1：直接复制（推荐用于稳定使用）
@@ -640,9 +640,9 @@ Tapestry 尊重平台的速率限制和 robots.txt。对于公开内容，风险
 
 #### 遇到问题怎么办？
 
-- 查看 [Issues](https://github.com/your-username/Tapestry/issues) 寻找类似问题
-- 创建新的 [Bug 报告](https://github.com/your-username/Tapestry/issues/new?template=bug_report.md)
-- 加入 [讨论区](https://github.com/your-username/Tapestry/discussions) 提问
+- 查看 [Issues](https://github.com/NatsuFox/Tapestry/issues) 寻找类似问题
+- 创建新的 [Bug 报告](https://github.com/NatsuFox/Tapestry/issues/new?template=bug_report.md)
+- 加入 [讨论区](https://github.com/NatsuFox/Tapestry/discussions) 提问
 
 ---
 
@@ -774,7 +774,7 @@ Tapestry 尊重平台的速率限制和 robots.txt。对于公开内容，风险
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/Tapestry.git
+git clone https://github.com/NatsuFox/Tapestry.git
 cd Tapestry
 
 # 安装依赖（如需要）
@@ -798,7 +798,7 @@ ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 
 #### 需要帮助？
 
-- 查看 [Issues](https://github.com/your-username/Tapestry/issues) 寻找可以贡献的任务
+- 查看 [Issues](https://github.com/NatsuFox/Tapestry/issues) 寻找可以贡献的任务
 - 标记为 `good first issue` 的问题适合新贡献者
 - 标记为 `help wanted` 的问题需要社区帮助
 - 有疑问？在 issue 中提问或发起讨论
@@ -1340,9 +1340,9 @@ See the Contributing section below. Basic steps:
 
 #### What if I encounter issues?
 
-- Check [Issues](https://github.com/your-username/Tapestry/issues) for similar problems
-- Create a new [Bug Report](https://github.com/your-username/Tapestry/issues/new?template=bug_report.md)
-- Join [Discussions](https://github.com/your-username/Tapestry/discussions) to ask questions
+- Check [Issues](https://github.com/NatsuFox/Tapestry/issues) for similar problems
+- Create a new [Bug Report](https://github.com/NatsuFox/Tapestry/issues/new?template=bug_report.md)
+- Join [Discussions](https://github.com/NatsuFox/Tapestry/discussions) to ask questions
 
 ---
 

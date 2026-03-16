@@ -32,9 +32,23 @@
 - [x] 安全政策
 - [x] Issue 模板
 - [x] PR 模板
-- [ ] API 文档
-- [ ] 教程视频
-- [ ] 示例用例
+- [x] 完整的文档系统 (docs/)
+- [x] 安装指南
+- [x] 快速参考
+- [x] 架构文档
+- [x] 用户指南（基础使用、知识库、高级工作流）
+- [x] 参考文档（平台、配置、故障排除、API）
+- [x] 常见问题和术语表
+- [ ] 🔴 包含真实用例的示例目录
+- [ ] 🔴 快速入门指南（5分钟内完成首次捕获）
+- [ ] 🟡 教程视频或动画 GIF
+- [ ] 🟡 与类似工具的对比表
+- [ ] 🟡 迁移指南（从其他工具和版本间迁移）
+- [ ] 🟢 性能基准测试文档
+- [ ] 🟡 集成指南（Obsidian、Notion、Roam Research）
+- [ ] 🟢 文档贡献指南 (CONTRIBUTING_DOCS.md)
+- [ ] 🟢 每个爬虫的文档（每个爬虫的 README）
+- [ ] 🟢 可视化图表和流程图
 
 ### 质量与测试
 - [x] 核心逻辑单元测试
@@ -67,6 +81,52 @@
 - [ ] 交叉引用检测
 - [ ] 导出为多种格式（PDF、EPUB、HTML）
 - [ ] 备份和恢复功能
+
+### 文档改进
+- [ ] 🔴 **示例目录**：包含示例输入/输出的真实用例
+  - 研究文献综述工作流
+  - 跨平台主题追踪
+  - 专家关注和个人资料存档
+  - 每周摘要自动化
+- [ ] 🔴 **快速入门指南**：5分钟内从零到首次捕获
+  - 最小化安装步骤
+  - 单命令示例
+  - 即时视觉反馈
+- [ ] 🟡 **对比表**：与类似工具的详细对比
+  - vs. 网页剪藏工具（Evernote、Notion、Pocket）
+  - vs. 网页爬虫（Scrapy、BeautifulSoup）
+  - vs. 书签管理器（Raindrop、Pinboard）
+  - 功能矩阵和使用场景推荐
+- [ ] 🟡 **集成指南**：与流行工具的分步集成
+  - Obsidian 仓库设置和工作流
+  - Notion 数据库导入
+  - Roam Research 集成
+  - 静态站点生成器（MkDocs、Hugo、Jekyll）
+- [ ] 🟡 **迁移指南**：迁移到/从 Tapestry
+  - 从浏览器书签导入
+  - 从 Pocket/Raindrop 导入
+  - 导出到其他格式
+  - 版本升级指南
+- [ ] 🟡 **教程视频/GIF**：可视化演示
+  - 安装演练
+  - 首次捕获演示
+  - 知识库组织
+  - 高级工作流
+- [ ] 🟢 **性能基准测试**：记录的性能特征
+  - 速度对比（HTTP vs 浏览器）
+  - 内存使用概况
+  - 批处理基准测试
+  - 平台特定性能说明
+- [ ] 🟢 **每个爬虫的文档**：每个爬虫实现的 README
+  - 平台特定的怪癖
+  - 选择器说明
+  - 已知限制
+  - 测试说明
+- [ ] 🟢 **文档风格指南**：CONTRIBUTING_DOCS.md
+  - 写作风格指南
+  - Markdown 约定
+  - 代码示例标准
+  - 截图/图表指南
 
 ---
 
@@ -206,9 +266,23 @@ This roadmap outlines the planned features and improvements for Tapestry. Items 
 - [x] Security policy
 - [x] Issue templates
 - [x] PR template
-- [ ] API documentation
-- [ ] Tutorial videos
-- [ ] Example use cases
+- [x] Comprehensive documentation system (docs/)
+- [x] Installation guide
+- [x] Quick reference
+- [x] Architecture documentation
+- [x] User guides (basic usage, knowledge base, advanced workflows)
+- [x] Reference documentation (platforms, configuration, troubleshooting, API)
+- [x] FAQ and Glossary
+- [ ] 🔴 Examples directory with real-world use cases
+- [ ] 🔴 Quick Start guide (zero to first capture in 5 minutes)
+- [ ] 🟡 Tutorial videos or animated GIFs
+- [ ] 🟡 Comparison table with similar tools
+- [ ] 🟡 Migration guide (from other tools and between versions)
+- [ ] 🟢 Performance benchmarks documentation
+- [ ] 🟡 Integration guides (Obsidian, Notion, Roam Research)
+- [ ] 🟢 Documentation contribution guide (CONTRIBUTING_DOCS.md)
+- [ ] 🟢 Per-crawler documentation (README for each crawler)
+- [ ] 🟢 Visual diagrams and flowcharts
 
 ### Quality & Testing
 - [x] Unit tests for core logic
@@ -241,6 +315,52 @@ This roadmap outlines the planned features and improvements for Tapestry. Items 
 - [ ] Cross-reference detection
 - [ ] Export to various formats (PDF, EPUB, HTML)
 - [ ] Backup and restore functionality
+
+### Documentation Improvements
+- [ ] 🔴 **Examples Directory**: Real-world use cases with sample inputs/outputs
+  - Research literature review workflow
+  - Topic tracking across platforms
+  - Expert following and profile archival
+  - Weekly digest automation
+- [ ] 🔴 **Quick Start Guide**: Get from zero to first capture in 5 minutes
+  - Minimal installation steps
+  - Single command examples
+  - Immediate visual feedback
+- [ ] 🟡 **Comparison Table**: Detailed comparison with similar tools
+  - vs. Web clippers (Evernote, Notion, Pocket)
+  - vs. Web scrapers (Scrapy, BeautifulSoup)
+  - vs. Bookmark managers (Raindrop, Pinboard)
+  - Feature matrix and use case recommendations
+- [ ] 🟡 **Integration Guides**: Step-by-step integration with popular tools
+  - Obsidian vault setup and workflow
+  - Notion database import
+  - Roam Research integration
+  - Static site generators (MkDocs, Hugo, Jekyll)
+- [ ] 🟡 **Migration Guide**: Moving to/from Tapestry
+  - Importing from browser bookmarks
+  - Importing from Pocket/Raindrop
+  - Exporting to other formats
+  - Version upgrade guides
+- [ ] 🟡 **Tutorial Videos/GIFs**: Visual demonstrations
+  - Installation walkthrough
+  - First capture demo
+  - Knowledge base organization
+  - Advanced workflows
+- [ ] 🟢 **Performance Benchmarks**: Documented performance characteristics
+  - Speed comparisons (HTTP vs browser)
+  - Memory usage profiles
+  - Batch processing benchmarks
+  - Platform-specific performance notes
+- [ ] 🟢 **Per-Crawler Documentation**: README for each crawler implementation
+  - Platform-specific quirks
+  - Selector explanations
+  - Known limitations
+  - Testing instructions
+- [ ] 🟢 **Documentation Style Guide**: CONTRIBUTING_DOCS.md
+  - Writing style guidelines
+  - Markdown conventions
+  - Code example standards
+  - Screenshot/diagram guidelines
 
 ---
 

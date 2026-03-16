@@ -422,6 +422,32 @@ Tapestry 尊重平台的速率限制和 robots.txt。对于公开内容，风险
 
 ---
 
+### 📖 文档 | Documentation
+
+完整的文档现已在 `docs/` 目录中提供：
+
+**入门指南**
+- [安装指南](docs/installation.md) - 详细的安装步骤
+- [快速参考](docs/quick-reference.md) - 常用命令和工作流
+- [基础使用](docs/guides/basic-usage.md) - 开始使用 Tapestry
+
+**架构与设计**
+- [架构概览](docs/architecture/overview.md) - 系统设计和组件
+- [技能架构](docs/architecture/skill-architecture.md) - 技能系统工作原理
+- [内容管道](docs/architecture/content-pipeline.md) - 数据流和处理
+- [爬虫系统](docs/architecture/crawlers.md) - 平台特定爬虫
+
+**参考文档**
+- [支持的平台](docs/reference/platforms.md) - 所有支持的内容源
+- [故障排除](docs/reference/troubleshooting.md) - 常见问题和解决方案
+
+**开发文档**
+- [贡献指南](CONTRIBUTING.md) - 如何为 Tapestry 做贡献
+- [更新日志](CHANGELOG.md) - 版本历史和更新
+- [路线图](ROADMAP.md) - 未来计划和功能
+
+---
+
 ### 🤝 贡献指南
 
 我们欢迎所有形式的贡献！无论是新功能、bug 修复、文档改进还是使用反馈，都能帮助 Tapestry 变得更好。

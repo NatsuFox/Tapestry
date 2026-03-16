@@ -413,6 +413,11 @@ https://www.xiaohongshu.com/user/profile/xxx"
 "生成这个用户的内容摘要"
 ```
 
+<div align="center">
+  <img src="assets/zhihu_cc_start.png" width="49%" alt="Tapestry 使用示例 - 开始" />
+  <img src="assets/zhihu_cc_end.png" width="49%" alt="Tapestry 使用示例 - 结果" />
+</div>
+
 ---
 
 ### 📋 工作流概览
@@ -1181,6 +1186,11 @@ https://www.xiaohongshu.com/user/profile/xxx"
 
 "Generate a content summary for this user"
 ```
+
+<div align="center">
+  <img src="assets/zhihu_cc_start.png" width="49%" alt="Tapestry Usage Example - Start" />
+  <img src="assets/zhihu_cc_end.png" width="49%" alt="Tapestry Usage Example - Result" />
+</div>
 
 ---
 

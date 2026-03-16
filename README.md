@@ -112,7 +112,7 @@ AI 助手会：
 
 **🎬 实际测试展示**
 
-在这次知乎内容抓取的实际测试中，Tapestry 展现了强大的自动修复能力：
+在这次知乎内容抓取的实际测试中，Tapestry 展现了强大的能力：
 
 1. **自动依赖修复**：在建立连接过程中，系统检测到缺失的包依赖，自动完成安装和配置
 2. **成功获取内容**：依赖修复后，顺利完成知乎内容的完整抓取（包括正文和评论）
@@ -1045,7 +1045,7 @@ Your AI assistant will:
 
 **🎬 Real-World Test Demonstration**
 
-During this actual Zhihu content fetching test, Tapestry demonstrated powerful auto-repair capabilities:
+During this actual Zhihu content fetching test, Tapestry demonstrated powerful capabilities:
 
 1. **Automatic Dependency Repair**: System detected missing package dependencies during connection setup and automatically completed installation and configuration
 2. **Successful Content Retrieval**: After dependency repair, successfully completed full Zhihu content capture (including main text and comments)

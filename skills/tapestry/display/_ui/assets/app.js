@@ -5,30 +5,174 @@ const state = {
   activePath: null,
   query: "",
   expanded: new Set(["."]),
+  langPreference: "auto",
+  uiLang: "en",
 };
 
-const treeEl = document.getElementById("tree");
-const searchEl = document.getElementById("search");
-const searchResultsEl = document.getElementById("search-results");
-const titleEl = document.getElementById("page-title");
-const subtitleEl = document.getElementById("page-subtitle");
-const heroStatsEl = document.getElementById("hero-stats");
-const bodyEl = document.getElementById("content-body");
-const relatedSectionEl = document.getElementById("related-section");
-const tocEl = document.getElementById("toc");
-const metaEl = document.getElementById("doc-meta");
-const siblingLinksEl = document.getElementById("sibling-links");
-const breadcrumbsEl = document.getElementById("breadcrumbs");
-const navToggleEl = document.getElementById("nav-toggle");
-const sidebarEl = document.getElementById("sidebar");
-const homeLinkEl = document.getElementById("home-link");
-const focusSearchEl = document.getElementById("focus-search");
+// DOM elements - will be initialized after DOM is ready
+let treeEl, searchEl, searchResultsEl, titleEl, subtitleEl, heroStatsEl;
+let bodyEl, relatedSectionEl, tocEl, metaEl, siblingLinksEl, breadcrumbsEl;
+let navToggleEl, sidebarEl, sidebarBackdropEl, homeLinkEl;
+let themeSelectEl, langSelectEl;
+
+const translations = {
+  en: {
+    "knowledge-base": "Knowledge Base",
+    "tagline": "Browse topics, chapters, and evolving research notes in one readable surface.",
+    "theme": "Theme",
+    "language": "Language / 语言",
+    "open-root": "Open Root Index",
+    "search-label": "Find a topic or document",
+    "search-placeholder": "Search titles, paths, excerpts",
+    "search-button": "Search",
+    "word-count": "Word Count",
+    "headings": "Headings",
+    "section-depth": "Section Depth",
+    "sibling-docs": "Sibling Docs",
+    "kind": "Kind",
+    "path": "Path",
+    "updated": "Updated",
+    "unknown": "unknown",
+    "document-meta": "Document Meta",
+    "on-this-page": "On This Page",
+    "nearby": "Nearby",
+    "continue-exploring": "Continue Exploring",
+    "no-headings": "No section headings detected.",
+    "no-nearby": "No nearby sections available.",
+    "no-related": "No related documents found in this section.",
+  },
+  zh: {
+    "knowledge-base": "知识库",
+    "tagline": "浏览主题、章节和不断演进的研究笔记。",
+    "theme": "主题",
+    "language": "语言 / Language",
+    "open-root": "打开根目录",
+    "search-label": "查找主题或文档",
+    "search-placeholder": "搜索标题、路径、摘要",
+    "search-button": "搜索",
+    "word-count": "字数",
+    "headings": "标题数",
+    "section-depth": "章节深度",
+    "sibling-docs": "同级文档",
+    "kind": "类型",
+    "path": "路径",
+    "updated": "更新时间",
+    "unknown": "未知",
+    "document-meta": "文档信息",
+    "on-this-page": "本页目录",
+    "nearby": "相关章节",
+    "continue-exploring": "继续探索",
+    "no-headings": "未检测到章节标题。",
+    "no-nearby": "没有相关章节。",
+    "no-related": "本节没有相关文档。",
+  },
+};
+
+function updateUILanguage(lang) {
+  state.uiLang = lang;
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    if (translations[lang] && translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (translations[lang] && translations[lang][key]) {
+      el.placeholder = translations[lang][key];
+    }
+  });
+}
+
+// Wait for DOM to be ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+function init() {
+  console.log('Initializing Tapestry viewer...');
+
+  // Initialize DOM element references
+  treeEl = document.getElementById("tree");
+  searchEl = document.getElementById("search");
+  searchResultsEl = document.getElementById("search-results");
+  titleEl = document.getElementById("page-title");
+  subtitleEl = document.getElementById("page-subtitle");
+  heroStatsEl = document.getElementById("hero-stats");
+  bodyEl = document.getElementById("content-body");
+  relatedSectionEl = document.getElementById("related-section");
+  tocEl = document.getElementById("toc");
+  metaEl = document.getElementById("doc-meta");
+  siblingLinksEl = document.getElementById("sibling-links");
+  breadcrumbsEl = document.getElementById("breadcrumbs");
+  navToggleEl = document.getElementById("nav-toggle");
+  sidebarEl = document.getElementById("sidebar");
+  sidebarBackdropEl = document.getElementById("sidebar-backdrop");
+  homeLinkEl = document.getElementById("home-link");
+  themeSelectEl = document.getElementById("theme-select");
+  langSelectEl = document.getElementById("lang-select");
+
+  console.log('Elements found:', {
+    navToggle: !!navToggleEl,
+    sidebar: !!sidebarEl,
+    backdrop: !!sidebarBackdropEl,
+    search: !!searchEl
+  });
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem("tapestry-theme") || "default";
+  if (savedTheme !== "default") {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    themeSelectEl.value = savedTheme;
+  }
+
+  themeSelectEl.addEventListener("change", () => {
+    const theme = themeSelectEl.value;
+    if (theme === "default") {
+      document.documentElement.removeAttribute("data-theme");
+    } else {
+      document.documentElement.setAttribute("data-theme", theme);
+    }
+    localStorage.setItem("tapestry-theme", theme);
+  });
+
+  // Load saved language preference
+  const savedLang = localStorage.getItem("tapestry-lang") || "auto";
+  langSelectEl.value = savedLang;
+  state.langPreference = savedLang;
+
+  // Initialize UI language
+  const initialUILang = savedLang === "zh" ? "zh" : "en";
+  updateUILanguage(initialUILang);
+
+  langSelectEl.addEventListener("change", () => {
+    const lang = langSelectEl.value;
+    state.langPreference = lang;
+    localStorage.setItem("tapestry-lang", lang);
+
+    // Update UI language
+    const uiLang = lang === "zh" ? "zh" : "en";
+    updateUILanguage(uiLang);
+
+    // Refresh current document to apply language preference
+    if (state.activePath) {
+      openDoc(state.activePath);
+    }
+  });
 
 function escapeHtml(text = "") {
   return String(text)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+}
+
+function detectLanguage(text) {
+  const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
+  const totalChars = text.replace(/\s/g, "").length;
+  return chineseChars / totalChars > 0.3 ? "zh" : "en";
 }
 
 function inlineMarkdown(text = "", currentPath = "") {
@@ -67,12 +211,33 @@ function resolveLink(currentPath, href) {
   return { internal: true, path: normalized.join("/") };
 }
 
+function highlightCode(code, language = "") {
+  // Basic syntax highlighting for common languages
+  const keywords = /\b(function|const|let|var|if|else|for|while|return|import|export|class|extends|async|await|try|catch|throw|new|this|super|static|public|private|protected|def|lambda|yield|from|as|with|pass|break|continue|in|is|not|and|or|True|False|None|null|undefined|void|int|string|bool|float|double|char)\b/g;
+  const strings = /(["'`])(?:(?=(\\?))\2.)*?\1/g;
+  const numbers = /\b(\d+\.?\d*)\b/g;
+  const comments = /(\/\/.*$|\/\*[\s\S]*?\*\/|#.*$)/gm;
+  const functions = /\b([a-zA-Z_]\w*)\s*(?=\()/g;
+
+  let highlighted = escapeHtml(code);
+
+  // Apply highlighting in order (comments first to avoid conflicts)
+  highlighted = highlighted.replace(comments, '<span class="comment">$1</span>');
+  highlighted = highlighted.replace(strings, '<span class="string">$1</span>');
+  highlighted = highlighted.replace(keywords, '<span class="keyword">$1</span>');
+  highlighted = highlighted.replace(numbers, '<span class="number">$1</span>');
+  highlighted = highlighted.replace(functions, '<span class="function">$1</span>');
+
+  return highlighted;
+}
+
 function renderMarkdown(markdown = "", currentPath = "") {
   const lines = markdown.replace(/\r/g, "").split("\n");
   const out = [];
   let inList = false;
   let inCode = false;
   let codeBuffer = [];
+  let codeLanguage = "";
   let listTag = "ul";
 
   const flushList = () => {
@@ -84,8 +249,11 @@ function renderMarkdown(markdown = "", currentPath = "") {
 
   const flushCode = () => {
     if (inCode) {
-      out.push(`<pre><code>${escapeHtml(codeBuffer.join("\n"))}</code></pre>`);
+      const code = codeBuffer.join("\n");
+      const highlighted = highlightCode(code, codeLanguage);
+      out.push(`<pre><code>${highlighted}</code></pre>`);
       codeBuffer = [];
+      codeLanguage = "";
       inCode = false;
     }
   };
@@ -100,6 +268,7 @@ function renderMarkdown(markdown = "", currentPath = "") {
         flushCode();
       } else {
         inCode = true;
+        codeLanguage = trimmed.slice(3).trim();
       }
       continue;
     }
@@ -348,10 +517,10 @@ function renderBreadcrumbs(doc) {
 function renderHeroStats(doc) {
   const node = nodeRecord(doc.parent ?? ".");
   const stats = [
-    { label: "Word Count", value: doc.wordCount ?? 0 },
-    { label: "Headings", value: (doc.headings || []).length },
-    { label: "Section Depth", value: doc.depth ?? 0 },
-    { label: "Sibling Docs", value: (node?.documents || []).length },
+    { label: translations[state.uiLang]["word-count"], value: doc.wordCount ?? 0 },
+    { label: translations[state.uiLang]["headings"], value: (doc.headings || []).length },
+    { label: translations[state.uiLang]["section-depth"], value: doc.depth ?? 0 },
+    { label: translations[state.uiLang]["sibling-docs"], value: (node?.documents || []).length },
   ];
   heroStatsEl.innerHTML = "";
   for (const stat of stats) {
@@ -368,10 +537,10 @@ function renderHeroStats(doc) {
 function renderMeta(doc) {
   metaEl.innerHTML = "";
   const rows = [
-    ["Kind", doc.kind],
-    ["Path", doc.path],
-    ["Updated", doc.updatedAt ? new Date(doc.updatedAt * 1000).toLocaleString() : "unknown"],
-    ["Word Count", doc.wordCount ?? 0],
+    [translations[state.uiLang]["kind"], doc.kind],
+    [translations[state.uiLang]["path"], doc.path],
+    [translations[state.uiLang]["updated"], doc.updatedAt ? new Date(doc.updatedAt * 1000).toLocaleString() : translations[state.uiLang]["unknown"]],
+    [translations[state.uiLang]["word-count"], doc.wordCount ?? 0],
   ];
   for (const [label, value] of rows) {
     const pill = document.createElement("div");
@@ -384,7 +553,7 @@ function renderMeta(doc) {
 function renderToc(doc) {
   tocEl.innerHTML = "";
   if (!(doc.headings || []).length) {
-    tocEl.innerHTML = `<div class="empty-state">No section headings detected.</div>`;
+    tocEl.innerHTML = `<div class="empty-state">${translations[state.uiLang]["no-headings"]}</div>`;
     return;
   }
   for (const heading of doc.headings) {
@@ -405,7 +574,7 @@ function renderSiblings(doc) {
   siblingLinksEl.innerHTML = "";
   const parentNode = nodeRecord(doc.parent ?? ".");
   if (!parentNode) {
-    siblingLinksEl.innerHTML = `<div class="empty-state">No nearby sections available.</div>`;
+    siblingLinksEl.innerHTML = `<div class="empty-state">${translations[state.uiLang]["no-nearby"]}</div>`;
     return;
   }
   const candidates = [];
@@ -414,7 +583,7 @@ function renderSiblings(doc) {
   for (const child of parentNode.children) if (child.index && child.index !== doc.path) candidates.push(child.index);
 
   if (!candidates.length) {
-    siblingLinksEl.innerHTML = `<div class="empty-state">No nearby sections available.</div>`;
+    siblingLinksEl.innerHTML = `<div class="empty-state">${translations[state.uiLang]["no-nearby"]}</div>`;
     return;
   }
 
@@ -449,11 +618,16 @@ function relatedCards(doc) {
 function renderRelated(doc) {
   const cards = relatedCards(doc);
   if (!cards.length) {
-    relatedSectionEl.innerHTML = "";
+    relatedSectionEl.innerHTML = `
+      <div class="context-label">${translations[state.uiLang]["continue-exploring"]}</div>
+      <div class="empty-state" style="padding: 20px; text-align: center;">
+        ${translations[state.uiLang]["no-related"]}
+      </div>
+    `;
     return;
   }
   relatedSectionEl.innerHTML = `
-    <div class="context-label">Continue Exploring</div>
+    <div class="context-label">${translations[state.uiLang]["continue-exploring"]}</div>
     <div class="related-grid">
       ${cards.map((item) => `
         <article class="related-card" data-doc-link="${item.path}">
@@ -502,6 +676,25 @@ function openDoc(path) {
   titleEl.textContent = doc.title;
   subtitleEl.textContent = doc.excerpt || doc.path;
 
+  // Detect language and apply appropriate styling
+  let lang = state.langPreference;
+  if (lang === "auto") {
+    lang = detectLanguage(doc.markdown);
+  }
+
+  bodyEl.setAttribute("lang", lang);
+
+  // Apply language-specific styling
+  if (lang === "zh") {
+    bodyEl.style.fontFamily = "'Noto Serif SC', 'Crimson Pro', serif";
+    bodyEl.style.letterSpacing = "0.05em";
+    bodyEl.style.lineHeight = "1.9";
+  } else {
+    bodyEl.style.fontFamily = "";
+    bodyEl.style.letterSpacing = "";
+    bodyEl.style.lineHeight = "";
+  }
+
   bodyEl.innerHTML = `
     <div class="meta-line">${doc.kind.toUpperCase()} • ${escapeHtml(doc.path)}</div>
     ${renderMarkdown(doc.markdown, doc.path)}
@@ -509,7 +702,12 @@ function openDoc(path) {
   enhanceRenderedLinks(doc.path);
   animateDocumentSwap();
   history.replaceState(null, "", `#/${doc.path}`);
-  if (window.innerWidth < 980) sidebarEl.classList.remove("is-open");
+
+  // Close sidebar on mobile after opening document
+  if (window.innerWidth <= 1280) {
+    sidebarEl.classList.remove("is-open");
+    sidebarBackdropEl.classList.remove("is-visible");
+  }
 }
 
 function openHome() {
@@ -531,38 +729,63 @@ async function loadManifest() {
   renderInitialState();
 }
 
-searchEl.addEventListener("input", () => {
-  state.query = searchEl.value;
-  renderSearchResults();
-  renderTree();
-});
+  searchEl.addEventListener("input", () => {
+    state.query = searchEl.value;
+    renderSearchResults();
+    renderTree();
+  });
 
-searchEl.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    const first = searchResults()[0];
-    if (first) openDoc(first.path);
-  }
-});
+  searchEl.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const first = searchResults()[0];
+      if (first) openDoc(first.path);
+    }
+  });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "/" && document.activeElement !== searchEl) {
-    event.preventDefault();
-    searchEl.focus();
-    searchEl.select();
-  }
-});
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "/" && document.activeElement !== searchEl) {
+      event.preventDefault();
+      searchEl.focus();
+      searchEl.select();
+    }
+  });
 
-window.addEventListener("hashchange", () => {
-  const path = decodeURIComponent(location.hash.replace(/^#\//, ""));
-  if (state.documents[path]) openDoc(path);
-});
+  window.addEventListener("hashchange", () => {
+    const path = decodeURIComponent(location.hash.replace(/^#\//, ""));
+    if (state.documents[path]) openDoc(path);
+  });
 
-navToggleEl.addEventListener("click", () => sidebarEl.classList.toggle("is-open"));
-homeLinkEl.addEventListener("click", openHome);
-focusSearchEl.addEventListener("click", () => searchEl.focus());
+  navToggleEl.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Nav toggle clicked!");
 
-loadManifest().catch((error) => {
-  titleEl.textContent = "Viewer Error";
-  subtitleEl.textContent = "Could not load knowledge-base data";
-  bodyEl.innerHTML = `<pre>${escapeHtml(String(error))}</pre>`;
-});
+    const isMobile = window.innerWidth <= 1280;
+    const appShell = document.querySelector('.app-shell');
+
+    if (isMobile) {
+      // Mobile: toggle overlay sidebar
+      sidebarEl.classList.toggle("is-open");
+      sidebarBackdropEl.classList.toggle("is-visible");
+      console.log("Mobile mode - Sidebar classes:", sidebarEl.className);
+    } else {
+      // Desktop: toggle sidebar collapse
+      appShell.classList.toggle("sidebar-collapsed");
+      console.log("Desktop mode - App shell classes:", appShell.className);
+    }
+  });
+
+  sidebarBackdropEl.addEventListener("click", () => {
+    console.log("Backdrop clicked!");
+    sidebarEl.classList.remove("is-open");
+    sidebarBackdropEl.classList.remove("is-visible");
+  });
+
+  homeLinkEl.addEventListener("click", openHome);
+
+  loadManifest().catch((error) => {
+    titleEl.textContent = "Viewer Error";
+    subtitleEl.textContent = "Could not load knowledge-base data";
+    bodyEl.innerHTML = `<pre>${escapeHtml(String(error))}</pre>`;
+  });
+}

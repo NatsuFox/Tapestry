@@ -87,6 +87,68 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 
 ### 🚀 快速开始
 
+#### 演示：一分钟了解 Tapestry
+
+**摄取一个知乎回答：**
+
+```
+"摄取这个知乎回答：https://www.zhihu.com/question/12345/answer/67890"
+```
+
+AI 助手会：
+1. 自动识别这是知乎链接
+2. 选择知乎爬虫
+3. 抓取完整内容（包括评论）
+4. 保存为三种格式：
+   - `captures/` - 原始 JSON
+   - `feeds/` - 规范化 JSON
+   - `notes/` - Markdown 笔记
+
+**终端演示：**
+
+<div align="center">
+  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
+    <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry 终端演示" />
+  </a>
+</div>
+
+**🎬 实际测试展示**
+
+在这次知乎内容抓取的实际测试中，Tapestry 展现了强大的自动修复能力：
+
+1. **自动依赖修复**：在建立连接过程中，系统检测到缺失的包依赖，自动完成安装和配置
+2. **成功获取内容**：依赖修复后，顺利完成知乎内容的完整抓取（包括正文和评论）
+3. **知识库整合**：抓取的内容已自动分析并整合到核心知识库的相应主题下
+
+这个过程完全自动化，用户只需发出自然指令，系统会处理所有技术细节。
+
+**查看结果：**
+
+```
+"显示最近摄取的内容"
+```
+
+**组织到知识库：**
+
+```
+"把这个回答综合到我的知识库"
+```
+
+AI 助手会分析内容并自动决定放在哪个主题/章节下。
+
+**浏览知识库：**
+
+```
+"把我的知识库显示为网站"
+```
+
+AI 助手会生成静态前端并启动本地服务器（通常是 `http://localhost:8766`）。
+
+<div align="center">
+  <img src="assets/knowledge_base_demo.png" width="90%" alt="知识库前端界面演示" />
+  <p><em>知识库可视化界面 - 书籍式层次结构，支持主题导航和章节浏览</em></p>
+</div>
+
 #### 安装
 
 ```bash
@@ -206,71 +268,6 @@ playwright install chromium
 # 安装开发工具（可选）
 pip install -e .[dev]
 ```
-
-#### 第一次使用
-
-**摄取一个知乎回答：**
-
-```
-"摄取这个知乎回答：https://www.zhihu.com/question/12345/answer/67890"
-```
-
-AI 助手会：
-1. 自动识别这是知乎链接
-2. 选择知乎爬虫
-3. 抓取完整内容（包括评论）
-4. 保存为三种格式：
-   - `captures/` - 原始 JSON
-   - `feeds/` - 规范化 JSON
-   - `notes/` - Markdown 笔记
-
-**终端演示：**
-
-<div align="center">
-  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
-    <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry 终端演示" />
-  </a>
-  <p><em>点击查看完整终端录制 | 或查看本地文件: <code>assets/zhihu_fetch.cast</code></em></p>
-</div>
-
-> **提示**：如果你有 `assets/zhihu_fetch.cast` 文件，可以使用 `asciinema play assets/zhihu_fetch.cast` 在终端中播放，或使用 `agg assets/zhihu_fetch.cast assets/zhihu_fetch.gif` 转换为 GIF 动图。
-
-**🎬 实际测试展示**
-
-在这次知乎内容抓取的实际测试中，Tapestry 展现了强大的自动修复能力：
-
-1. **自动依赖修复**：在建立连接过程中，系统检测到缺失的包依赖，自动完成安装和配置
-2. **成功获取内容**：依赖修复后，顺利完成知乎内容的完整抓取（包括正文和评论）
-3. **知识库整合**：抓取的内容已自动分析并整合到核心知识库的相应主题下
-
-这个过程完全自动化，用户只需发出一条指令，系统会处理所有技术细节。
-
-**查看结果：**
-
-```
-"显示最近摄取的内容"
-```
-
-**组织到知识库：**
-
-```
-"把这个回答综合到我的知识库"
-```
-
-AI 助手会分析内容并自动决定放在哪个主题/章节下。
-
-**浏览知识库：**
-
-```
-"把我的知识库显示为网站"
-```
-
-AI 助手会生成静态前端并启动本地服务器（通常是 `http://localhost:8766`）。
-
-<div align="center">
-  <img src="assets/knowledge_base_demo.png" width="90%" alt="知识库前端界面演示" />
-  <p><em>知识库可视化界面 - 书籍式层次结构，支持主题导航和章节浏览</em></p>
-</div>
 
 #### 常见使用场景
 
@@ -1030,6 +1027,68 @@ Bookmarks lose the "why" behind saving them. Tapestry preserves your original in
 
 ### 🚀 Quick Start
 
+#### Demo: Understanding Tapestry in One Minute
+
+**Ingest a Zhihu answer:**
+
+```
+"Ingest this Zhihu answer: https://www.zhihu.com/question/12345/answer/67890"
+```
+
+Your AI assistant will:
+1. Automatically recognize it's a Zhihu link
+2. Select the Zhihu crawler
+3. Capture full content (including comments)
+4. Save in three formats:
+   - `captures/` - Raw JSON
+   - `feeds/` - Normalized JSON
+   - `notes/` - Markdown notes
+
+**Terminal Demo:**
+
+<div align="center">
+  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
+    <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry Terminal Demo" />
+  </a>
+</div>
+
+**🎬 Real-World Test Demonstration**
+
+During this actual Zhihu content fetching test, Tapestry demonstrated powerful auto-repair capabilities:
+
+1. **Automatic Dependency Repair**: System detected missing package dependencies during connection setup and automatically completed installation and configuration
+2. **Successful Content Retrieval**: After dependency repair, successfully completed full Zhihu content capture (including main text and comments)
+3. **Knowledge Base Integration**: Captured content was automatically analyzed and integrated into the appropriate topics in the core knowledge base
+
+This entire process is fully automated—users simply issue one command, and the system handles all technical details.
+
+**View results:**
+
+```
+"Show recently ingested content"
+```
+
+**Organize into knowledge base:**
+
+```
+"Synthesize this answer into my knowledge base"
+```
+
+Your AI assistant will analyze the content and automatically decide which topic/chapter to place it under.
+
+**Browse knowledge base:**
+
+```
+"Show my knowledge base as a website"
+```
+
+Your AI assistant will generate a static frontend and start a local server (usually `http://localhost:8766`).
+
+<div align="center">
+  <img src="assets/knowledge_base_demo.png" width="90%" alt="Knowledge Base Frontend Demo" />
+  <p><em>Knowledge Base Visualization - Book-like hierarchical structure with topic navigation and chapter browsing</em></p>
+</div>
+
 #### Installation
 
 ```bash
@@ -1149,71 +1208,6 @@ playwright install chromium
 # Install development tools (optional)
 pip install -e .[dev]
 ```
-
-#### First Use
-
-**Ingest a Zhihu answer:**
-
-```
-"Ingest this Zhihu answer: https://www.zhihu.com/question/12345/answer/67890"
-```
-
-Your AI assistant will:
-1. Automatically recognize it's a Zhihu link
-2. Select the Zhihu crawler
-3. Capture full content (including comments)
-4. Save in three formats:
-   - `captures/` - Raw JSON
-   - `feeds/` - Normalized JSON
-   - `notes/` - Markdown notes
-
-**Terminal Demo:**
-
-<div align="center">
-  <a href="https://asciinema.org/a/zhihu_fetch" target="_blank">
-    <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry Terminal Demo" />
-  </a>
-  <p><em>Click to view full terminal recording | Or view local file: <code>assets/zhihu_fetch.cast</code></em></p>
-</div>
-
-> **Tip**: If you have the `assets/zhihu_fetch.cast` file, use `asciinema play assets/zhihu_fetch.cast` to play in terminal, or `agg assets/zhihu_fetch.cast assets/zhihu_fetch.gif` to convert to animated GIF.
-
-**🎬 Real-World Test Demonstration**
-
-During this actual Zhihu content fetching test, Tapestry demonstrated powerful auto-repair capabilities:
-
-1. **Automatic Dependency Repair**: System detected missing package dependencies during connection setup and automatically completed installation and configuration
-2. **Successful Content Retrieval**: After dependency repair, successfully completed full Zhihu content capture (including main text and comments)
-3. **Knowledge Base Integration**: Captured content was automatically analyzed and integrated into the appropriate topics in the core knowledge base
-
-This entire process is fully automated—users simply issue one command, and the system handles all technical details.
-
-**View results:**
-
-```
-"Show recently ingested content"
-```
-
-**Organize into knowledge base:**
-
-```
-"Synthesize this answer into my knowledge base"
-```
-
-Your AI assistant will analyze the content and automatically decide which topic/chapter to place it under.
-
-**Browse knowledge base:**
-
-```
-"Show my knowledge base as a website"
-```
-
-Your AI assistant will generate a static frontend and start a local server (usually `http://localhost:8766`).
-
-<div align="center">
-  <img src="assets/knowledge_base_demo.png" width="90%" alt="Knowledge Base Frontend Demo" />
-  <p><em>Knowledge Base Visualization - Book-like hierarchical structure with topic navigation and chapter browsing</em></p>
-</div>
 
 #### Common Use Cases
 

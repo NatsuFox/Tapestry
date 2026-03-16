@@ -8,9 +8,10 @@ import json
 import sys
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+# Add tapestry to path (2 levels up from this script)
+TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
+if str(TAPESTRY_ROOT) not in sys.path:
+    sys.path.insert(0, str(TAPESTRY_ROOT))
 
 from _src.store import KnowledgeBaseStore
 
@@ -21,14 +22,21 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--project-root",
         default="",
-        help="Optional project root containing the stored Tapestry artifacts",
+        help="Project root containing the stored Tapestry artifacts (defaults to current working directory)",
     )
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
-    target_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
+
+    # Use provided project root, or default to current working directory
+    # This ensures we look in the user's project, not the skill cache
+    if args.project_root:
+        target_root = Path(args.project_root).expanduser().resolve()
+    else:
+        target_root = Path.cwd().resolve()
+
     store = KnowledgeBaseStore(target_root)
     target = args.target.strip()
 

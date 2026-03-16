@@ -1,0 +1,16 @@
+{
+  "synthesis": {
+    "mode": "auto",
+    "kb_template": "default",
+    "description": "Controls synthesis behavior. mode: 'auto' (after each fetch), 'manual' (explicit), 'batch' (multiple then all). kb_template: 'default' (minimal) or 'comprehensive' (predefined topics)"
+  },
+  "ingest": {
+    "default_crawler": "auto",
+    "description": "Default crawler to use. 'auto' means automatic detection based on URL pattern"
+  },
+  "paths": {
+    "project_root": ".",
+    "data_dir": "data",
+    "description": "All generated content (captures, feeds, notes, books, catalog) stored under data/"
+  }
+}

@@ -1,0 +1,30 @@
+# ============================================
+# Tapestry Dependencies
+# ============================================
+
+# --------------------------------------------
+# Core Dependencies (Required)
+# --------------------------------------------
+httpx>=0.27.0           # Async HTTP client for fetching
+pydantic>=2.0.0         # Data validation and models
+selectolax>=0.3.0       # Fast HTML parsing with CSS selectors
+readability-lxml>=0.8.0 # Content extraction fallback
+chardet>=5.0.0          # Character encoding detection
+
+# --------------------------------------------
+# Browser Rendering (Recommended)
+# --------------------------------------------
+# Highly recommended for JavaScript-heavy sites
+# After installing, run: playwright install chromium
+playwright>=1.40.0
+
+# --------------------------------------------
+# Development Tools (Optional)
+# --------------------------------------------
+# Uncomment the lines below for development
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0
+# pytest-cov>=4.0.0
+# black>=23.0.0
+# ruff>=0.1.0
+# mypy>=1.0.0

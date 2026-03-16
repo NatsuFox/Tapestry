@@ -48,8 +48,11 @@ git checkout -b fix/issue-description
 #### 3. 开发和测试
 
 ```bash
-# 安装到 Agent 框架进行测试
-cp -r skills/tapestry/* ~/.claude/skills/
+# 安装到 Agent 框架进行测试（使用符号链接便于开发）
+ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
+
+# 或直接复制
+cp -r skills/tapestry ~/.claude/skills/
 
 # 运行测试
 cd skills/tapestry/_tests
@@ -339,8 +342,11 @@ git checkout -b fix/issue-description
 #### 3. Develop and Test
 
 ```bash
-# Install to your AI agent framework for testing
-cp -r skills/tapestry/* ~/.claude/skills/
+# Install to your AI agent framework for testing (use symlink for development)
+ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
+
+# Or direct copy
+cp -r skills/tapestry ~/.claude/skills/
 
 # Run tests
 cd skills/tapestry/_tests

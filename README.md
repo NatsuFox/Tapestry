@@ -63,16 +63,25 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 git clone https://github.com/your-username/Tapestry.git
 cd Tapestry
 
-# 根据你使用的 Agent 框架进行安装：
-
+# 方法 1：直接复制（推荐用于稳定使用）
 # Claude Code:
-cp -r skills/tapestry/* ~/.claude/skills/
+cp -r skills/tapestry ~/.claude/skills/
 
 # OpenClaw:
-cp -r skills/tapestry/* ~/.openclaw/skills/
+cp -r skills/tapestry ~/.openclaw/skills/
 
 # Codex:
-cp -r skills/tapestry/* ~/.codex/skills/
+cp -r skills/tapestry ~/.codex/skills/
+
+# 方法 2：符号链接（推荐用于开发和自动更新）
+# Claude Code:
+ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
+
+# OpenClaw:
+ln -s "$(pwd)/skills/tapestry" ~/.openclaw/skills/tapestry
+
+# Codex:
+ln -s "$(pwd)/skills/tapestry" ~/.codex/skills/tapestry
 ```
 
 #### 验证安装
@@ -558,8 +567,8 @@ pip install -r requirements.txt  # 如果有的话
 cd skills/tapestry/_tests
 pytest -v
 
-# 安装到 Claude Code 进行测试
-cp -r skills/tapestry/* ~/.claude/skills/
+# 安装到 Agent 框架进行测试（使用符号链接便于开发）
+ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 ```
 
 #### 行为准则
@@ -636,16 +645,25 @@ Bookmarks lose the "why" behind saving them. Tapestry preserves your original in
 git clone https://github.com/your-username/Tapestry.git
 cd Tapestry
 
-# Install based on your agent framework:
-
+# Method 1: Direct copy (recommended for stable use)
 # Claude Code:
-cp -r skills/tapestry/* ~/.claude/skills/
+cp -r skills/tapestry ~/.claude/skills/
 
 # OpenClaw:
-cp -r skills/tapestry/* ~/.openclaw/skills/
+cp -r skills/tapestry ~/.openclaw/skills/
 
 # Codex:
-cp -r skills/tapestry/* ~/.codex/skills/
+cp -r skills/tapestry ~/.codex/skills/
+
+# Method 2: Symlink (recommended for development and auto-updates)
+# Claude Code:
+ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
+
+# OpenClaw:
+ln -s "$(pwd)/skills/tapestry" ~/.openclaw/skills/tapestry
+
+# Codex:
+ln -s "$(pwd)/skills/tapestry" ~/.codex/skills/tapestry
 ```
 
 #### Verify Installation

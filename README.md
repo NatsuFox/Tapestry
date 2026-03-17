@@ -4,11 +4,11 @@
 
 # Tapestry
 
-**AI 原生的网络情报工作流 | AI-Native Web Intelligence Workflow**
+**AI 原生的网络书签知识库 | AI-Native Web Bookmark Knowledge Base**
 
-*通过与 AI 助手的自然对话，将分散的网络内容转化为有组织、可搜索的知识库*
+*通过与 Agent 助手的自然对话，将分散的网络内容转化为有组织、可搜索的知识库*
 
-*Transform scattered web content into organized, searchable knowledge through natural conversation with your AI assistant*
+*Transform scattered web content into organized, searchable knowledge through natural conversation with your Agent assistant*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)

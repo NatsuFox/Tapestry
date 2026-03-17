@@ -786,6 +786,36 @@ function enhanceRenderedLinks(currentPath) {
   });
 }
 
+function renderMathInDocument() {
+  // Wait for KaTeX to be loaded
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(bodyEl, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ],
+      throwOnError: false
+    });
+  } else {
+    // Retry after a short delay if KaTeX hasn't loaded yet
+    setTimeout(() => {
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(bodyEl, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      }
+    }, 100);
+  }
+}
+
 function animateDocumentSwap() {
   bodyEl.classList.remove("is-transitioning");
   void bodyEl.offsetWidth;
@@ -844,6 +874,7 @@ function openDoc(path, options = {}) {
     ${renderedBody}
   `;
   enhanceRenderedLinks(doc.path);
+  renderMathInDocument();
   animateDocumentSwap();
   if (updateHistory) {
     history.replaceState(null, "", `#/${doc.path}${anchor ? `::${anchor}` : ""}`);

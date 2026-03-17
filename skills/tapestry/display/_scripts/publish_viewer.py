@@ -187,6 +187,7 @@ def render_markdown_document(markdown_text: str, *, current_path: str) -> dict:
             "toc",
             "pymdownx.tasklist",
             "pymdownx.superfences",
+            "pymdownx.arithmatex",
             ViewerLinkExtension(current_path=current_path),
         ],
         extension_configs={
@@ -197,6 +198,9 @@ def render_markdown_document(markdown_text: str, *, current_path: str) -> dict:
             "pymdownx.tasklist": {
                 "custom_checkbox": False,
                 "clickable_checkbox": False,
+            },
+            "pymdownx.arithmatex": {
+                "generic": True,
             },
         },
         output_format="html5",

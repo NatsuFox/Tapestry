@@ -802,6 +802,27 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+/* Math rendering styles */
+.document-view .arithmatex {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.document-view .arithmatex.arithmatex-block {
+  display: block;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--surface-muted);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.document-view .katex-display {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .document-view .task-list {
   padding-left: 0;
 }

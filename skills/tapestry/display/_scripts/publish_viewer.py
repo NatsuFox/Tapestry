@@ -211,6 +211,7 @@ def render_markdown_document(markdown_text: str, *, current_path: str) -> dict:
 
 def extract_excerpt(markdown: str, *, limit: int = 260) -> str:
     lines = []
+    char_count = 0
     for raw_line in markdown.replace("\r", "").splitlines():
         stripped = raw_line.strip()
         if not stripped or stripped.startswith("#") or stripped.startswith("```"):
@@ -218,9 +219,11 @@ def extract_excerpt(markdown: str, *, limit: int = 260) -> str:
         if stripped.startswith("- ") or stripped.startswith("> "):
             stripped = stripped[2:].strip()
         lines.append(stripped)
-        if len(" ".join(lines)) >= limit:
+        char_count += len(stripped) + 1  # +1 for newline
+        if char_count >= limit:
             break
-    excerpt = " ".join(lines).strip()
+    # Join with newlines to preserve paragraph structure
+    excerpt = "\n".join(lines).strip()
     if len(excerpt) <= limit:
         return excerpt
     return excerpt[: limit - 1].rstrip() + "…"

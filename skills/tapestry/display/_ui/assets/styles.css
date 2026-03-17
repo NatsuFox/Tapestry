@@ -562,7 +562,7 @@ body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
   gap: 18px;
-  padding: 24px 28px;
+  padding: 16px 24px;
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: var(--surface-strong);
@@ -576,9 +576,9 @@ body {
 }
 
 .hero-copy h2 {
-  margin: 4px 0 8px;
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-  line-height: 1.2;
+  margin: 2px 0 6px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.15;
   font-family: var(--font-title);
   font-weight: 400;
   letter-spacing: 0.005em;
@@ -588,12 +588,12 @@ body {
   margin: 0;
   max-width: 70ch;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.55;
   white-space: pre-wrap !important;
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
   display: block !important;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 #page-subtitle {

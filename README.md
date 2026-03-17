@@ -19,6 +19,20 @@
 
 ---
 
+### ⭐ 支持项目 | Support the Project
+
+> **如果 Tapestry 对你有帮助，请给项目一个 Star！**
+>
+> 你的 Star 不仅是对开发者工作的认可，更是推动项目持续改进的动力。每一个 Star 都会激励我们开发更多实用功能、修复 Bug 并提升稳定性、完善文档和使用指南、支持更多平台和语言。
+>
+> **If Tapestry helps you, please give the project a Star!**
+>
+> Your Star is not just recognition of the developer's work, but also motivation for continuous improvement. Every Star encourages us to develop more useful features, fix bugs and improve stability, enhance documentation and guides, and support more platforms and languages.
+>
+> [⭐ Star this project on GitHub](https://github.com/NatsuFox/Tapestry/stargazers)
+
+---
+
 ## 中文
 
 ### 🎯 Tapestry 是什么？

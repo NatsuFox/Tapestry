@@ -180,13 +180,21 @@ function detectLanguage(text) {
 function inlineMarkdown(text = "", currentPath = "") {
   let rendered = escapeHtml(text);
 
-  // Handle links first (before other formatting to avoid conflicts)
+  // Handle markdown links first (before other formatting to avoid conflicts)
   rendered = rendered.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
     const resolved = resolveLink(currentPath, href);
     if (resolved.internal) {
       return `<a href="#/${resolved.path}" data-doc-link="${resolved.path}">${label}</a>`;
     }
     return `<a href="${href}" target="_blank" rel="noreferrer noopener">${label}</a>`;
+  });
+
+  // Auto-link plain URLs (http:// or https://)
+  rendered = rendered.replace(/(?<!href="|">)(https?:\/\/[^\s<>()\[\]{}]+)/g, (url) => {
+    // Remove trailing punctuation that's likely not part of the URL
+    const cleanUrl = url.replace(/[.,;:!?)\]]+$/, '');
+    const trailing = url.slice(cleanUrl.length);
+    return `<a href="${cleanUrl}" target="_blank" rel="noreferrer noopener">${cleanUrl}</a>${trailing}`;
   });
 
   // Handle inline code (before bold/italic to avoid conflicts)

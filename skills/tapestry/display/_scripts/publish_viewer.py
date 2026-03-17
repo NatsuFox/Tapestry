@@ -216,19 +216,47 @@ def render_markdown_document(markdown_text: str, *, current_path: str) -> dict:
 def extract_excerpt(markdown: str, *, limit: int = 400) -> str:
     lines = []
     char_count = 0
+    in_code_block = False
+    in_math_block = False
+
     for raw_line in markdown.replace("\r", "").splitlines():
         stripped = raw_line.strip()
-        if not stripped or stripped.startswith("#") or stripped.startswith("```"):
+
+        # Track code blocks
+        if stripped.startswith("```"):
+            in_code_block = not in_code_block
             continue
+
+        # Track display math blocks ($$)
+        if stripped.startswith("$$"):
+            in_math_block = not in_math_block
+            continue
+
+        # Skip content inside code or math blocks
+        if in_code_block or in_math_block:
+            continue
+
+        # Skip empty lines, headers, and metadata
+        if not stripped or stripped.startswith("#"):
+            continue
+
         # Skip metadata lines (lines starting with "- " followed by a label)
         if stripped.startswith("- ") and ":" in stripped[:50]:
             continue
+
+        # Skip lines with display math delimiters
+        if stripped.startswith("\\[") or stripped.startswith("\\]"):
+            continue
+
+        # Handle blockquotes
         if stripped.startswith("> "):
             stripped = stripped[2:].strip()
+
         lines.append(stripped)
         char_count += len(stripped) + 1  # +1 for newline
         if char_count >= limit:
             break
+
     # Join with newlines to preserve paragraph structure
     excerpt = "\n".join(lines).strip()
     if len(excerpt) <= limit:

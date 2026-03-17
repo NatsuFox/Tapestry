@@ -603,28 +603,34 @@ body {
 }
 
 .hero-stats {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
 }
 
 .stat-card {
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--surface-strong);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .stat-label {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .stat-value {
-  margin-top: 2px;
-  font-weight: 700;
-  font-size: 1.1rem;
+  margin-top: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink);
 }
 
 .content-grid {

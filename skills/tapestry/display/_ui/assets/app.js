@@ -686,7 +686,7 @@ function renderRelated(doc) {
         <article class="related-card" data-doc-link="${item.path}">
           <div class="related-label">${escapeHtml(item.kind)}</div>
           <div class="related-title">${escapeHtml(item.title)}</div>
-          <div class="related-excerpt">${escapeHtml(item.excerpt || "No excerpt available.")}</div>
+          <div class="related-excerpt">${inlineMarkdown(item.excerpt || "No excerpt available.", item.path)}</div>
         </article>
       `).join("")}
     </div>

@@ -925,6 +925,9 @@ body {
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.55;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .context-rail {

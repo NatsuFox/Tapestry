@@ -789,28 +789,63 @@ function enhanceRenderedLinks(currentPath) {
 function renderMathInDocument() {
   // Wait for KaTeX to be loaded
   if (typeof renderMathInElement !== 'undefined') {
+    const delimiters = [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ];
+
+    // Render math in document body
     renderMathInElement(bodyEl, {
-      delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false},
-        {left: '\\(', right: '\\)', display: false},
-        {left: '\\[', right: '\\]', display: true}
-      ],
+      delimiters: delimiters,
       throwOnError: false
     });
+
+    // Render math in hero subtitle
+    if (subtitleEl) {
+      renderMathInElement(subtitleEl, {
+        delimiters: delimiters,
+        throwOnError: false
+      });
+    }
+
+    // Render math in related cards
+    if (relatedSectionEl) {
+      renderMathInElement(relatedSectionEl, {
+        delimiters: delimiters,
+        throwOnError: false
+      });
+    }
   } else {
     // Retry after a short delay if KaTeX hasn't loaded yet
     setTimeout(() => {
       if (typeof renderMathInElement !== 'undefined') {
+        const delimiters = [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ];
+
         renderMathInElement(bodyEl, {
-          delimiters: [
-            {left: '$$', right: '$$', display: true},
-            {left: '$', right: '$', display: false},
-            {left: '\\(', right: '\\)', display: false},
-            {left: '\\[', right: '\\]', display: true}
-          ],
+          delimiters: delimiters,
           throwOnError: false
         });
+
+        if (subtitleEl) {
+          renderMathInElement(subtitleEl, {
+            delimiters: delimiters,
+            throwOnError: false
+          });
+        }
+
+        if (relatedSectionEl) {
+          renderMathInElement(relatedSectionEl, {
+            delimiters: delimiters,
+            throwOnError: false
+          });
+        }
       }
     }, 100);
   }

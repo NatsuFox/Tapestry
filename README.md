@@ -1,10 +1,12 @@
 <div align="center">
 
-<img src="assets/tapestry_logo.png" alt="Tapestry Logo" width="200"/>
+<img src="assets/tapestry_logo.png" alt="Tapestry Logo" width="400"/>
 
 # Tapestry
 
-**AI-Native Web Intelligence Workflow**
+**AI 原生的网络情报工作流 | AI-Native Web Intelligence Workflow**
+
+*通过与 AI 助手的自然对话，将分散的网络内容转化为有组织、可搜索的知识库*
 
 *Transform scattered web content into organized, searchable knowledge through natural conversation with your AI assistant*
 

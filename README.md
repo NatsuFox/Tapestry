@@ -1,42 +1,17 @@
-# 🧵 Tapestry
-
 <div align="center">
+
+<img src="assets/tapestry_logo.png" alt="Tapestry Logo" width="200"/>
+
+# Tapestry
 
 **AI-Native Web Intelligence Workflow**
 
-*Turn scattered web content into organized, searchable knowledge*
+*Transform scattered web content into organized, searchable knowledge through natural conversation with your AI assistant*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Status](https://img.shields.io/badge/Status-Early%20Access-orange)
-![WIP](https://img.shields.io/badge/WIP-Work%20In%20Progress-yellow)
+![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)
 
 [中文](#中文) | [English](#english)
-
----
-
-### 🚧 项目状态 | Project Status
-
-> **🔨 早期访问 / Early Access**
->
-> 本项目目前处于积极开发阶段，核心功能已可用，但仍在持续完善中。你可能会遇到部分功能尚未完全实现、可能存在的 Bug 和不稳定性、API 和数据结构可能发生变化、文档仍在完善中等情况。
->
-> This project is in active development. Core features are functional, but continuous improvements are ongoing. You may encounter some features not fully implemented, possible bugs and instability, API and data structure changes, and documentation still being refined.
->
-> **我们欢迎你的反馈和贡献！** | **We welcome your feedback and contributions!**
-
----
-
-### ⭐ 支持项目 | Support the Project
-
-> **如果 Tapestry 对你有帮助，请给项目一个 Star！**
->
-> 你的 Star 不仅是对开发者工作的认可，更是推动项目持续改进的动力。每一个 Star 都会激励我们开发更多实用功能、修复 Bug 并提升稳定性、完善文档和使用指南、支持更多平台和语言。
->
-> **If Tapestry helps you, please give the project a Star!**
->
-> Your Star is not just recognition of the developer's work, but also motivation for continuous improvement. Every Star encourages us to develop more useful features, fix bugs and improve stability, enhance documentation and guides, and support more platforms and languages.
->
-> [⭐ Star this project on GitHub](https://github.com/NatsuFox/Tapestry/stargazers)
 
 </div>
 

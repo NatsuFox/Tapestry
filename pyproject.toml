@@ -28,7 +28,9 @@ classifiers = [
 # Core dependencies required for basic functionality
 dependencies = [
     "httpx>=0.27.0",           # Async HTTP client for fetching
+    "Markdown>=3.6",           # Full Markdown rendering for the static viewer
     "pydantic>=2.0.0",         # Data validation and models
+    "pymdown-extensions>=10.0", # Task lists and fenced-code extensions for Markdown
     "selectolax>=0.3.0",       # Fast HTML parsing with CSS selectors
     "readability-lxml>=0.8.0", # Content extraction fallback
     "chardet>=5.0.0",          # Character encoding detection for readability

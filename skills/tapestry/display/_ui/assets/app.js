@@ -577,6 +577,31 @@ function renderMeta(doc) {
   }
 }
 
+function parseViewerHash(hash = location.hash) {
+  const raw = decodeURIComponent(hash.replace(/^#\//, ""));
+  if (!raw) {
+    return { path: "", anchor: "" };
+  }
+  const anchorIndex = raw.indexOf("::");
+  if (anchorIndex === -1) {
+    return { path: raw, anchor: "" };
+  }
+  return {
+    path: raw.slice(0, anchorIndex),
+    anchor: raw.slice(anchorIndex + 2),
+  };
+}
+
+function scrollToAnchor(anchor, { behavior = "smooth" } = {}) {
+  if (!anchor) {
+    return;
+  }
+  const target = document.getElementById(anchor);
+  if (target) {
+    target.scrollIntoView({ behavior, block: "start" });
+  }
+}
+
 function renderToc(doc) {
   tocEl.innerHTML = "";
   if (!(doc.headings || []).length) {
@@ -590,8 +615,7 @@ function renderToc(doc) {
     link.textContent = heading.title;
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      const target = document.getElementById(heading.slug);
-      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      openDoc(doc.path, { anchor: heading.slug });
     });
     tocEl.appendChild(link);
   }
@@ -675,7 +699,7 @@ function enhanceRenderedLinks(currentPath) {
   bodyEl.querySelectorAll("[data-doc-link]").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      openDoc(link.dataset.docLink);
+      openDoc(link.dataset.docLink, { anchor: link.dataset.docAnchor || "" });
     });
   });
 }
@@ -686,9 +710,19 @@ function animateDocumentSwap() {
   bodyEl.classList.add("is-transitioning");
 }
 
-function openDoc(path) {
+function openDoc(path, options = {}) {
   const doc = documentRecord(path);
   if (!doc) return;
+  const { anchor = "", updateHistory = true } = options;
+
+  if (state.activePath === path && anchor) {
+    scrollToAnchor(anchor);
+    if (updateHistory) {
+      history.replaceState(null, "", `#/${doc.path}::${anchor}`);
+    }
+    return;
+  }
+
   state.activePath = path;
   expandForPath(path);
   renderTree();
@@ -722,13 +756,19 @@ function openDoc(path) {
     bodyEl.style.lineHeight = "";
   }
 
+  const renderedBody = doc.html || renderMarkdown(doc.markdown, doc.path);
   bodyEl.innerHTML = `
     <div class="meta-line">${doc.kind.toUpperCase()} • ${escapeHtml(doc.path)}</div>
-    ${renderMarkdown(doc.markdown, doc.path)}
+    ${renderedBody}
   `;
   enhanceRenderedLinks(doc.path);
   animateDocumentSwap();
-  history.replaceState(null, "", `#/${doc.path}`);
+  if (updateHistory) {
+    history.replaceState(null, "", `#/${doc.path}${anchor ? `::${anchor}` : ""}`);
+  }
+  if (anchor) {
+    requestAnimationFrame(() => scrollToAnchor(anchor));
+  }
 
   // Close sidebar on mobile after opening document
   if (window.innerWidth <= 1280) {
@@ -743,10 +783,14 @@ function openHome() {
 
 function renderInitialState() {
   buildLookups(state.manifest.root);
-  const initialPath = decodeURIComponent(location.hash.replace(/^#\//, "")) || state.manifest.root.index;
+  const { path, anchor } = parseViewerHash();
+  const initialPath = path || state.manifest.root.index;
   renderTree();
   renderSearchResults();
-  openDoc(state.documents[initialPath] ? initialPath : state.manifest.root.index);
+  openDoc(state.documents[initialPath] ? initialPath : state.manifest.root.index, {
+    anchor,
+    updateHistory: false,
+  });
 }
 
 async function loadManifest() {
@@ -778,8 +822,10 @@ async function loadManifest() {
   });
 
   window.addEventListener("hashchange", () => {
-    const path = decodeURIComponent(location.hash.replace(/^#\//, ""));
-    if (state.documents[path]) openDoc(path);
+    const { path, anchor } = parseViewerHash();
+    if (state.documents[path]) {
+      openDoc(path, { anchor, updateHistory: false });
+    }
   });
 
   navToggleEl.addEventListener("click", (e) => {

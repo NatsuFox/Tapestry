@@ -755,6 +755,89 @@ body {
   border-left: 4px solid var(--accent);
 }
 
+.document-view hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 2rem 0;
+}
+
+.document-view table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  display: block;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-strong);
+}
+
+.document-view thead {
+  background: var(--surface-muted);
+}
+
+.document-view th,
+.document-view td {
+  padding: 0.8rem 0.95rem;
+  border: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  min-width: 8rem;
+}
+
+.document-view img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.6rem auto;
+  border-radius: 18px;
+  box-shadow: var(--shadow-md);
+}
+
+.document-view .task-list {
+  padding-left: 0;
+}
+
+.document-view .task-list-item {
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.document-view .task-list-item input[type="checkbox"] {
+  margin-top: 0.45rem;
+  accent-color: var(--accent);
+}
+
+.document-view .admonition,
+.document-view .footnote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-muted);
+}
+
+.document-view .admonition-title {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+
+.document-view .footnote ol {
+  margin: 0;
+  padding-left: 1.3rem;
+}
+
+.document-view .footnote-backref {
+  margin-left: 0.35rem;
+}
+
+.document-view .codehilite {
+  margin: 1.4rem 0;
+}
+
 /* Syntax highlighting */
 .document-view pre .comment {
   color: var(--code-comment);

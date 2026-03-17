@@ -8,6 +8,13 @@ import json
 import re
 import shutil
 from pathlib import Path
+from urllib.parse import urlsplit
+
+import markdown
+from markdown.extensions import Extension
+from markdown.treeprocessors import Treeprocessor
+
+STATIC_CONTENT_DIR = "content"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,32 +47,161 @@ def read_markdown_title(path: Path) -> str:
     return path.stem.replace("-", " ").replace("_", " ").title()
 
 
-def slugify_heading(text: str) -> str:
+def slugify_heading(text: str, separator: str = "-") -> str:
     slug = re.sub(r"[^\w\- ]+", "", text.strip().lower())
-    slug = re.sub(r"[\s\-]+", "-", slug).strip("-")
+    slug = re.sub(r"[\s\-]+", separator, slug).strip(separator)
     return slug or "section"
 
 
-def extract_headings(markdown: str) -> list[dict]:
+def normalize_relative_path(current_path: str, raw_path: str) -> str:
+    if raw_path.startswith("/"):
+        raw_parts = raw_path.split("/")
+    else:
+        current_parts = current_path.split("/")[:-1]
+        raw_parts = [*current_parts, *raw_path.split("/")]
+
+    normalized: list[str] = []
+    for part in raw_parts:
+        if not part or part == ".":
+            continue
+        if part == "..":
+            if normalized:
+                normalized.pop()
+            continue
+        normalized.append(part)
+    return "/".join(normalized)
+
+
+def resolve_viewer_link(current_path: str, raw_target: str) -> dict[str, str]:
+    parsed = urlsplit(raw_target.strip())
+    if parsed.scheme or parsed.netloc:
+        return {"kind": "external", "href": raw_target}
+
+    if not parsed.path and parsed.fragment:
+        return {
+            "kind": "document",
+            "path": current_path,
+            "anchor": parsed.fragment,
+        }
+
+    normalized_path = normalize_relative_path(current_path, parsed.path)
+    if normalized_path.endswith(".md"):
+        return {
+            "kind": "document",
+            "path": normalized_path,
+            "anchor": parsed.fragment,
+        }
+
+    href = f"{STATIC_CONTENT_DIR}/{normalized_path}" if normalized_path else ""
+    if parsed.query:
+        href = f"{href}?{parsed.query}"
+    if parsed.fragment:
+        href = f"{href}#{parsed.fragment}"
+    return {"kind": "asset", "href": href}
+
+
+class ViewerLinkTreeprocessor(Treeprocessor):
+    def __init__(self, md: markdown.Markdown, *, current_path: str) -> None:
+        super().__init__(md)
+        self.current_path = current_path
+
+    def run(self, root):  # type: ignore[override]
+        for element in root.iter():
+            if element.tag == "a":
+                self._rewrite_anchor(element)
+            elif element.tag == "img":
+                self._rewrite_image(element)
+        return root
+
+    def _rewrite_anchor(self, element) -> None:
+        href = element.get("href")
+        if not href:
+            return
+
+        resolved = resolve_viewer_link(self.current_path, href)
+        if resolved["kind"] == "document":
+            viewer_href = f"#/{resolved['path']}"
+            if resolved.get("anchor"):
+                viewer_href = f"{viewer_href}::{resolved['anchor']}"
+                element.set("data-doc-anchor", resolved["anchor"])
+            element.set("href", viewer_href)
+            element.set("data-doc-link", resolved["path"])
+            return
+
+        if resolved["kind"] == "asset":
+            element.set("href", resolved["href"])
+            return
+
+        element.set("target", "_blank")
+        element.set("rel", "noreferrer noopener")
+
+    def _rewrite_image(self, element) -> None:
+        src = element.get("src")
+        if not src:
+            return
+        resolved = resolve_viewer_link(self.current_path, src)
+        if resolved["kind"] == "asset":
+            element.set("src", resolved["href"])
+        element.set("loading", "lazy")
+        element.set("decoding", "async")
+
+
+class ViewerLinkExtension(Extension):
+    def __init__(self, *, current_path: str) -> None:
+        super().__init__()
+        self.current_path = current_path
+
+    def extendMarkdown(self, md: markdown.Markdown) -> None:
+        md.treeprocessors.register(
+            ViewerLinkTreeprocessor(md, current_path=self.current_path),
+            "viewer_link_rewriter",
+            5,
+        )
+
+
+def flatten_toc_tokens(tokens: list[dict]) -> list[dict]:
     headings: list[dict] = []
-    for line in markdown.splitlines():
-        stripped = line.strip()
-        if not stripped.startswith("#"):
-            continue
-        level = len(stripped) - len(stripped.lstrip("#"))
-        if level < 1 or level > 6:
-            continue
-        title = stripped[level:].strip()
-        if not title:
-            continue
+    for token in tokens:
         headings.append(
             {
-                "level": level,
-                "title": title,
-                "slug": slugify_heading(title),
+                "level": int(token.get("level", 1)),
+                "title": token.get("name", ""),
+                "slug": token.get("id", "section"),
             }
         )
+        headings.extend(flatten_toc_tokens(token.get("children", [])))
     return headings
+
+
+def render_markdown_document(markdown_text: str, *, current_path: str) -> dict:
+    renderer = markdown.Markdown(
+        extensions=[
+            "extra",
+            "admonition",
+            "sane_lists",
+            "toc",
+            "pymdownx.tasklist",
+            "pymdownx.superfences",
+            ViewerLinkExtension(current_path=current_path),
+        ],
+        extension_configs={
+            "toc": {
+                "slugify": slugify_heading,
+                "permalink": False,
+            },
+            "pymdownx.tasklist": {
+                "custom_checkbox": False,
+                "clickable_checkbox": False,
+            },
+        },
+        output_format="html5",
+    )
+    html = renderer.convert(markdown_text)
+    headings = flatten_toc_tokens(getattr(renderer, "toc_tokens", []))
+    return {
+        "html": html,
+        "headings": headings,
+    }
 
 
 def extract_excerpt(markdown: str, *, limit: int = 260) -> str:
@@ -90,6 +226,20 @@ def word_count(markdown: str) -> int:
     return len(words)
 
 
+def copy_static_assets(root: Path, viewer_root: Path) -> None:
+    content_root = viewer_root / STATIC_CONTENT_DIR
+    for path in root.rglob("*"):
+        if path.is_dir():
+            continue
+        if path.suffix.lower() == ".md":
+            continue
+        if path.is_relative_to(viewer_root):
+            continue
+        destination = content_root / path.relative_to(root)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(path, destination)
+
+
 def build_tree(root: Path) -> dict:
     docs = {}
 
@@ -106,6 +256,11 @@ def build_tree(root: Path) -> dict:
         )
 
         index_markdown = index_path.read_text(encoding="utf-8") if index_path.exists() else ""
+        index_rendered = (
+            render_markdown_document(index_markdown, current_path=index_path.relative_to(root).as_posix())
+            if index_path.exists()
+            else None
+        )
         node = {
             "path": relative_dir,
             "title": read_markdown_title(index_path) if index_path.exists() else directory.name.replace("-", " ").title(),
@@ -124,8 +279,9 @@ def build_tree(root: Path) -> dict:
                 "path": rel_index,
                 "kind": "index",
                 "markdown": index_markdown,
+                "html": index_rendered["html"],
                 "excerpt": extract_excerpt(index_markdown),
-                "headings": extract_headings(index_markdown),
+                "headings": index_rendered["headings"],
                 "wordCount": word_count(index_markdown),
                 "updatedAt": int(index_path.stat().st_mtime),
                 "parent": parent,
@@ -135,13 +291,15 @@ def build_tree(root: Path) -> dict:
         for doc in child_docs:
             rel = doc.relative_to(root).as_posix()
             markdown = doc.read_text(encoding="utf-8")
+            rendered = render_markdown_document(markdown, current_path=rel)
             docs[rel] = {
                 "title": read_markdown_title(doc),
                 "path": rel,
                 "kind": "document",
                 "markdown": markdown,
+                "html": rendered["html"],
                 "excerpt": extract_excerpt(markdown),
-                "headings": extract_headings(markdown),
+                "headings": rendered["headings"],
                 "wordCount": word_count(markdown),
                 "updatedAt": int(doc.stat().st_mtime),
                 "parent": relative_dir,
@@ -200,6 +358,7 @@ def main() -> int:
             shutil.copy2(item, dest)
 
     manifest = build_tree(data_source)
+    copy_static_assets(data_source, viewer_root)
     data_dir = viewer_root / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
     manifest_path = data_dir / "knowledge-base.json"

@@ -78,8 +78,9 @@ class CrawlerRegistry:
         from _src.crawlers.hackernews import CRAWLER as HACKERNEWS
         from _src.crawlers.reddit import CRAWLER as REDDIT
         from _src.crawlers.weibo import CRAWLER as WEIBO
+        from _src.crawlers.weixin import CRAWLER as WEIXIN
         from _src.crawlers.x import CRAWLER as X
         from _src.crawlers.xiaohongshu import CRAWLER as XIAOHONGSHU
         from _src.crawlers.zhihu import CRAWLER as ZHIHU
 
-        return [ZHIHU, X, XIAOHONGSHU, WEIBO, HACKERNEWS, REDDIT, GENERIC_HTML]
+        return [ZHIHU, X, XIAOHONGSHU, WEIBO, WEIXIN, HACKERNEWS, REDDIT, GENERIC_HTML]

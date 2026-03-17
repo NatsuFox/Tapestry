@@ -576,7 +576,7 @@ body {
 }
 
 .hero-copy h2 {
-  margin: 2px 0 6px;
+  margin: 2px 0 10px;
   font-size: clamp(1.5rem, 3vw, 2rem);
   line-height: 1.15;
   font-family: var(--font-title);

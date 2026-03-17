@@ -76,6 +76,12 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 
 ---
 
+### 📢 最新进展
+
+- **2026-03-17**：新增微信公众号文章爬虫，优化了知识库前端的 Markdown 渲染效果
+
+---
+
 ### 🚀 快速开始
 
 #### 演示：一分钟了解 Tapestry
@@ -1006,6 +1012,13 @@ Bookmarks lose the "why" behind saving them. Tapestry preserves your original in
 - **🤖 AI-Native Workflow**: Designed for mainstream agent frameworks—work through natural language, not CLI commands
 - **🔄 Deterministic Pipeline**: Reproducible captures with clear separation between facts and interpretation
 - **🔧 Automatic Dependency Repair**: Intelligently detects and auto-fixes missing dependencies without manual intervention
+
+---
+
+### 📢 Latest Progress
+
+- **2026-03-17**: Added a WeChat Official Account article crawler, expanding Tapestry's ingestion coverage so official-account articles can flow through the same capture, normalization, and knowledge-base pipeline.
+- **2026-03-17**: Upgraded Markdown rendering in the knowledge-base frontend so published pages now preserve tables, task lists, footnotes, fenced code blocks, linked assets, images, and in-document anchor navigation more faithfully.
 
 ---
 

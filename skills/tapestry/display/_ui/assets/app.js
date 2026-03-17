@@ -40,6 +40,7 @@ const translations = {
     "no-headings": "No section headings detected.",
     "no-nearby": "No nearby sections available.",
     "no-related": "No related documents found in this section.",
+    "chapter-homepage": "Chapter Homepage",
   },
   zh: {
     "knowledge-base": "知识库",
@@ -65,6 +66,7 @@ const translations = {
     "no-headings": "未检测到章节标题。",
     "no-nearby": "没有相关章节。",
     "no-related": "本节没有相关文档。",
+    "chapter-homepage": "章节主页",
   },
 };
 
@@ -450,7 +452,7 @@ function renderTreeNode(node) {
     const link = document.createElement("a");
     link.href = `#/${node.index}`;
     link.className = `tree-link${state.activePath === node.index ? " is-active" : ""}`;
-    link.textContent = indexDoc.title;
+    link.textContent = translations[state.uiLang]["chapter-homepage"];
     link.addEventListener("click", (event) => {
       event.preventDefault();
       openDoc(node.index);

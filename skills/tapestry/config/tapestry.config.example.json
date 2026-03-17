@@ -11,6 +11,6 @@
   "paths": {
     "project_root": ".",
     "data_dir": "data",
-    "description": "All generated content (captures, feeds, notes, books, catalog) stored under data/"
+    "description": "All generated content (captures, feeds, notes, books, catalog) stored under data/. Note: project_root will be auto-detected and updated to absolute path on first run."
   }
 }

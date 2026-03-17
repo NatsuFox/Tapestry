@@ -20,6 +20,19 @@ class IngestConfig(BaseModel):
     description: str = ""
 
 
+class FontConfig(BaseModel):
+    en_font: str = "Inter"
+    zh_font: str = "Noto Sans SC"
+    description: str = ""
+
+
+class LanguageConfig(BaseModel):
+    auto_detect: bool = True
+    default_language: str = "en"
+    preserve_original: bool = True
+    description: str = ""
+
+
 class PathsConfig(BaseModel):
     project_root: str = "."
     data_dir: str = "data"
@@ -30,6 +43,8 @@ class TapestryConfig(BaseModel):
     synthesis: SynthesisConfig = Field(default_factory=SynthesisConfig)
     ingest: IngestConfig = Field(default_factory=IngestConfig)
     paths: PathsConfig = Field(default_factory=PathsConfig)
+    fonts: FontConfig = Field(default_factory=FontConfig)
+    language: LanguageConfig = Field(default_factory=LanguageConfig)
 
     @classmethod
     def load(cls, config_path: Path | None = None) -> "TapestryConfig":

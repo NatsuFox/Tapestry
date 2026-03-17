@@ -7,12 +7,17 @@ import argparse
 import json
 import re
 import shutil
+import sys
 from pathlib import Path
 from urllib.parse import urlsplit
 
 import markdown
 from markdown.extensions import Extension
 from markdown.treeprocessors import Treeprocessor
+
+# Add parent directory to path to import config
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "_src"))
+from config import TapestryConfig
 
 STATIC_CONTENT_DIR = "content"
 
@@ -328,6 +333,9 @@ def main() -> int:
     args = build_parser().parse_args()
     project_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
 
+    # Load Tapestry configuration
+    config = TapestryConfig.load()
+
     # Determine the data source path
     if args.data_path:
         data_source = Path(args.data_path).expanduser().resolve()
@@ -357,6 +365,18 @@ def main() -> int:
         else:
             shutil.copy2(item, dest)
 
+    # Inject font configuration into CSS
+    css_path = viewer_root / "assets" / "styles.css"
+    if css_path.exists():
+        css_content = css_path.read_text(encoding="utf-8")
+        # Update the --font-ui variable with configured fonts
+        css_content = re.sub(
+            r'--font-ui:\s*"[^"]+",\s*"[^"]+",\s*sans-serif;',
+            f'--font-ui: "{config.fonts.en_font}", "{config.fonts.zh_font}", sans-serif;',
+            css_content
+        )
+        css_path.write_text(css_content, encoding="utf-8")
+
     manifest = build_tree(data_source)
     copy_static_assets(data_source, viewer_root)
     data_dir = viewer_root / "data"
@@ -368,6 +388,10 @@ def main() -> int:
         "data_source": data_source.as_posix(),
         "viewer_root": viewer_root.as_posix(),
         "manifest_path": manifest_path.as_posix(),
+        "fonts": {
+            "en_font": config.fonts.en_font,
+            "zh_font": config.fonts.zh_font,
+        }
     }, ensure_ascii=False, indent=2))
     return 0
 

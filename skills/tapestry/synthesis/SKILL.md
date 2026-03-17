@@ -66,6 +66,7 @@ python _scripts/load_context.py \
    - `digest` is the deterministic baseline
    - `analysis.skill`, `analysis.instructions`, and `analysis.deliverable` describe the intended workflow
    - `note_text`, `feed_payload`, and `capture_payload` are the factual source materials
+   - **Identify the language** by reading the content naturally (title, body, comments)
 4. Ensure the book hierarchy exists:
 
 ```bash
@@ -84,17 +85,46 @@ python _scripts/bootstrap_kb.py \
    - `_kb_rules/_shared-governance.md`
    - `_kb_rules/topic-taxonomy.md`
    - `_kb_rules/chapter-decision-rules.md`
-6. Read the relevant `knowledge-base/.../index.md` files before deciding where this feed belongs.
-7. Decide whether to:
-   - create a new chapter
-   - extend an existing chapter
-   - restructure the topic tree
-8. Perform the synthesis in the destination chapter index or chapter content area, while updating every affected parent `index.md`.
-9. Return the synthesis clearly, grounded in the stored artifacts rather than vague recollection.
+6. **CRITICAL**: Read the existing knowledge base structure thoroughly:
+   - Explore `knowledge-base/books/` to understand existing topics and chapters
+   - Read relevant `index.md` files to understand chapter scope and content
+   - Look for existing chapters where this content naturally fits
+7. **Default to integration** - Decide in this priority order:
+   1. **FIRST CHOICE: Extend an existing chapter** - Integrate the new content into an existing chapter's narrative if it matches the chapter's central concept. Do NOT just append; weave it into the existing structure.
+   2. **SECOND CHOICE: Create a new chapter** - Only if the content introduces a distinct subdomain that doesn't fit existing chapters
+   3. **LAST RESORT: Restructure the topic tree** - Only if multiple chapters overlap heavily or the taxonomy has become incoherent
+8. **IMPORTANT**: Identify the language of the source content by reading it, then write your synthesis in that same language. Do not translate unless explicitly requested.
+9. When extending an existing chapter:
+   - Read the full chapter content first
+   - Identify where the new information fits thematically
+   - Integrate it into the existing narrative structure (don't append at the end)
+   - Update section headers if the new content shifts the conceptual balance
+   - Maintain consistent voice and formatting
+10. When creating a new chapter:
+   - Ensure it represents a recurring domain, not a one-off article
+   - Update the parent `index.md` to register the new chapter
+   - Follow the chapter structure patterns from existing chapters
+11. Return the synthesis clearly, grounded in the stored artifacts rather than vague recollection.
 
 ## Synthesis Quality Standards
 
 **IMPORTANT**: All synthesized content must go through this refinement process, regardless of the source crawler or content type. These standards ensure consistent, high-quality output across all ingested content.
+
+### Language Preservation
+
+**CRITICAL**: The synthesis process MUST preserve the original language of the source content.
+
+- **Identify the language** by reading the source content (title, body, comments) in the handoff payload
+- **Write synthesis in the same language** as the source content
+- **Do NOT translate** content from one language to another unless explicitly requested by the user
+- If the source is in Chinese, write the synthesis in Chinese (including headers, descriptions, and analysis)
+- If the source is in English, write the synthesis in English (including headers, descriptions, and analysis)
+- Maintain language consistency throughout the entire knowledge base entry
+
+**How to identify language**:
+- Read the `note_text`, `feed_payload.body`, and `feed_payload.title` from the handoff
+- Naturally determine the primary language based on the content
+- Use that language for all synthesis output
 
 ### 1. Text Formatting and Cleanup
 
@@ -176,23 +206,55 @@ python _scripts/bootstrap_kb.py \
 
 ### 5. Knowledge Base Integration
 
-**Determine placement:**
-- Read existing KB structure before deciding
-- Find the most appropriate topic/chapter
-- Consider creating new sections if needed
-- Maintain topical coherence
+**CRITICAL**: The knowledge base is a living reference book, not a flat collection of article summaries. Every new piece of content should enrich existing chapters rather than creating redundant standalone entries.
 
-**Update hierarchy:**
-- Add entry to parent `index.md`
-- Update topic descriptions if needed
-- Maintain navigation structure
-- Follow governance rules in `_kb_rules/`
+**Integration-First Approach:**
+
+1. **Explore existing structure first**:
+   - Read `knowledge-base/books/` to understand topics and chapters
+   - Examine relevant `index.md` files to understand chapter scope
+   - Look for chapters covering related concepts, technologies, or domains
+
+2. **Prefer integration over creation**:
+   - **Default behavior**: Integrate new content into existing chapters
+   - Creating a new chapter should be the exception, not the rule
+   - Ask: "Does this add new information to an existing chapter?" before creating a new one
+
+3. **How to integrate effectively**:
+   - Read the full existing chapter content
+   - Identify thematic connections and where new information fits
+   - **Weave content into the narrative** - don't just append at the end
+   - Add new sections or subsections if the content introduces new dimensions
+   - Update existing sections with complementary information
+   - Maintain consistent voice, formatting, and language
+
+4. **When to create a new chapter**:
+   - The content introduces a **distinct subdomain** that will likely recur
+   - No existing chapter can absorb it without losing coherence
+   - The topic represents a stable, recurring domain (not a one-off article)
+   - Forcing it into existing chapters would reduce retrievability
+
+5. **Update hierarchy**:
+   - Always update parent `index.md` when creating new chapters
+   - Update topic descriptions if content shifts the conceptual balance
+   - Maintain navigation structure
+   - Follow governance rules in `_kb_rules/`
+
+**Anti-patterns to avoid**:
+- Creating a new chapter for every ingested article
+- Appending raw content dumps to the end of chapters
+- Creating near-duplicate chapters with slightly different wording
+- Leaving the knowledge base as a glorified link collection
 
 ## Rules
 
+- **Integration First**: Always prefer integrating content into existing chapters over creating new ones. The knowledge base should be a cohesive reference, not a flat list of articles.
+- **Language Preservation**: Always identify and write synthesis in the same language as the source content by reading the handoff payload. Do not translate unless explicitly requested by the user.
 - Treat the deterministic note and feed as the factual base layer.
 - Do not fabricate claims that are not supported by the stored note, extracted body, or comments.
 - Prefer high-signal synthesis over long paraphrase.
+- When extending chapters, weave new content into the existing narrative structure - never just append at the end.
+- Only create new chapters for distinct, recurring subdomains that don't fit existing chapters.
 - If the user wants a standardized source-aware feed instead of an interpretive synthesis, use `$tapestry-feed` instead.
 - If the user wants a visual frontend view of the organized knowledge base instead of a content update, use `$tapestry-display`.
 - If the handoff payload has no configured skill or instructions, fall back to a concise grounded analysis.

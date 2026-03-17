@@ -12,5 +12,16 @@
     "project_root": ".",
     "data_dir": "data",
     "description": "All generated content (captures, feeds, notes, books, catalog) stored under data/. Note: project_root will be auto-detected and updated to absolute path on first run."
+  },
+  "fonts": {
+    "en_font": "Inter",
+    "zh_font": "Noto Sans SC",
+    "description": "Font configuration for knowledge base display. en_font: English UI font, zh_font: Chinese UI font"
+  },
+  "language": {
+    "auto_detect": true,
+    "default_language": "en",
+    "preserve_original": true,
+    "description": "Language handling configuration. auto_detect: automatically detect content language, default_language: fallback language, preserve_original: keep content in original language instead of translating"
   }
 }

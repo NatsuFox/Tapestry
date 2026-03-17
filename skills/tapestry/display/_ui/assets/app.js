@@ -712,6 +712,78 @@ function enhanceRenderedLinks(currentPath) {
       openDoc(link.dataset.docLink, { anchor: link.dataset.docAnchor || "" });
     });
   });
+
+  // Auto-link plain URLs in text nodes
+  const walker = document.createTreeWalker(
+    bodyEl,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: (node) => {
+        // Skip if parent is already a link, code, or pre
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+        const tagName = parent.tagName.toLowerCase();
+        if (tagName === 'a' || tagName === 'code' || tagName === 'pre' || tagName === 'script' || tagName === 'style') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        // Only process if text contains URL pattern
+        if (/https?:\/\/[^\s<>()\[\]{}]+/.test(node.textContent)) {
+          return NodeFilter.FILTER_ACCEPT;
+        }
+        return NodeFilter.FILTER_REJECT;
+      }
+    }
+  );
+
+  const nodesToReplace = [];
+  let node;
+  while (node = walker.nextNode()) {
+    nodesToReplace.push(node);
+  }
+
+  nodesToReplace.forEach((textNode) => {
+    const text = textNode.textContent;
+    const urlRegex = /(https?:\/\/[^\s<>()\[\]{}]+)/g;
+
+    if (!urlRegex.test(text)) return;
+
+    const fragment = document.createDocumentFragment();
+    let lastIndex = 0;
+
+    text.replace(urlRegex, (match, url, offset) => {
+      // Add text before URL
+      if (offset > lastIndex) {
+        fragment.appendChild(document.createTextNode(text.slice(lastIndex, offset)));
+      }
+
+      // Clean trailing punctuation
+      const cleanUrl = url.replace(/[.,;:!?)\]]+$/, '');
+      const trailing = url.slice(cleanUrl.length);
+
+      // Create link
+      const link = document.createElement('a');
+      link.href = cleanUrl;
+      link.textContent = cleanUrl;
+      link.target = '_blank';
+      link.rel = 'noreferrer noopener';
+      fragment.appendChild(link);
+
+      // Add trailing punctuation
+      if (trailing) {
+        fragment.appendChild(document.createTextNode(trailing));
+      }
+
+      lastIndex = offset + url.length;
+      return match;
+    });
+
+    // Add remaining text
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+
+    textNode.parentNode.replaceChild(fragment, textNode);
+  });
 }
 
 function animateDocumentSwap() {

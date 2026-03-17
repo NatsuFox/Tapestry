@@ -141,6 +141,22 @@ python _scripts/bootstrap_kb.py \
 - `> quotes` for important statements or definitions
 - `[links](url)` for all references and resources
 - Lists (bulleted or numbered) for enumerated items
+- **CRITICAL**: Always add a blank line before lists (both ordered and unordered)
+  - Markdown requires a blank line before list items to render them as `<ul>` or `<ol>` elements
+  - Without the blank line, lists will render as plain text inside `<p>` tags
+  - Example:
+    ```markdown
+    **Correct:**
+    Some text here.
+
+    - List item 1
+    - List item 2
+
+    **Wrong:**
+    Some text here.
+    - List item 1
+    - List item 2
+    ```
 
 **Remove noise and artifacts:**
 - Navigation text ("Home", "Next", "Previous", "Menu")

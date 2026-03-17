@@ -25,6 +25,9 @@ coverage.xml
 # Zhihu crawler local dependencies
 skills/tapestry/_src/crawlers/zhihu/node_modules/
 
+# Crawler documentation (legal/copyright concerns)
+docs/crawlers/
+
 # Generated project content (all under data/)
 /data/
 

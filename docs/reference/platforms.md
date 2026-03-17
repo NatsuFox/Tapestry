@@ -12,6 +12,7 @@ Tapestry provides native support for major content platforms with specialized cr
 | X (Twitter) | Posts | Yes | ✓ Stable |
 | Xiaohongshu | Notes, Profiles | Yes | ✓ Stable |
 | Weibo | Posts | Yes | ✓ Stable |
+| WeChat | Official Account Articles | No | ✓ Stable |
 | Generic HTML | Any webpage | Optional | ✓ Stable |
 
 ## Zhihu (知乎)
@@ -313,6 +314,7 @@ python3 ingest/_scripts/run.py "https://blog.example.com/article"
 - Zhihu
 - Reddit
 - Hacker News
+- WeChat Official Account
 - Generic HTML (HTTP mode)
 
 **Slow** (3-10 seconds):
@@ -327,6 +329,7 @@ python3 ingest/_scripts/run.py "https://blog.example.com/article"
 - Zhihu
 - Reddit
 - Hacker News
+- WeChat Official Account
 
 **High**:
 - X (Twitter)
@@ -339,6 +342,7 @@ python3 ingest/_scripts/run.py "https://blog.example.com/article"
 - Zhihu
 - Reddit
 - Hacker News
+- WeChat Official Account
 
 **Good** (mostly complete):
 - X (Twitter)

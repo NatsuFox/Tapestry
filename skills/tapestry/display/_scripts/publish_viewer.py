@@ -209,14 +209,17 @@ def render_markdown_document(markdown_text: str, *, current_path: str) -> dict:
     }
 
 
-def extract_excerpt(markdown: str, *, limit: int = 260) -> str:
+def extract_excerpt(markdown: str, *, limit: int = 400) -> str:
     lines = []
     char_count = 0
     for raw_line in markdown.replace("\r", "").splitlines():
         stripped = raw_line.strip()
         if not stripped or stripped.startswith("#") or stripped.startswith("```"):
             continue
-        if stripped.startswith("- ") or stripped.startswith("> "):
+        # Skip metadata lines (lines starting with "- " followed by a label)
+        if stripped.startswith("- ") and ":" in stripped[:50]:
+            continue
+        if stripped.startswith("> "):
             stripped = stripped[2:].strip()
         lines.append(stripped)
         char_count += len(stripped) + 1  # +1 for newline

@@ -605,7 +605,7 @@ body {
 .hero-stats {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
   justify-content: center;
 }
 

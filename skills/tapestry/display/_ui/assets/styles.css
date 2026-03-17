@@ -604,27 +604,27 @@ body {
 
 .hero-stats {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .stat-card {
-  padding: 14px 16px;
+  padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--surface-strong);
 }
 
 .stat-label {
-  font-size: 0.76rem;
+  font-size: 0.7rem;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
 }
 
 .stat-value {
-  margin-top: 4px;
+  margin-top: 2px;
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: 1.1rem;
 }
 
 .content-grid {

@@ -769,7 +769,8 @@ body {
 }
 
 .document-view table {
-  width: 100%;
+  width: max-content;
+  max-width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
   display: block;

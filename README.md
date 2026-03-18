@@ -29,7 +29,7 @@
 >
 > Your Star is not just recognition of the developer's work, but also motivation for continuous improvement. Every Star encourages us to develop more useful features, fix bugs and improve stability, enhance documentation and guides, and support more platforms and languages.
 >
-> [⭐ Star this project on GitHub](https://github.com/NatsuFox/Tapestry/stargazers)
+> [⭐ Star this project on GitHub](https://github.com/NatsuFox/Tapestry)
 
 ---
 

@@ -47,46 +47,90 @@ Resolve the target from the argument:
 ls -d data/books/*/
 ```
 
-### Step 2: Prepare Context for Agent
+### Step 2: Run the Context Preparation Script
 
-The `prepare_card_context.py` script extracts:
-- Source content (markdown with frontmatter)
-- Template specification (natural language description of 7 blocks)
-- Instructions for the Agent
+```bash
+python skills/tapestry/visual-card/_scripts/generate_card.py --chapter "<topic>/<chapter.md>"
+```
 
-This creates a JSON context that the Agent will analyze.
+This prints a JSON object with three keys:
+- `source.content`: the raw chapter markdown
+- `source.frontmatter`: parsed metadata (title, author, date, etc.)
+- `template_specification`: full natural language spec of the 7 template blocks
+- `instructions`: task description
 
-### Step 3: Agent Synthesizes Content Mapping
+### Step 3: Read the Template Specification
 
-The Agent reads:
-1. **Template specification** (`_templates/card_template_spec.md`) - describes what each block is for, quality criteria, examples
-2. **Source content** - the actual KB chapter markdown
-3. **Instructions** - task description and guidelines
+Read `skills/tapestry/visual-card/_templates/card_template_spec.md` to understand:
+- What each of the 7 blocks is for
+- Quality criteria for content selection
+- Expected JSON output format with examples
 
-The Agent then autonomously decides:
-- What framework structure best represents the content (2-6 components)
-- Which insights are most valuable and provocative
-- How to organize narrative flow in the dark panel
-- What thesis statement captures the core argument
-- How to create a memorable closing thought
+### Step 4: Synthesize the Content Mapping (Agent Task)
 
-**Output**: A synthesis JSON with all 7 blocks filled with intelligent content selections.
+Analyze the source content against the template spec and produce a synthesis JSON. Write it to a temp file:
 
-### Step 4: Generate HTML/PNG from Synthesis
+```bash
+# Write synthesis to temp file
+cat > /tmp/card_synthesis.json << 'EOF'
+{
+  "metadata": {
+    "chapter": "<chapter-name>",
+    "title_en": "<English title, 3-8 words>",
+    "title_cn": "<Chinese title>",
+    "topic_label": "<TOPIC LABEL IN CAPS>",
+    "source_label": "<SOURCE IN CAPS>",
+    "thesis": "<one sentence with <strong>keyword</strong> embedded>"
+  },
+  "framework": {
+    "formula": "<A × B × C format>",
+    "formula_subtext": "<what the formula means>",
+    "label": "<FRAMEWORK NAME>",
+    "components": [
+      {"letter": "A", "name": "Component Name", "description": "One-line description"}
+    ]
+  },
+  "insights": [
+    {"number": "01", "title": "Insight Title", "description": "2-3 sentence insight description"}
+  ],
+  "dark_panel": {
+    "icon": "⚡",
+    "section_title": "<Section Title>",
+    "block1": {"title": "<Block 1 Title>", "items": ["item 1", "item 2", "item 3"]},
+    "block2": {"title": "<Block 2 Title>", "items": ["item 1", "item 2", "item 3", "item 4"]},
+    "conclusion": {"label": "核心洞察", "text": "<conclusion text>", "highlight": "<highlighted phrase>"}
+  },
+  "closing_thought": {
+    "text": "<memorable closing insight>",
+    "attribution": "<author or source>"
+  }
+}
+EOF
+```
 
-The `generate_card_from_synthesis.py` script takes the Agent's synthesis JSON and:
-1. Loads the HTML template
-2. Fills all placeholders with synthesized content
-3. Generates the final HTML card
-4. Renders PNG using Playwright
+Content decisions to make:
+- **Framework**: Identify 2-6 core concepts that structure the topic (acronym or logical grouping)
+- **Insights**: Select 3-5 most surprising, actionable, or paradigm-shifting points
+- **Dark panel**: Narrative flow — overview → key mechanics → conclusion
+- **Thesis**: A single provocative claim that captures the article's core argument
+- **Closing thought**: A memorable synthesis that gives the reader something to carry away
 
-### Step 5: Present the Results
+### Step 5: Generate HTML/PNG from Synthesis
+
+```bash
+python skills/tapestry/visual-card/_scripts/generate_card_from_synthesis.py \
+  --synthesis /tmp/card_synthesis.json \
+  --chapter "<topic>/<chapter.md>"
+```
+
+This renders the synthesis into the HTML template and exports PNG via Playwright.
+
+### Step 6: Present the Results
 
 Report back with:
 - The generated PNG path (primary deliverable)
 - The HTML path (for browser-based editing/export)
-- A preview of the card structure
-- The output location
+- A brief summary of the content mapping decisions made
 
 ## Card Design System
 

@@ -83,6 +83,8 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
   - 实现了知识库 URL 的直接跳转
   - 优化了 synthesis skill 的 Markdown 语法遵循和格式规范
   - 实现了知识库前端对 LaTeX 的渲染支持
+  - 🎨 添加了生成视觉卡片的特性
+    - 受到项目 [beilunyang/visual-note-card-skills](https://github.com/beilunyang/visual-note-card-skills) 的启发，感谢这位大佬的工作
 
 - **2026-03-17**
   - 新增微信公众号文章爬虫

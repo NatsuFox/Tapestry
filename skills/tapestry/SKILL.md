@@ -21,13 +21,14 @@ Use this skill when the user:
 
 ## Workflow Overview
 
-Tapestry has five internal sub-skills that work together:
+Tapestry has six internal sub-skills that work together:
 
 1. **Init Deps Install** (`init-deps-install/SKILL.md`) - Auto-triggered dependency installation (Phase 0: setup)
 2. **Ingest** (`ingest/SKILL.md`) - Crawl and capture URLs (Phase 1: deterministic)
 3. **Synthesis** (`synthesis/SKILL.md`) - Analyze and organize into knowledge base (Phase 2: AI-driven)
 4. **Feed** (`feed/SKILL.md`) - Generate structured, source-aware feeds
 5. **Display** (`display/SKILL.md`) - Visualize the knowledge base as a website
+6. **Visual Card** (`visual-card/SKILL.md`) - Generate visual note cards from KB content
 
 ### Two-Phase Architecture
 
@@ -48,6 +49,7 @@ Analyze what the user wants:
 - **Structured feed?** → Use ingest + feed
 - **Analysis/organization?** → Use ingest + synthesis (default with "auto" mode)
 - **Browse knowledge base?** → Use display
+- **Visual summary?** → Use visual-card to generate infographic cards
 - **Complete workflow?** → Ingest automatically triggers synthesis in "auto" mode
 
 ### Step 2: Execute the Appropriate Sub-Skill(s)
@@ -97,6 +99,14 @@ cat display/SKILL.md
 # Then follow the workflow described there
 ```
 
+#### For Visual Cards
+```bash
+# Read the visual-card sub-skill instructions
+cat visual-card/SKILL.md
+
+# Then follow the workflow described there
+```
+
 ### Step 3: Chain Sub-Skills When Needed
 
 The sub-skills reference each other. When one sub-skill says to "route to" another, read that sub-skill's SKILL.md and follow its instructions.
@@ -129,6 +139,7 @@ tapestry/
 ├── feed/SKILL.md                  # Feed generation sub-skill
 ├── synthesis/SKILL.md             # Analysis & KB sub-skill
 ├── display/SKILL.md               # Visualization sub-skill
+├── visual-card/SKILL.md           # Visual card generation sub-skill
 ├── _src/                          # Shared code (crawlers, parsers, storage)
 └── _tests/                        # Unit tests
 ```

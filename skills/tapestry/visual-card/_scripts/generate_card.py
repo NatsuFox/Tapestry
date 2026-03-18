@@ -82,15 +82,33 @@ def extract_key_points_from_content(content: str) -> Dict:
             header = re.match(r'^##\s+(.+)$', line).group(1)
             if current_section:
                 sections.append(current_section)
-            current_section = {'title': header, 'items': []}
-        elif current_section and line.strip().startswith(('- ', '* ', '1. ', '2. ', '3. ')):
-            # Extract bullet point or numbered item
-            item = re.sub(r'^[-*\d]+\.\s*', '', line.strip())
-            # Remove markdown formatting
-            item = re.sub(r'\*\*(.+?)\*\*', r'\1', item)
-            item = re.sub(r'\[(.+?)\]\(.+?\)', r'\1', item)
-            if item and len(item) > 10:  # Skip very short items
-                current_section['items'].append(item[:100])  # Limit length
+            current_section = {'title': header, 'items': [], 'paragraphs': [], 'sentences': []}
+        elif current_section:
+            if line.strip().startswith(('- ', '* ', '1. ', '2. ', '3. ')):
+                # Extract bullet point or numbered item
+                item = re.sub(r'^[-*\d]+\.\s*', '', line.strip())
+                # Remove markdown formatting
+                item = re.sub(r'\*\*(.+?)\*\*', r'\1', item)
+                item = re.sub(r'\[(.+?)\]\(.+?\)', r'\1', item)
+                if item and len(item) > 10:  # Skip very short items
+                    current_section['items'].append(item[:150])
+            elif line.strip() and not line.strip().startswith(('#', '**', '|', '```', '---', '>')):
+                # Collect all text content
+                text = line.strip()
+                # Clean up markdown artifacts
+                text = re.sub(r'\*\*(.+?)\*\*', r'\1', text)
+                text = re.sub(r'\[(.+?)\]\(.+?\)', r'\1', text)
+                text = re.sub(r'`(.+?)`', r'\1', text)
+
+                # For long paragraphs, split into sentences first
+                if len(text) > 100:
+                    sentences = re.split(r'[。.!！]', text)
+                    for sent in sentences:
+                        sent = sent.strip()
+                        if len(sent) > 20:  # Meaningful sentence
+                            current_section['sentences'].append(sent[:150])
+                elif len(text) > 30:
+                    current_section['paragraphs'].append(text[:150])
 
     if current_section:
         sections.append(current_section)
@@ -98,9 +116,9 @@ def extract_key_points_from_content(content: str) -> Dict:
     # Select best sections for the two blocks
     result = {
         'block1_title': '关键概念',
-        'block1_items': ['核心定义与边界', '理论基础与背景', '发展历程与演进', '当前研究前沿'],
+        'block1_items': [],
         'block2_title': '实践应用',
-        'block2_items': ['典型应用场景', '实施方法与步骤', '常见问题与解决', '最佳实践建议', '未来发展方向'],
+        'block2_items': [],
         'conclusion': '深入理解这些概念,能够帮助我们',
         'conclusion_highlight': '构建系统化的知识体系'
     }
@@ -108,18 +126,107 @@ def extract_key_points_from_content(content: str) -> Dict:
     if len(sections) >= 2:
         # Use first section for block1
         result['block1_title'] = sections[0]['title'][:20]
-        if sections[0]['items']:
-            result['block1_items'] = sections[0]['items'][:4]
+        # Prioritize: bullets > sentences > paragraphs (sentences are cleaner)
+        all_content = sections[0]['items'] + sections[0]['sentences'] + sections[0]['paragraphs']
+        # Remove duplicates and similar content
+        seen = set()
+        unique_content = []
+        for item in all_content:
+            # Normalize for comparison: lowercase, strip, remove punctuation
+            item_clean = item.lower().strip().rstrip('.。!！?？')
+            # Check if this is too similar to existing items (first 50 chars)
+            item_prefix = item_clean[:50]
+            is_duplicate = False
+            for seen_item in seen:
+                if item_prefix in seen_item or seen_item in item_prefix:
+                    is_duplicate = True
+                    break
+            if not is_duplicate and len(item_clean) > 15:
+                seen.add(item_clean)
+                unique_content.append(item)
+
+        # If first section doesn't have enough content, pull from other sections
+        if len(unique_content) < 4 and len(sections) > 2:
+            for i in range(2, len(sections)):
+                extra_content = sections[i]['items'] + sections[i]['sentences'] + sections[i]['paragraphs']
+                for item in extra_content:
+                    item_clean = item.lower().strip().rstrip('.。!！?？')
+                    item_prefix = item_clean[:50]
+                    is_duplicate = False
+                    for seen_item in seen:
+                        if item_prefix in seen_item or seen_item in item_prefix:
+                            is_duplicate = True
+                            break
+                    if not is_duplicate and len(item_clean) > 15:
+                        seen.add(item_clean)
+                        unique_content.append(item)
+                        if len(unique_content) >= 4:
+                            break
+                if len(unique_content) >= 4:
+                    break
+
+        result['block1_items'] = unique_content[:4]
 
         # Use second section for block2
         result['block2_title'] = sections[1]['title'][:20]
-        if sections[1]['items']:
-            result['block2_items'] = sections[1]['items'][:5]
+        all_content = sections[1]['items'] + sections[1]['sentences'] + sections[1]['paragraphs']
+        seen = set()
+        unique_content = []
+        for item in all_content:
+            item_clean = item.lower().strip().rstrip('.。!！?？')
+            item_prefix = item_clean[:50]
+            is_duplicate = False
+            for seen_item in seen:
+                if item_prefix in seen_item or seen_item in item_prefix:
+                    is_duplicate = True
+                    break
+            if not is_duplicate and len(item_clean) > 15:
+                seen.add(item_clean)
+                unique_content.append(item)
+
+        # Pull from other sections if needed
+        if len(unique_content) < 5 and len(sections) > 2:
+            for i in range(2, len(sections)):
+                if i == 1:  # Skip the section we already used
+                    continue
+                extra_content = sections[i]['items'] + sections[i]['sentences'] + sections[i]['paragraphs']
+                for item in extra_content:
+                    item_clean = item.lower().strip().rstrip('.。!！?？')
+                    item_prefix = item_clean[:50]
+                    is_duplicate = False
+                    for seen_item in seen:
+                        if item_prefix in seen_item or seen_item in item_prefix:
+                            is_duplicate = True
+                            break
+                    if not is_duplicate and len(item_clean) > 15:
+                        seen.add(item_clean)
+                        unique_content.append(item)
+                        if len(unique_content) >= 5:
+                            break
+                if len(unique_content) >= 5:
+                    break
+
+        result['block2_items'] = unique_content[:5]
     elif len(sections) == 1:
-        # Use the one section we have
+        # Use the one section we have, split between two blocks
         result['block1_title'] = sections[0]['title'][:20]
-        if sections[0]['items']:
-            result['block1_items'] = sections[0]['items'][:4]
+        all_content = sections[0]['items'] + sections[0]['sentences'] + sections[0]['paragraphs']
+        seen = set()
+        unique_content = []
+        for item in all_content:
+            item_clean = item.lower().strip().rstrip('.。!！?？')
+            item_prefix = item_clean[:50]
+            is_duplicate = False
+            for seen_item in seen:
+                if item_prefix in seen_item or seen_item in item_prefix:
+                    is_duplicate = True
+                    break
+            if not is_duplicate and len(item_clean) > 15:
+                seen.add(item_clean)
+                unique_content.append(item)
+        result['block1_items'] = unique_content[:4]
+        result['block2_title'] = '深入理解'
+        result['block2_items'] = unique_content[4:9]
 
     # Try to extract a conclusion from the last paragraph
     paragraphs = [p.strip() for p in content.split('\n\n') if p.strip() and not p.strip().startswith('#')]

@@ -29,11 +29,17 @@ The cards follow a fixed layout structure optimized for readability and social s
 
 ## Workflow
 
+### Architecture: Agent-Driven Content Synthesis
+
+This skill uses an **Agent-driven approach** where the Agent reads the template specification and autonomously decides how to map source content to template blocks.
+
+**Key principle**: The template structure is fixed (7 display blocks), but content mapping is intelligent and adaptive.
+
 ### Step 1: Identify the Source Content
 
 Resolve the target from the argument:
-- If a specific chapter path is provided (e.g., "ai-and-research/model-training"), use that chapter
-- If a topic is provided (e.g., "markets-and-trading"), offer to generate cards for its chapters
+- If a specific chapter path is provided (e.g., "ai-and-development-tools/ai-agent-architecture.md"), use that chapter
+- If a topic is provided (e.g., "ai-and-development-tools"), offer to generate cards for its chapters
 - If no argument, list available topics and ask the user to choose
 
 ```bash
@@ -41,38 +47,40 @@ Resolve the target from the argument:
 ls -d data/books/*/
 ```
 
-### Step 2: Load the Content
+### Step 2: Prepare Context for Agent
 
-Read the target chapter's `index.md` file to extract:
-- Chapter title and description
-- Main content sections
-- Key concepts and frameworks
-- Insights and takeaways
+The `prepare_card_context.py` script extracts:
+- Source content (markdown with frontmatter)
+- Template specification (natural language description of 7 blocks)
+- Instructions for the Agent
 
-```bash
-# Example: Read a chapter
-cat data/books/ai-and-research/model-training-and-optimization/index.md
-```
+This creates a JSON context that the Agent will analyze.
 
-### Step 3: Generate the Visual Card
+### Step 3: Agent Synthesizes Content Mapping
 
-Run the card generator script with the chapter path:
+The Agent reads:
+1. **Template specification** (`_templates/card_template_spec.md`) - describes what each block is for, quality criteria, examples
+2. **Source content** - the actual KB chapter markdown
+3. **Instructions** - task description and guidelines
 
-```bash
-cd /root/Workspace/PROJECTS/powers/Tapestry
-python skills/tapestry/visual-card/_scripts/generate_card.py \
-  --chapter "data/books/ai-and-research/model-training-and-optimization" \
-  --output "data/cards"
-```
+The Agent then autonomously decides:
+- What framework structure best represents the content (2-6 components)
+- Which insights are most valuable and provocative
+- How to organize narrative flow in the dark panel
+- What thesis statement captures the core argument
+- How to create a memorable closing thought
 
-The script will:
-1. Parse the chapter content
-2. Extract or synthesize a framework structure
-3. Generate the HTML card using the template
-4. Render the PNG using Playwright
-5. Save both files to the output directory
+**Output**: A synthesis JSON with all 7 blocks filled with intelligent content selections.
 
-### Step 4: Present the Results
+### Step 4: Generate HTML/PNG from Synthesis
+
+The `generate_card_from_synthesis.py` script takes the Agent's synthesis JSON and:
+1. Loads the HTML template
+2. Fills all placeholders with synthesized content
+3. Generates the final HTML card
+4. Renders PNG using Playwright
+
+### Step 5: Present the Results
 
 Report back with:
 - The generated PNG path (primary deliverable)
@@ -154,9 +162,13 @@ Dependencies are checked and installed automatically on first run.
 
 ## Resources
 
-- `_scripts/generate_card.py`: Main card generation script
+- `_scripts/generate_card.py`: Main orchestrator for Agent-driven workflow
+- `_scripts/prepare_card_context.py`: Prepares context (source + template spec) for Agent
+- `_scripts/generate_card_from_synthesis.py`: Generates HTML/PNG from Agent synthesis
 - `_scripts/html2png.py`: Playwright-based HTML to PNG renderer
+- `_scripts/generate_card_legacy.py`: Legacy hardcoded extraction (fallback)
 - `_templates/card_template.html`: Canonical HTML/CSS template
+- `_templates/card_template_spec.md`: Natural language specification for Agent (describes 7 blocks, quality criteria, examples)
 - `_assets/`: Additional assets (if needed)
 
 ## Example Usage

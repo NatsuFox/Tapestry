@@ -1,0 +1,687 @@
+<!--
+  VISUAL NOTE CARD TEMPLATE
+  ==========================
+  This is the canonical reference template. When generating a new card,
+  copy this structure and replace all content placeholders (marked with
+  {{PLACEHOLDER}}) with topic-specific content.
+
+  DO NOT change the layout structure, class names, or CSS architecture.
+  Only replace text content and adjust colors if the user requests a different palette.
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{CARD_TITLE}}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* === PRIMARY PALETTE === */
+    --primary: #1a7a6d;
+    --primary-dark: #145f54;
+    --primary-deep: #0d3d36;
+    --accent: #e8713a;
+    --accent-dark: #d45a20;
+    /* === BACKGROUNDS === */
+    --bg: #f0ebe4;
+    --bg-light: #f5f1ec;
+    --bg-card: #e8e3dc;
+    /* === NEUTRALS === */
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --gray: #6b6b6b;
+    --gray-light: #999;
+    /* === SPECIAL === */
+    --highlight: #5ee6d0;  /* mint highlight for dark backgrounds */
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Noto Sans SC', sans-serif;
+    color: var(--black);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+
+  /* ============================================
+     POSTER CONTAINER — fixed 1200px width
+     ============================================ */
+  .poster {
+    width: 1200px;
+    background: var(--bg);
+    padding: 36px 40px 28px;
+    position: relative;
+  }
+
+  /* ============================================
+     SECTION 1: TOP BAR
+     ============================================ */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
+  .top-bar .label-left,
+  .top-bar .label-right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gray);
+    font-weight: 700;
+  }
+  .top-bar .label-right { text-align: right; }
+
+  /* ============================================
+     SECTION 2: MAIN TITLE
+     ============================================ */
+  .main-title {
+    margin: 10px 0 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+  }
+  .main-title .left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--black);
+  }
+  .main-title .left h1 .cn {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    color: var(--primary);
+    display: block;
+    margin-top: 2px;
+  }
+  .main-title .right-info {
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 320px;
+  }
+  .main-title .right-info .subtitle {
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.65;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+  .main-title .right-info .url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-light);
+    letter-spacing: 0.5px;
+  }
+
+  /* ============================================
+     SECTION 3: FRAMEWORK ROW (flexible columns)
+     Default 4 columns. Override with inline style:
+       style="grid-template-columns: repeat(N, 1fr)"
+     where N = 2–6 based on content.
+     ============================================ */
+  .framework-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 24px 0 18px;
+  }
+  .fw-card {
+    background: var(--bg-card);
+    padding: 16px 18px 14px;
+    border-radius: 2px;
+  }
+  .fw-card .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .fw-card .badge .letter {
+    background: var(--primary);
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+  }
+  /* Badge color rotation: 1=primary, 2=primary, 3=accent, 4=deep, 5=accent, 6=primary */
+  .fw-card:nth-child(3) .badge .letter { background: var(--accent); }
+  .fw-card:nth-child(4) .badge .letter { background: var(--primary-deep); }
+  .fw-card:nth-child(5) .badge .letter { background: var(--accent); }
+  .fw-card:nth-child(6) .badge .letter { background: var(--primary); }
+  .fw-card .badge .name {
+    font-weight: 900;
+    font-size: 17px;
+    color: var(--black);
+  }
+  .fw-card .desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .fw-card .desc strong {
+    color: var(--black);
+    font-weight: 700;
+  }
+
+  /* ============================================
+     SECTION 4: TWO-COLUMN CONTENT
+     ============================================ */
+  .content-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  /* --- LEFT: DARK PANEL --- */
+  .panel-dark {
+    background: var(--black);
+    color: var(--white);
+    padding: 26px 28px 24px;
+    border-radius: 3px;
+  }
+  .panel-dark .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+  }
+  .panel-dark .section-title .icon { font-size: 18px; }
+  .panel-dark .block-title {
+    color: var(--accent);
+    font-weight: 900;
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 18px;
+  }
+  .panel-dark .block-title:first-of-type { margin-top: 0; }
+  .panel-dark ul {
+    list-style: none;
+    padding: 0;
+  }
+  .panel-dark ul li {
+    font-size: 13.5px;
+    line-height: 1.75;
+    padding-left: 16px;
+    position: relative;
+    color: #d4d4d4;
+  }
+  .panel-dark ul li::before {
+    content: '■';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-size: 8px;
+    top: 3px;
+  }
+  .panel-dark ul li strong {
+    color: #fff;
+    font-weight: 700;
+  }
+  .panel-dark .conclusion {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #333;
+  }
+  .panel-dark .conclusion .label {
+    font-weight: 900;
+    font-size: 14.5px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .panel-dark .conclusion p {
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.7;
+  }
+
+  /* --- RIGHT: LIGHT PANEL --- */
+  .panel-light {
+    background: var(--bg-light);
+    padding: 26px 28px 24px;
+    border-radius: 3px;
+  }
+  .panel-light .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+  }
+  .panel-light .section-title .icon {
+    color: var(--accent);
+    font-size: 18px;
+  }
+  .insight-item {
+    margin-bottom: 22px;
+    display: flex;
+    gap: 14px;
+  }
+  .insight-item:last-child { margin-bottom: 0; }
+  .insight-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+  }
+  .insight-content h4 {
+    font-size: 15px;
+    font-weight: 900;
+    margin-bottom: 5px;
+    line-height: 1.4;
+    color: var(--black);
+  }
+  .insight-content p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+  .insight-content p strong {
+    color: var(--black);
+    font-weight: 700;
+  }
+
+  /* ============================================
+     SECTION 5: BOTTOM HIGHLIGHT BAR
+     ============================================ */
+  .bottom-highlight {
+    background: var(--primary-dark);
+    color: var(--white);
+    padding: 18px 24px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 14px;
+  }
+  .bottom-highlight .formula {
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .bottom-highlight .formula .eq {
+    color: var(--highlight);
+  }
+  .bottom-highlight .note {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #b8dad4;
+    max-width: 480px;
+    text-align: right;
+  }
+
+  /* ============================================
+     SECTION 6: FOOTER
+     ============================================ */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 4px;
+  }
+  .footer .left-url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-light);
+    letter-spacing: 0.5px;
+  }
+  .footer .right-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .footer .right-brand .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- ====== SECTION 1: TOP BAR ====== -->
+  <div class="top-bar">
+    <div class="label-left">{{TOPIC_LABEL_EN}} · {{SUBTOPIC_LABEL_EN}}</div>
+    <div class="label-right">{{SOURCE_LABEL}}</div>
+  </div>
+
+  <!-- ====== SECTION 2: MAIN TITLE ====== -->
+  <div class="main-title">
+    <div class="left">
+      <h1>
+        {{TITLE_EN}}
+        <span class="cn">{{TITLE_CN}}</span>
+      </h1>
+    </div>
+    <div class="right-info">
+      <div class="subtitle">{{THESIS_LINE_1}}<br>{{THESIS_LINE_2}}<br><strong>{{THESIS_KEYWORD}}</strong>{{THESIS_LINE_3}}</div>
+      <!-- Optional: <div class="url">{{SOURCE_URL}}</div> -->
+    </div>
+  </div>
+
+  <!-- ====== SECTION 3: FRAMEWORK ROW ======
+       Default: 4 columns (no inline style needed).
+       For other column counts, add inline style override:
+         3 cols: style="grid-template-columns: repeat(3, 1fr)"
+         5 cols: style="grid-template-columns: repeat(5, 1fr)"
+         6 cols: style="grid-template-columns: repeat(6, 1fr)"
+       Add or remove .fw-card blocks accordingly (2–6 cards).
+  ====== -->
+  <div class="framework-row">
+    <div class="fw-card">
+      <div class="badge">
+        <div class="letter">{{FW1_LETTER}}</div>
+        <div class="name">{{FW1_NAME}}</div>
+      </div>
+      <div class="desc">{{FW1_DESC_LINE1}}<br><strong>{{FW1_KEYWORD}}</strong>{{FW1_DESC_LINE2}}</div>
+    </div>
+    <div class="fw-card">
+      <div class="badge">
+        <div class="letter">{{FW2_LETTER}}</div>
+        <div class="name">{{FW2_NAME}}</div>
+      </div>
+      <div class="desc">{{FW2_DESC_LINE1}}<br><strong>{{FW2_KEYWORD}}</strong>{{FW2_DESC_LINE2}}</div>
+    </div>
+    <div class="fw-card">
+      <div class="badge">
+        <div class="letter">{{FW3_LETTER}}</div>
+        <div class="name">{{FW3_NAME}}</div>
+      </div>
+      <div class="desc">{{FW3_DESC_LINE1}}<br><strong>{{FW3_KEYWORD}}</strong>{{FW3_DESC_LINE2}}</div>
+    </div>
+    <div class="fw-card">
+      <div class="badge">
+        <div class="letter">{{FW4_LETTER}}</div>
+        <div class="name">{{FW4_NAME}}</div>
+      </div>
+      <div class="desc">{{FW4_DESC_LINE1}}<br><strong>{{FW4_KEYWORD}}</strong>{{FW4_DESC_LINE2}}</div>
+    </div>
+    <!-- Optional 5th card: uncomment if needed
+    <div class="fw-card">
+      <div class="badge">
+        <div class="letter">{{FW5_LETTER}}</div>
+        <div class="name">{{FW5_NAME}}</div>
+      </div>
+      <div class="desc">{{FW5_DESC}}</div>
+    </div>
+    -->
+    <!-- Optional 6th card: uncomment if needed
+    <div class="fw-card">
+      <div class="badge">
+        <div class="letter">{{FW6_LETTER}}</div>
+        <div class="name">{{FW6_NAME}}</div>
+      </div>
+      <div class="desc">{{FW6_DESC}}</div>
+    </div>
+    -->
+  </div>
+
+  <!-- ====== SECTION 4: TWO-COLUMN CONTENT ====== -->
+  <div class="content-row">
+
+    <!-- LEFT: DARK PANEL -->
+    <div class="panel-dark">
+      <div class="section-title">
+        <span class="icon">{{DARK_ICON}}</span>
+        {{DARK_SECTION_TITLE}}
+      </div>
+
+      <div class="block-title">{{BLOCK1_TITLE}}</div>
+      <ul>
+        <li>{{BLOCK1_ITEM1}}</li>
+        <li>{{BLOCK1_ITEM2}}</li>
+        <li>{{BLOCK1_ITEM3}}</li>
+        <li>{{BLOCK1_ITEM4}}</li>
+      </ul>
+
+      <div class="block-title">{{BLOCK2_TITLE}}</div>
+      <ul>
+        <li>{{BLOCK2_ITEM1}}</li>
+        <li>{{BLOCK2_ITEM2}}</li>
+        <li>{{BLOCK2_ITEM3}}</li>
+        <li>{{BLOCK2_ITEM4}}</li>
+        <li>{{BLOCK2_ITEM5}}</li>
+      </ul>
+
+      <div class="conclusion">
+        <div class="label">{{CONCLUSION_LABEL}}</div>
+        <p>{{CONCLUSION_TEXT}} <strong style="color:#5ee6d0">{{CONCLUSION_HIGHLIGHT}}</strong></p>
+      </div>
+    </div>
+
+    <!-- RIGHT: LIGHT PANEL -->
+    <div class="panel-light">
+      <div class="section-title">
+        <span class="icon">★</span>
+        {{LIGHT_SECTION_TITLE}}
+      </div>
+
+      <div class="insight-item">
+        <div class="insight-num">1</div>
+        <div class="insight-content">
+          <h4>{{INSIGHT1_TITLE}}</h4>
+          <p>{{INSIGHT1_DESC}}</p>
+        </div>
+      </div>
+
+      <div class="insight-item">
+        <div class="insight-num">2</div>
+        <div class="insight-content">
+          <h4>{{INSIGHT2_TITLE}}</h4>
+          <p>{{INSIGHT2_DESC}}</p>
+        </div>
+      </div>
+
+      <div class="insight-item">
+        <div class="insight-num">3</div>
+        <div class="insight-content">
+          <h4>{{INSIGHT3_TITLE}}</h4>
+          <p>{{INSIGHT3_DESC}}</p>
+        </div>
+      </div>
+
+      <!-- Optional 4th insight — include if content warrants it -->
+      <div class="insight-item">
+        <div class="insight-num">4</div>
+        <div class="insight-content">
+          <h4>{{INSIGHT4_TITLE}}</h4>
+          <p>{{INSIGHT4_DESC}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SECTION 5: BOTTOM HIGHLIGHT ====== -->
+  <div class="bottom-highlight">
+    <div class="formula">
+      <span class="eq">{{FORMULA}}</span><br>
+      {{FORMULA_SUBTEXT}}
+    </div>
+    <div class="note">
+      {{CLOSING_THOUGHT}}
+    </div>
+  </div>
+
+  <!-- ====== SECTION 6: FOOTER ====== -->
+  <div class="footer">
+    <div class="left-url">{{FOOTER_LEFT}}</div>
+    <div class="right-brand">
+      <span class="dot"></span>
+      <span>{{FOOTER_BRAND}}</span>
+      <span style="color:#aaa;font-weight:400">{{FOOTER_FRAMEWORK}} · {{FOOTER_YEAR}}</span>
+    </div>
+  </div>
+
+  <!-- COPYRIGHT (inside .poster — visible in exported image) -->
+  <div class="copyright-bar">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    <span>Generated by <a href="https://github.com/beilunyang/visual-note-card-skills" target="_blank" rel="noopener">https://github.com/beilunyang/visual-note-card-skills</a></span>
+  </div>
+
+</div>
+
+  <!-- FLOATING DOWNLOAD FAB (hidden during export) -->
+  <div class="fab-wrap" id="fabWrap">
+    <div class="fab-dropdown" id="fabDropdown">
+      <div class="fab-dropdown-title">导出图片</div>
+      <button class="fab-option" onclick="exportImage(1,'png')">
+        <span class="fab-option-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </span>
+        <span class="fab-option-text">
+          <strong>标准 PNG</strong>
+          <small>1× · 适合快速分享</small>
+        </span>
+      </button>
+      <button class="fab-option" onclick="exportImage(1.5,'png')">
+        <span class="fab-option-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </span>
+        <span class="fab-option-text">
+          <strong>高清 PNG</strong>
+          <small>1.5× · 社交媒体推荐</small>
+        </span>
+      </button>
+      <button class="fab-option" onclick="exportImage(2,'png')">
+        <span class="fab-option-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </span>
+        <span class="fab-option-text">
+          <strong>超清 PNG</strong>
+          <small>2× · 适合打印</small>
+        </span>
+      </button>
+      <div class="fab-divider"></div>
+      <button class="fab-option" onclick="exportImage(1.5,'jpeg')">
+        <span class="fab-option-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </span>
+        <span class="fab-option-text">
+          <strong>JPEG</strong>
+          <small>1.5× · 文件更小</small>
+        </span>
+      </button>
+    </div>
+    <button class="fab-btn" id="fabBtn" onclick="toggleDropdown(event)">
+      <svg class="fab-icon fab-icon--download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      <svg class="fab-icon fab-icon--close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="export-toast" id="exportToast">
+    <div class="export-toast-spinner"></div>
+    <span>正在导出…</span>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+  const fabWrap = document.getElementById('fabWrap');
+  const fabDropdown = document.getElementById('fabDropdown');
+  const toast = document.getElementById('exportToast');
+  let isOpen = false;
+  function toggleDropdown(e) {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    fabWrap.classList.toggle('open', isOpen);
+  }
+  document.addEventListener('click', () => {
+    if (isOpen) { isOpen = false; fabWrap.classList.remove('open'); }
+  });
+  fabDropdown.addEventListener('click', e => e.stopPropagation());
+  async function exportImage(scale, format) {
+    isOpen = false;
+    fabWrap.classList.remove('open');
+    fabWrap.style.display = 'none';
+    toast.classList.add('show');
+    const poster = document.querySelector('.poster');
+    try {
+      const canvas = await html2canvas(poster, {
+        scale: scale, useCORS: true, allowTaint: true,
+        backgroundColor: '#f0ebe4', logging: false,
+        width: poster.scrollWidth, height: poster.scrollHeight,
+      });
+      const mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const ext = format === 'jpeg' ? '.jpg' : '.png';
+      const link = document.createElement('a');
+      link.download = document.title.replace(/\s+/g, '-') + '-' + scale + 'x' + ext;
+      link.href = canvas.toDataURL(mime, 0.92);
+      link.click();
+    } catch (err) { alert('导出失败: ' + err.message); }
+    finally { fabWrap.style.display = ''; toast.classList.remove('show'); }
+  }
+</script>
+
+<style>
+  .fab-wrap { position:fixed; bottom:32px; right:32px; z-index:9999; display:flex; flex-direction:column; align-items:flex-end; }
+  .fab-btn { width:56px; height:56px; border-radius:50%; border:none; background:var(--primary,#1a7a6d); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,.22),0 1px 4px rgba(0,0,0,.12); transition:all .25s cubic-bezier(.4,0,.2,1); }
+  .fab-btn:hover { background:var(--primary-dark,#145f54); box-shadow:0 6px 24px rgba(0,0,0,.28); transform:scale(1.05); }
+  .fab-btn:active { transform:scale(.96); }
+  .fab-icon--close { display:none; }
+  .fab-wrap.open .fab-icon--download { display:none; }
+  .fab-wrap.open .fab-icon--close { display:block; }
+  .fab-wrap.open .fab-btn { background:#1a1a1a; }
+  .fab-dropdown { position:absolute; bottom:68px; right:0; width:240px; background:#fff; border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.18); padding:8px 0; opacity:0; transform:translateY(10px) scale(.95); pointer-events:none; transition:all .2s cubic-bezier(.4,0,.2,1); }
+  .fab-wrap.open .fab-dropdown { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  .fab-dropdown-title { padding:8px 16px 6px; font-family:'Noto Sans SC',sans-serif; font-size:11px; font-weight:700; color:#999; letter-spacing:1px; text-transform:uppercase; }
+  .fab-divider { height:1px; background:#eee; margin:4px 12px; }
+  .fab-option { display:flex; align-items:center; gap:12px; width:100%; padding:10px 16px; border:none; background:none; cursor:pointer; text-align:left; transition:background .15s; font-family:'Noto Sans SC',sans-serif; }
+  .fab-option:hover { background:#f5f1ec; }
+  .fab-option-icon { width:32px; height:32px; border-radius:8px; background:#f0ebe4; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--primary,#1a7a6d); transition:all .15s; }
+  .fab-option:hover .fab-option-icon { background:var(--primary,#1a7a6d); color:#fff; }
+  .fab-option-text { display:flex; flex-direction:column; gap:1px; }
+  .fab-option-text strong { font-size:13.5px; font-weight:700; color:#1a1a1a; }
+  .fab-option-text small { font-size:11px; color:#999; }
+  .export-toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(20px); background:#1a1a1a; color:#fff; font-family:'Noto Sans SC',sans-serif; font-size:14px; font-weight:600; padding:12px 24px; border-radius:12px; display:flex; align-items:center; gap:10px; opacity:0; pointer-events:none; transition:all .25s; z-index:10000; box-shadow:0 4px 20px rgba(0,0,0,.25); }
+  .export-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .export-toast-spinner { width:18px; height:18px; border:2.5px solid rgba(255,255,255,.25); border-top-color:#5ee6d0; border-radius:50%; animation:spin .7s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  @media print { .fab-wrap,.export-toast { display:none!important; } }
+
+  .copyright-bar { display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 0 2px; margin-top:10px; border-top:1px solid #ddd8d0; font-family:'JetBrains Mono',monospace; font-size:11px; color:#b5b0a8; }
+  .copyright-bar svg { color:#c5c0b8; flex-shrink:0; }
+  .copyright-bar a { color:#8aada7; text-decoration:none; transition:color .2s; }
+  .copyright-bar a:hover { color:var(--primary,#1a7a6d); }
+</style>
+</body>
+</html>

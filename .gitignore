@@ -31,9 +31,6 @@ docs/crawlers/
 # Generated project content (all under data/)
 /data/
 
-# Temporary scratch files
-*.tmp
-
 # User config overrides (use tapestry.config.example.json as template)
 skills/tapestry/config/tapestry.config.json
 /tapestry.config.json
@@ -41,6 +38,11 @@ skills/tapestry/config/tapestry.config.json
 # Git credentials (SECURITY - never commit)
 .git/credentials
 
-# Others
+# Personal data and backups (NEVER commit)
 misc/
 scripts/
+libs/
+/backup/
+/backups/
+backup.sh
+backup_*.sh

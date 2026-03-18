@@ -15,6 +15,7 @@ Quick navigation to all documentation resources.
 - **[Skill Architecture](architecture/skill-architecture.md)** - How Tapestry's skill system works
 - **[Content Pipeline](architecture/content-pipeline.md)** - Detailed pipeline stages and processing
 - **[Crawler System](architecture/crawlers.md)** - Platform-specific crawler implementation
+- **[Visual Card Integration](architecture/visual-card-integration.md)** - Visual note card generation system
 - **[Synthesis Quality Standards](architecture/synthesis-quality-standards.md)** - Centralized quality standards for content synthesis
 - **[Knowledge Base Templates](architecture/kb-templates.md)** - Template system for knowledge base initialization
 
@@ -75,19 +76,22 @@ Quick navigation to all documentation resources.
 2. [Quick Reference](quick-reference.md)
 3. [Basic Usage](guides/basic-usage.md)
 4. [Knowledge Base](guides/knowledge-base.md)
-5. [Supported Platforms](reference/platforms.md)
-6. [FAQ](community/faq.md)
-7. [Troubleshooting](reference/troubleshooting.md)
+5. [Visual Cards](guides/visual-cards.md)
+6. [Advanced Workflows](guides/advanced-workflows.md)
+7. [Supported Platforms](reference/platforms.md)
+8. [FAQ](community/faq.md)
+9. [Troubleshooting](reference/troubleshooting.md)
 
 ### For Developers
 1. [Architecture Overview](architecture/overview.md)
 2. [Skill Architecture](architecture/skill-architecture.md)
 3. [Content Pipeline](architecture/content-pipeline.md)
 4. [Crawler System](architecture/crawlers.md)
-5. [Knowledge Base Templates](architecture/kb-templates.md)
-6. [Configuration Reference](reference/configuration.md)
-7. [API Reference](reference/api.md)
-8. [Contributing Guide](../CONTRIBUTING.md)
+5. [Visual Card Integration](architecture/visual-card-integration.md)
+6. [Knowledge Base Templates](architecture/kb-templates.md)
+7. [Configuration Reference](reference/configuration.md)
+8. [API Reference](reference/api.md)
+9. [Contributing Guide](../CONTRIBUTING.md)
 
 ### For Contributors
 1. [Contributing Guide](../CONTRIBUTING.md)
@@ -105,6 +109,9 @@ Quick navigation to all documentation resources.
 ### Usage & Workflows
 - [Quick Reference](quick-reference.md)
 - [Basic Usage](guides/basic-usage.md)
+- [Advanced Workflows](guides/advanced-workflows.md)
+- [Knowledge Base](guides/knowledge-base.md)
+- [Visual Cards](guides/visual-cards.md)
 - [Supported Platforms](reference/platforms.md)
 
 ### Architecture & Design
@@ -144,7 +151,8 @@ Quick navigation to all documentation resources.
 | Troubleshooting | ✓ Complete | 2026-03-16 |
 | API Reference | ✓ Complete | 2026-03-16 |
 | FAQ | ✓ Complete | 2026-03-16 |
-| Glossary | ✓ Complete | 2026-03-16 |
+| Visual Cards | ✓ Complete | 2026-03-18 |
+| Visual Card Integration | ✓ Complete | 2026-03-18 |
 
 ## 🚧 Planned Documentation
 

@@ -69,9 +69,9 @@ packages = ["_src", "_src.crawlers"]
 "" = "skills/tapestry"
 
 [tool.pytest.ini_options]
-testpaths = ["skills/tapestry/_tests"]
+testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "-v --cov=_src --cov-report=term-missing"
+addopts = "-v --cov=skills/tapestry/_src --cov-report=term-missing"
 
 [tool.black]
 line-length = 120

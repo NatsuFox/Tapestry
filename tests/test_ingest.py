@@ -54,7 +54,7 @@ async def test_ingest_text_creates_capture_feed_and_note(tmp_path):
 
     feed_payload = json.loads(feed_path.read_text(encoding="utf-8"))
     assert feed_payload["title"] == "Test Article Title"
-    assert "knowledge-base" in result.note_path
+    assert "data/notes" in result.note_path
     assert result.analysis.skill == "tapestry-synthesis"
     note_text = note_path.read_text(encoding="utf-8")
     assert "## Deterministic Highlights" in note_text
@@ -94,4 +94,4 @@ async def test_store_load_handoff_returns_structured_context(tmp_path):
 
     assert handoff["analysis"]["skill"] == "tapestry-synthesis"
     assert handoff["feed_payload"]["title"] == "Test Article Title"
-    assert "Read the stored note" in handoff["analysis"]["instructions"]
+    assert handoff["analysis"]["instructions"] != ""

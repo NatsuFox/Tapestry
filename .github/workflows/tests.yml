@@ -25,7 +25,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pytest pytest-cov pytest-asyncio
-        pip install httpx pydantic selectolax readability-lxml chardet Markdown pymdown-extensions
+        pip install httpx pydantic selectolax readability-lxml chardet Markdown pymdown-extensions beautifulsoup4
 
     - name: Run tests
       run: |

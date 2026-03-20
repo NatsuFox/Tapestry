@@ -1,8 +1,16 @@
 from pathlib import Path
 
-from _src.models import AnalysisHandoff, CapturedPage, FetchMode, WorkflowKnowledgeBase, WorkflowMatch, WorkflowMeta, WorkflowParse, WorkflowProfile
+from _src.models import (
+    AnalysisHandoff,
+    CapturedPage,
+    FetchMode,
+    WorkflowKnowledgeBase,
+    WorkflowMatch,
+    WorkflowMeta,
+    WorkflowParse,
+    WorkflowProfile,
+)
 from _src.parse import Parser
-
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

@@ -11,11 +11,7 @@ def normalize_url(url: str) -> str:
     parsed = urlparse(url)
     scheme = parsed.scheme.lower() or "https"
     host = (parsed.hostname or "").lower().removeprefix("www.")
-    port = (
-        f":{parsed.port}"
-        if parsed.port and parsed.port not in (80, 443)
-        else ""
-    )
+    port = f":{parsed.port}" if parsed.port and parsed.port not in (80, 443) else ""
     path = parsed.path.rstrip("/") or ""
     query = urlencode(sorted(parse_qs(parsed.query, keep_blank_values=True).items()), doseq=True)
     return urlunparse((scheme, f"{host}{port}", path, "", query, ""))
@@ -46,16 +42,12 @@ class ProfileRouter:
     def unregister(self, workflow_id: str) -> None:
         for domain, entries in list(self._domain_index.items()):
             self._domain_index[domain] = [
-                (entry_id, patterns)
-                for entry_id, patterns in entries
-                if entry_id != workflow_id
+                (entry_id, patterns) for entry_id, patterns in entries if entry_id != workflow_id
             ]
             if not self._domain_index[domain]:
                 del self._domain_index[domain]
         self._global_patterns = [
-            (entry_id, patterns)
-            for entry_id, patterns in self._global_patterns
-            if entry_id != workflow_id
+            (entry_id, patterns) for entry_id, patterns in self._global_patterns if entry_id != workflow_id
         ]
 
     def match(self, url: str) -> str | None:

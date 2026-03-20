@@ -29,9 +29,7 @@ def extract_urls(*chunks: str) -> list[str]:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Run Tapestry crawlers through the unified code-defined registry."
-    )
+    parser = argparse.ArgumentParser(description="Run Tapestry crawlers through the unified code-defined registry.")
     parser.add_argument("inputs", nargs="*", help="URLs or free-form text containing URLs")
     parser.add_argument("--text", default="", help="Optional free-form context to scan for URLs")
     parser.add_argument("--json", action="store_true", help="Emit the batch report as JSON")
@@ -73,7 +71,7 @@ async def run_cli(args: argparse.Namespace) -> int:
         raise ValueError("No URLs found. Pass URLs directly or use --text.")
 
     # Load config and validate/fix project root
-    from _src.config import validate_and_fix_project_root, find_project_root
+    from _src.config import find_project_root, validate_and_fix_project_root
 
     target_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
 

@@ -53,23 +53,23 @@ def _extract_metadata(html: str) -> dict:
     ct_match = re.search(r'var ct = "(\d+)"', html)
     if ct_match:
         timestamp = int(ct_match.group(1))
-        metadata['publish_timestamp'] = timestamp
-        metadata['publish_time'] = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+        metadata["publish_timestamp"] = timestamp
+        metadata["publish_time"] = datetime.fromtimestamp(timestamp, tz=timezone.utc)
 
     # Extract view count (var appmsg_read_num = "count")
     read_match = re.search(r'var appmsg_read_num = "(\d+)"', html)
     if read_match:
-        metadata['read_count'] = int(read_match.group(1))
+        metadata["read_count"] = int(read_match.group(1))
 
     # Extract like count (var appmsg_like_num = "count")
     like_match = re.search(r'var appmsg_like_num = "(\d+)"', html)
     if like_match:
-        metadata['like_count'] = int(like_match.group(1))
+        metadata["like_count"] = int(like_match.group(1))
 
     # Extract comment count
     comment_match = re.search(r'var comment_count = "(\d+)"', html)
     if comment_match:
-        metadata['comment_count'] = int(comment_match.group(1))
+        metadata["comment_count"] = int(comment_match.group(1))
 
     return metadata
 
@@ -80,28 +80,25 @@ def _extract_comments(html: str) -> list[FeedComment]:
 
     # WeChat comments are often loaded via AJAX, but initial data might be in page
     # Look for comment data in JavaScript variables
-    comment_data_match = re.search(r'var comment_list = (\[.*?\]);', html, re.DOTALL)
+    comment_data_match = re.search(r"var comment_list = (\[.*?\]);", html, re.DOTALL)
     if comment_data_match:
         try:
             comment_list = json.loads(comment_data_match.group(1))
             for item in comment_list:
                 if isinstance(item, dict):
-                    text = item.get('content', '').strip()
-                    author = item.get('nick_name', '')
+                    text = item.get("content", "").strip()
+                    author = item.get("nick_name", "")
                     if text:
                         comments.append(FeedComment(author=author, text=text))
 
                         # Extract replies if present
-                        replies = item.get('reply_list', [])
+                        replies = item.get("reply_list", [])
                         for reply in replies:
                             if isinstance(reply, dict):
-                                reply_text = reply.get('content', '').strip()
-                                reply_author = reply.get('nick_name', '')
+                                reply_text = reply.get("content", "").strip()
+                                reply_author = reply.get("nick_name", "")
                                 if reply_text:
-                                    comments.append(FeedComment(
-                                        author=reply_author,
-                                        text=f"↳ {reply_text}"
-                                    ))
+                                    comments.append(FeedComment(author=reply_author, text=f"↳ {reply_text}"))
         except json.JSONDecodeError:
             pass
 
@@ -119,20 +116,20 @@ async def crawl(
 
     # Headers from HAR analysis - critical for avoiding bot detection
     headers = {
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'accept-encoding': 'gzip, deflate, br, zstd',
-        'accept-language': 'en-US,en;q=0.9',
-        'cache-control': 'no-cache',
-        'pragma': 'no-cache',
-        'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"macOS"',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-site': 'none',
-        'sec-fetch-user': '?1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36'
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9",
+        "cache-control": "no-cache",
+        "pragma": "no-cache",
+        "sec-ch-ua": '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
     }
 
     # Fetch the page using httpx
@@ -144,22 +141,22 @@ async def crawl(
         status_code = response.status_code
 
     # Parse with BeautifulSoup
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, "html.parser")
 
     # Extract title
-    title_tag = soup.find('h1', class_='rich_media_title')
+    title_tag = soup.find("h1", class_="rich_media_title")
     title = title_tag.get_text(strip=True) if title_tag else "Untitled"
 
     # Extract author
     author_tag = (
-        soup.find('a', class_='rich_media_meta_link') or
-        soup.find('span', class_='rich_media_meta rich_media_meta_text') or
-        soup.find('a', id='js_name')
+        soup.find("a", class_="rich_media_meta_link")
+        or soup.find("span", class_="rich_media_meta rich_media_meta_text")
+        or soup.find("a", id="js_name")
     )
     author = author_tag.get_text(strip=True) if author_tag else None
 
     # Extract main content
-    content_tag = soup.find('div', class_='rich_media_content')
+    content_tag = soup.find("div", class_="rich_media_content")
     content_text = content_tag.get_text(strip=True) if content_tag else ""
 
     # Extract metadata
@@ -169,7 +166,7 @@ async def crawl(
     comments = _extract_comments(html)
 
     # Build publish time
-    publish_time = metadata.get('publish_time') or datetime.now(timezone.utc)
+    publish_time = metadata.get("publish_time") or datetime.now(timezone.utc)
 
     # Normalize URL
     canonical_url = normalize_url(url)
@@ -180,7 +177,7 @@ async def crawl(
         canonical_url=canonical_url,
         final_url=final_url,
         status_code=status_code,
-        headers={'crawler': 'weixin', 'content-type': 'text/html; charset=UTF-8'},
+        headers={"crawler": "weixin", "content-type": "text/html; charset=UTF-8"},
         fetch_mode=FetchMode.http,
         fetched_at=datetime.now(timezone.utc),
         body=html,
@@ -188,11 +185,11 @@ async def crawl(
 
     # Build metadata summary
     meta_lines = []
-    if metadata.get('read_count'):
+    if metadata.get("read_count"):
         meta_lines.append(f"Views: {metadata['read_count']:,}")
-    if metadata.get('like_count'):
+    if metadata.get("like_count"):
         meta_lines.append(f"Likes: {metadata['like_count']:,}")
-    if metadata.get('comment_count'):
+    if metadata.get("comment_count"):
         meta_lines.append(f"Comments: {metadata['comment_count']:,}")
 
     meta_summary = " | ".join(meta_lines) if meta_lines else ""
@@ -212,12 +209,12 @@ async def crawl(
         body=content_text[:500],  # Preview
         comments=comments,
         metadata={
-            'crawler': 'weixin',
-            'read_count': metadata.get('read_count'),
-            'like_count': metadata.get('like_count'),
-            'comment_count': metadata.get('comment_count'),
-            'publish_timestamp': metadata.get('publish_timestamp'),
-            'meta_summary': meta_summary,
+            "crawler": "weixin",
+            "read_count": metadata.get("read_count"),
+            "like_count": metadata.get("like_count"),
+            "comment_count": metadata.get("comment_count"),
+            "publish_timestamp": metadata.get("publish_timestamp"),
+            "meta_summary": meta_summary,
         },
         fetched_at=capture.fetched_at,
     )

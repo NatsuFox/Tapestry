@@ -33,7 +33,7 @@ class IngestionService:
         project_root: Path | None = None,
         *,
         registry: CrawlerRegistry | None = None,
-    ) -> "IngestionService":
+    ) -> IngestionService:
         root = cls._resolve_project_root(project_root)
         store = KnowledgeBaseStore(root)
         return cls(registry=registry or CrawlerRegistry(), store=store)
@@ -62,11 +62,7 @@ class IngestionService:
         duplicate_count = 0
 
         for url in unique_urls:
-            crawler = (
-                self._registry.get(forced_crawler_id)
-                if forced_crawler_id
-                else self._registry.match(url)
-            )
+            crawler = self._registry.get(forced_crawler_id) if forced_crawler_id else self._registry.match(url)
             if crawler is None:
                 raise LookupError(f"Requested crawler not found: {forced_crawler_id}")
             if crawler.handler is not None:

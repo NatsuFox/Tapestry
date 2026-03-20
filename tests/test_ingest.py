@@ -2,12 +2,10 @@ import json
 from pathlib import Path
 
 import pytest
-
 from _src.ingest import IngestionService
 from _src.models import CapturedPage, FetchMode
 from _src.registry import CrawlerRegistry
 from _src.store import KnowledgeBaseStore
-
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -36,9 +34,7 @@ async def test_ingest_text_creates_capture_feed_and_note(tmp_path):
         fetcher=StaticFetcher((FIXTURES / "sample_article.html").read_text(encoding="utf-8")),
     )
 
-    report = await service.ingest_text(
-        "Please ingest https://example.com/articles/test for the knowledge base."
-    )
+    report = await service.ingest_text("Please ingest https://example.com/articles/test for the knowledge base.")
 
     assert report.stored_count == 1
     result = report.results[0]

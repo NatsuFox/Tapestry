@@ -137,7 +137,7 @@ async def crawl(
     final_url = response.url.__str__()
     is_profile_url = "/user/profile/" in final_url
 
-    note_map = (((state.get("note") or {}).get("noteDetailMap")) or {})
+    note_map = ((state.get("note") or {}).get("noteDetailMap")) or {}
     if note_map and not is_profile_url:
         note_detail = next(iter(note_map.values()))
         note = note_detail.get("note") or {}
@@ -167,7 +167,7 @@ async def crawl(
             kb=WorkflowKnowledgeBase(collection="social-xiaohongshu"),
         )
         title = (note.get("title") or "").strip() or "Xiaohongshu Note"
-        author = ((note.get("user") or {}).get("nickname") or None)
+        author = (note.get("user") or {}).get("nickname") or None
         body = _note_body(note)
         metadata = {"crawler": "xiaohongshu", "state": note_detail}
         published = _parse_time(note.get("time") or note.get("lastUpdateTime"))
@@ -199,11 +199,7 @@ async def crawl(
         author = basic.get("nickname") or None
         body = _profile_body(user_page)
         if not body:
-            body = (
-                _meta_content(html, "og:description")
-                or _meta_content(html, "description")
-                or _document_title(html)
-            )
+            body = _meta_content(html, "og:description") or _meta_content(html, "description") or _document_title(html)
         if title == "Xiaohongshu Profile":
             title = _meta_content(html, "og:title") or _document_title(html) or title
         if not author:

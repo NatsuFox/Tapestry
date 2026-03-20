@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import re
 
-
 _URL_PATTERN = re.compile(r"https?://[^\s<>\"]+")
 _TRAILING_PUNCTUATION = ".,;:!?)>]}'\""
 

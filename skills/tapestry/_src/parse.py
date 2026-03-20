@@ -21,14 +21,14 @@ def _clean_text(text: str) -> str:
     if not text:
         return text
     # Replace zero-width spaces with regular spaces (they often mark word boundaries)
-    text = text.replace('\u200b', ' ')  # Zero-width space
-    text = text.replace('\u200c', ' ')  # Zero-width non-joiner
-    text = text.replace('\u200d', ' ')  # Zero-width joiner
-    text = text.replace('\ufeff', ' ')  # Zero-width no-break space (BOM)
+    text = text.replace("\u200b", " ")  # Zero-width space
+    text = text.replace("\u200c", " ")  # Zero-width non-joiner
+    text = text.replace("\u200d", " ")  # Zero-width joiner
+    text = text.replace("\ufeff", " ")  # Zero-width no-break space (BOM)
     # Normalize multiple spaces to single space
-    text = re.sub(r' +', ' ', text)
+    text = re.sub(r" +", " ", text)
     # Normalize newlines
-    text = re.sub(r'\n\n+', '\n\n', text)
+    text = re.sub(r"\n\n+", "\n\n", text)
     return text.strip()
 
 
@@ -38,46 +38,64 @@ def _extract_text_with_structure(node) -> str:
         return ""
 
     # Block-level elements that should create paragraph breaks
-    block_elements = {'p', 'div', 'section', 'article', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-                      'li', 'blockquote', 'pre', 'hr', 'br', 'tr', 'td', 'th'}
+    block_elements = {
+        "p",
+        "div",
+        "section",
+        "article",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "li",
+        "blockquote",
+        "pre",
+        "hr",
+        "br",
+        "tr",
+        "td",
+        "th",
+    }
 
     parts = []
 
     def traverse(n, depth=0):
-        if hasattr(n, 'tag'):
-            tag = n.tag.lower() if hasattr(n.tag, 'lower') else str(n.tag)
+        if hasattr(n, "tag"):
+            tag = n.tag.lower() if hasattr(n.tag, "lower") else str(n.tag)
 
             # Skip script, style, and navigation elements
-            if tag in {'script', 'style', 'nav', 'header', 'footer', 'aside'}:
+            if tag in {"script", "style", "nav", "header", "footer", "aside"}:
                 return
 
             # Get direct text content
-            if hasattr(n, 'text') and callable(n.text):
+            if hasattr(n, "text") and callable(n.text):
                 text = n.text(deep=False, strip=True)
                 if text:
                     parts.append(text)
 
             # Process children
-            if hasattr(n, 'iter'):
+            if hasattr(n, "iter"):
                 for child in n.iter():
                     if child != n:
                         traverse(child, depth + 1)
 
             # Add paragraph break after block elements
-            if tag in block_elements and parts and not parts[-1].endswith('\n\n'):
-                parts.append('\n\n')
+            if tag in block_elements and parts and not parts[-1].endswith("\n\n"):
+                parts.append("\n\n")
 
     traverse(node)
 
     # Join and clean
-    text = ''.join(parts)
+    text = "".join(parts)
     text = _clean_text(text)
 
     # Ensure proper spacing after punctuation
-    text = re.sub(r'([.!?])([A-Z])', r'\1 \2', text)
+    text = re.sub(r"([.!?])([A-Z])", r"\1 \2", text)
 
     # Clean up excessive newlines
-    text = re.sub(r'\n\n\n+', '\n\n', text)
+    text = re.sub(r"\n\n\n+", "\n\n", text)
 
     return text.strip()
 

@@ -47,7 +47,7 @@ class TapestryConfig(BaseModel):
     language: LanguageConfig = Field(default_factory=LanguageConfig)
 
     @classmethod
-    def load(cls, config_path: Path | None = None) -> "TapestryConfig":
+    def load(cls, config_path: Path | None = None) -> TapestryConfig:
         """Load configuration from file or return defaults."""
         if config_path is None:
             # Look for config in skills/tapestry/config/ or project root
@@ -149,10 +149,7 @@ def validate_and_fix_project_root(config_path: Path, current_root: Path) -> Path
                 config_data["paths"] = {}
             config_data["paths"]["project_root"] = str(correct_root)
 
-            config_path.write_text(
-                json.dumps(config_data, indent=2, ensure_ascii=False) + "\n",
-                encoding="utf-8"
-            )
+            config_path.write_text(json.dumps(config_data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         except Exception:
             # If update fails, just return the found root
             pass

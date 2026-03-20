@@ -49,9 +49,7 @@ class Fetcher:
         self._user_agent = user_agent
         self._timeout = timeout
         self._browser_timeout = browser_timeout
-        self._buckets: dict[str, _TokenBucket] = defaultdict(
-            lambda: _TokenBucket(rate_limit_per_domain)
-        )
+        self._buckets: dict[str, _TokenBucket] = defaultdict(lambda: _TokenBucket(rate_limit_per_domain))
 
     async def fetch(self, url: str, fetch_cfg: WorkflowFetch) -> CapturedPage:
         headers = dict(fetch_cfg.headers)
@@ -97,15 +95,11 @@ class Fetcher:
         try:
             from playwright.async_api import async_playwright
         except ImportError as exc:
-            raise RuntimeError(
-                "Playwright is not installed. Install with: pip install 'tapestry[browser]'"
-            ) from exc
+            raise RuntimeError("Playwright is not installed. Install with: pip install 'tapestry[browser]'") from exc
 
         async with async_playwright() as playwright:
             browser = await playwright.chromium.launch(headless=True)
-            page = await browser.new_page(
-                user_agent=headers.get("User-Agent", self._user_agent)
-            )
+            page = await browser.new_page(user_agent=headers.get("User-Agent", self._user_agent))
             response = await page.goto(url, timeout=self._browser_timeout * 1000)
             await page.wait_for_load_state("networkidle")
             body = await page.content()

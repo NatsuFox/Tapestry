@@ -8,7 +8,6 @@ Skipped: the tapestry-install skill directory does not exist in this repo.
 import json
 import subprocess
 import sys
-from pathlib import Path
 
 import pytest
 
@@ -84,9 +83,9 @@ def test_verification():
 
 def main():
     """Run all tests."""
-    print("="*60)
+    print("=" * 60)
     print("TAPESTRY INSTALL SKILL - INTEGRATION TESTS")
-    print("="*60)
+    print("=" * 60)
 
     try:
         test_environment_detection()
@@ -94,9 +93,9 @@ def main():
         test_dry_run_installation()
         test_verification()
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("ALL TESTS PASSED")
-        print("="*60)
+        print("=" * 60)
 
     except AssertionError as e:
         print(f"\nTEST FAILED: {e}")

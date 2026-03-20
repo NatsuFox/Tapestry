@@ -107,7 +107,7 @@ def _comments_from_payload(payload: dict) -> list[FeedComment]:
         text = (item.get("contentText") or "").strip()
         if not text:
             continue
-        author = ((item.get("author") or {}).get("name") or None)
+        author = (item.get("author") or {}).get("name") or None
         comments.append(FeedComment(author=author, text=text))
     return comments
 
@@ -162,10 +162,7 @@ async def crawl(
     body = _body_from_payload(kind, payload)
     comments = _comments_from_payload(payload)
     created_hint = (
-        parsed.get("updatedTime")
-        or parsed.get("createdTime")
-        or parsed.get("updated")
-        or parsed.get("created")
+        parsed.get("updatedTime") or parsed.get("createdTime") or parsed.get("updated") or parsed.get("created")
     )
 
     capture = CapturedPage(

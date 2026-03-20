@@ -76,7 +76,9 @@ async def crawl(
 
     final_url = f"https://www.reddit.com{post.get('permalink')}" if post.get("permalink") else url
     canonical_url = normalize_url(final_url)
-    published = datetime.fromtimestamp(post.get("created_utc") or 0, tz=timezone.utc) if post.get("created_utc") else None
+    published = (
+        datetime.fromtimestamp(post.get("created_utc") or 0, tz=timezone.utc) if post.get("created_utc") else None
+    )
 
     capture = CapturedPage(
         source_url=url,

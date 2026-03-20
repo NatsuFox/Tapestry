@@ -1,15 +1,7 @@
 import importlib.util
 from pathlib import Path
 
-
-MODULE_PATH = (
-    Path(__file__).resolve().parents[1]
-    / "skills"
-    / "tapestry"
-    / "display"
-    / "_scripts"
-    / "publish_viewer.py"
-)
+MODULE_PATH = Path(__file__).resolve().parents[1] / "skills" / "tapestry" / "display" / "_scripts" / "publish_viewer.py"
 
 SPEC = importlib.util.spec_from_file_location("publish_viewer", MODULE_PATH)
 publish_viewer = importlib.util.module_from_spec(SPEC)

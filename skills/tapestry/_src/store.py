@@ -94,9 +94,7 @@ class KnowledgeBaseStore:
     def load_handoff(self, *, note_path: str | None = None, url: str | None = None) -> dict:
         if not note_path and not url:
             raise ValueError("Provide either note_path or url to load analysis handoff context.")
-        record = (
-            self._find_record_by_note_path(note_path) if note_path else self._find_record_by_url(url or "")
-        )
+        record = self._find_record_by_note_path(note_path) if note_path else self._find_record_by_url(url or "")
         if record is None:
             identifier = note_path or url or "unknown target"
             raise ValueError(f"No stored catalog entry matched: {identifier}")
@@ -210,10 +208,7 @@ class KnowledgeBaseStore:
         capture_path: str,
         feed_path: str,
     ) -> str:
-        comments = "\n".join(
-            f"- {comment.author or 'unknown'}: {comment.text}"
-            for comment in feed.comments
-        )
+        comments = "\n".join(f"- {comment.author or 'unknown'}: {comment.text}" for comment in feed.comments)
         if not comments:
             comments = "_No comments extracted._"
         body = feed.body.strip() or "_No body extracted._"

@@ -80,7 +80,7 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 
 - **2026-03-20**：
   - 修复了 Github Actions 的错误，确保所有 Workflow 都能正确通过
-  - 添加了项目主页，并适配到了 Github Pages 上，访问地址为 https://natsufox.github.io/Tapestry/
+  - 🏠 添加了项目主页，并适配到了 Github Pages 上，访问地址为 https://natsufox.github.io/Tapestry/
 
 - **2026-03-18**：
   - 优化了知识库前端样式布局和 Markdown 渲染

@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Tapestry 将零散的网页来源整理成一个安静、可检索、适合阅读与综合的知识门户。"
+    />
+    <title>Tapestry | AI 原生知识门户</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23d5925e'/%3E%3Cstop offset='100%25' stop-color='%23b7653d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Cpath d='M18 20h28v8H36v24h-8V28H18z' fill='%23fffaf4'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./vendor/asciinema-player.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./vendor/asciinema-player.min.js"></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header glass-panel">
+        <a class="brand" href="#top" aria-label="Tapestry 首页">
+          <img class="brand-logo" src="./assets/tapestry-logo-transparent.png" alt="Tapestry logo" />
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="切换导航"
+        >
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="主导航">
+          <a href="#top">
+            <span class="nav-stack">
+              <span class="nav-label">介绍</span>
+              <span class="nav-sub">Intro</span>
+            </span>
+          </a>
+          <a href="#terminal">
+            <span class="nav-stack">
+              <span class="nav-label">终端操作</span>
+              <span class="nav-sub">Terminal</span>
+            </span>
+          </a>
+          <a href="#preview">
+            <span class="nav-stack">
+              <span class="nav-label">知识库</span>
+              <span class="nav-sub">Knowledge Base</span>
+            </span>
+          </a>
+          <a href="#sources">
+            <span class="nav-stack">
+              <span class="nav-label">支持来源</span>
+              <span class="nav-sub">Sources</span>
+            </span>
+          </a>
+          <a class="nav-cta" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">
+            <span class="github-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="presentation">
+                <path
+                  d="M12 .75A11.25 11.25 0 0 0 .75 12a11.25 11.25 0 0 0 7.7 10.69c.56.1.76-.24.76-.54 0-.27-.01-.98-.02-1.92-3.13.68-3.8-1.51-3.8-1.51-.5-1.29-1.24-1.63-1.24-1.63-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.15 1.72 1.15 1 .1 1.94 1.22 1.94 1.22.9 1.53 2.37 1.09 2.95.83.09-.72.35-1.21.63-1.49-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.15-3.02-.12-.28-.5-1.4.11-2.92 0 0 .94-.3 3.08 1.15a10.63 10.63 0 0 1 5.6 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.52.23 2.64.11 2.92.72.79 1.15 1.79 1.15 3.02 0 4.32-2.63 5.28-5.14 5.56.36.31.68.91.68 1.84 0 1.33-.01 2.4-.01 2.73 0 .3.2.65.77.54A11.25 11.25 0 0 0 23.25 12 11.25 11.25 0 0 0 12 .75Z"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-stack">
+              <span class="nav-label">GitHub</span>
+              <span class="nav-sub">Project</span>
+            </span>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="top">
+          <div class="hero-intro-brand glass-panel section-animate" data-logo-motion>
+            <p class="eyebrow"><span class="eyebrow-cn">介绍</span><span class="eyebrow-sep">·</span><span class="eyebrow-en">Introduction</span></p>
+            <p class="lead-sentence">
+              Tapestry 将零散的网页来源整理成一个安静、可检索、适合阅读与综合的知识门户。
+            </p>
+            <p class="lead-english">
+              Tapestry turns scattered web sources into a calm, searchable knowledge portal for reading, synthesis, and return visits.
+            </p>
+
+            <img
+              class="hero-wordmark"
+              src="./assets/tapestry-logo-transparent.png"
+              alt="Tapestry transparent logo"
+              loading="eager"
+              decoding="async"
+            />
+
+            <div class="hero-metrics">
+              <article class="interactive-card">
+                <strong>8+</strong>
+                <span>已覆盖来源类型</span>
+                <small>source families</small>
+              </article>
+              <article class="interactive-card">
+                <strong>4 层</strong>
+                <span>采集、Feed、综合、门户</span>
+                <small>capture to portal</small>
+              </article>
+              <article class="interactive-card">
+                <strong>1 个入口</strong>
+                <span>把归档做成可阅读的门面</span>
+                <small>one readable front door</small>
+              </article>
+            </div>
+          </div>
+
+          <div class="hero-overview glass-panel section-animate delay-1">
+            <div class="hero-copy">
+              <p class="eyebrow"><span class="eyebrow-cn">概览</span><span class="eyebrow-sep">·</span><span class="eyebrow-en">Overview</span></p>
+              <h2>把采集、整理、综合与发布连接成一个真正可回访的知识入口。</h2>
+              <p class="hero-english">
+                Connect capture, organization, synthesis, and publishing into one return-worthy front door.
+              </p>
+            </div>
+
+            <div class="hero-actions">
+              <a class="button primary" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">
+                <span class="github-link-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path
+                      d="M12 .75A11.25 11.25 0 0 0 .75 12a11.25 11.25 0 0 0 7.7 10.69c.56.1.76-.24.76-.54 0-.27-.01-.98-.02-1.92-3.13.68-3.8-1.51-3.8-1.51-.5-1.29-1.24-1.63-1.24-1.63-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.15 1.72 1.15 1 .1 1.94 1.22 1.94 1.22.9 1.53 2.37 1.09 2.95.83.09-.72.35-1.21.63-1.49-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.15-3.02-.12-.28-.5-1.4.11-2.92 0 0 .94-.3 3.08 1.15a10.63 10.63 0 0 1 5.6 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.52.23 2.64.11 2.92.72.79 1.15 1.79 1.15 3.02 0 4.32-2.63 5.28-5.14 5.56.36.31.68.91.68 1.84 0 1.33-.01 2.4-.01 2.73 0 .3.2.65.77.54A11.25 11.25 0 0 0 23.25 12 11.25 11.25 0 0 0 12 .75Z"
+                    ></path>
+                  </svg>
+                </span>
+                查看项目
+              </a>
+              <a class="button secondary" href="#preview">查看知识库预览</a>
+            </div>
+
+            <div class="hero-structure" aria-label="Tapestry structure map" data-structure>
+              <svg viewBox="0 0 1200 420" role="img" aria-label="Tapestry structure map">
+                <defs>
+                  <linearGradient id="overviewLine" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#d5925e"></stop>
+                    <stop offset="100%" stop-color="#b7653d"></stop>
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M110 216 C205 216, 205 122, 300 122 S395 216, 490 216 S585 122, 680 122 S775 216, 870 216 S965 122, 1090 122"
+                  class="overview-line"
+                ></path>
+
+                <g
+                  class="structure-node-group"
+                  transform="translate(110 216)"
+                  data-title="来源匹配"
+                  data-english="Match"
+                  data-detail="根据 URL、站点特征与平台规则选择正确的 crawler，避免把不同来源误塞进同一种处理流程。"
+                >
+                  <circle r="44" class="overview-node"></circle>
+                  <text y="-8">来源匹配</text>
+                  <text y="18" class="overview-sub">Match</text>
+                </g>
+                <g
+                  class="structure-node-group"
+                  transform="translate(300 122)"
+                  data-title="内容采集"
+                  data-english="Capture"
+                  data-detail="把正文、评论、元数据与页面上下文保存为原始快照，确保后续整理与回查都能回到来源证据。"
+                >
+                  <circle r="44" class="overview-node"></circle>
+                  <text y="-8">内容采集</text>
+                  <text y="18" class="overview-sub">Capture</text>
+                </g>
+                <g
+                  class="structure-node-group"
+                  transform="translate(490 216)"
+                  data-title="Feed 整理"
+                  data-english="Feed"
+                  data-detail="把异构来源映射进统一 Feed 层，形成便于浏览、去重、回放与二次加工的中间结构。"
+                >
+                  <circle r="44" class="overview-node"></circle>
+                  <text y="-8">Feed 整理</text>
+                  <text y="18" class="overview-sub">Feed</text>
+                </g>
+                <g
+                  class="structure-node-group"
+                  transform="translate(680 122)"
+                  data-title="综合成章"
+                  data-english="Synthesis"
+                  data-detail="把来源内容变成可读的笔记、章节与主题结构，让知识库既保留来源感，又适合长期阅读。"
+                >
+                  <circle r="44" class="overview-node"></circle>
+                  <text y="-8">综合成章</text>
+                  <text y="18" class="overview-sub">Synthesis</text>
+                </g>
+                <g
+                  class="structure-node-group"
+                  transform="translate(870 216)"
+                  data-title="知识结构"
+                  data-english="Structure"
+                  data-detail="把章节、主题、导航与索引组织成知识入口，而不是简单地把 Markdown 文件堆放在目录里。"
+                >
+                  <circle r="44" class="overview-node"></circle>
+                  <text y="-8">知识结构</text>
+                  <text y="18" class="overview-sub">Structure</text>
+                </g>
+                <g
+                  class="structure-node-group"
+                  transform="translate(1090 122)"
+                  data-title="门户发布"
+                  data-english="Portal"
+                  data-detail="最终把内容发布成一个温和、可浏览、适合回访的门户页面，让知识系统真正拥有面向人的入口。"
+                >
+                  <circle r="44" class="overview-node"></circle>
+                  <text y="-8">门户发布</text>
+                  <text y="18" class="overview-sub">Portal</text>
+                </g>
+
+                <rect x="150" y="300" width="250" height="74" rx="22" class="overview-box"></rect>
+                <text x="275" y="328" text-anchor="middle">保留原始来源与上下文</text>
+                <text x="275" y="352" text-anchor="middle" class="overview-box-sub">raw captures and metadata</text>
+
+                <rect x="475" y="300" width="250" height="74" rx="22" class="overview-box"></rect>
+                <text x="600" y="328" text-anchor="middle">把内容整理成可读结构</text>
+                <text x="600" y="352" text-anchor="middle" class="overview-box-sub">feeds, notes, chapters</text>
+
+                <rect x="800" y="300" width="250" height="74" rx="22" class="overview-box"></rect>
+                <text x="925" y="328" text-anchor="middle">把知识库发布成门户</text>
+                <text x="925" y="352" text-anchor="middle" class="overview-box-sub">human-friendly browsing</text>
+              </svg>
+
+              <div class="structure-detail interactive-card">
+                <span class="structure-detail-eyebrow" data-structure-english>Match</span>
+                <strong data-structure-title>来源匹配</strong>
+                <p data-structure-detail>
+                  根据 URL、站点特征与平台规则选择正确的 crawler，避免把不同来源误塞进同一种处理流程。
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="terminal" id="terminal">
+          <div class="terminal-shell glass-panel section-animate">
+            <div class="section-copy">
+              <p class="eyebrow"><span class="eyebrow-cn">终端操作</span><span class="eyebrow-sep">·</span><span class="eyebrow-en">Terminal Operations</span></p>
+              <h2>在正式门户页面里直接展示真实录屏，让访问者看到 Tapestry 如何从来源链接进入采集流程。</h2>
+              <p class="hero-english section-english">
+                A real terminal replay, embedded locally from our `.cast` file, showing how a live source moves through the Tapestry workflow.
+              </p>
+            </div>
+
+            <div class="terminal-layout">
+              <div class="terminal-player-wrap interactive-card">
+                <div class="terminal-toolbar">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <strong>zhihu_fetch.cast</strong>
+                </div>
+                <div class="terminal-player" data-cast-player data-cast-src="./assets/zhihu_fetch.cast"></div>
+              </div>
+
+              <div class="terminal-notes">
+                <article class="interactive-card">
+                  <p class="card-label">真实操作</p>
+                  <h3>录屏直接来自 `src/ui/assets/zhihu_fetch.cast`。</h3>
+                  <p>不是伪造终端截图，而是把实际的终端回放嵌入到门户页面里，用来展示真实操作路径。</p>
+                </article>
+
+                <article class="interactive-card">
+                  <p class="card-label">流程入口</p>
+                  <h3>从知乎专栏链接进入采集。</h3>
+                  <p>录屏展示了输入来源 URL、调用 skill、读取 ingest 配置，并继续进入采集与后续处理流程。</p>
+                </article>
+
+                <article class="interactive-card">
+                  <p class="card-label">展示价值</p>
+                  <h3>让门户本身也能证明系统能力。</h3>
+                  <p>访问者不仅看到最终页面，还能看到 Tapestry 如何在终端里真实执行抓取与知识整理过程。</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="preview" id="preview">
+          <div class="preview-shell glass-panel section-animate">
+            <div class="section-copy preview-heading">
+              <p class="eyebrow"><span class="eyebrow-cn">知识库</span><span class="eyebrow-sep">·</span><span class="eyebrow-en">Knowledge Base</span></p>
+              <h2>展示门户效果、结构总览与阅读细节。</h2>
+              <p class="hero-english section-english">
+                A rotating visual section for portal overview, navigation structure, and close-up reading details.
+              </p>
+            </div>
+
+            <div class="preview-stage" aria-label="Knowledge Base previews" data-preview>
+              <div class="preview-header">
+                <div class="preview-copy-top preview-header-spacer" aria-hidden="true"></div>
+                <div class="preview-actions">
+                  <div class="preview-controls">
+                    <button class="preview-button" type="button" data-preview-prev aria-label="上一张">
+                      <span aria-hidden="true">&#8592;</span>
+                    </button>
+                    <button class="preview-button" type="button" data-preview-next aria-label="下一张">
+                      <span aria-hidden="true">&#8594;</span>
+                    </button>
+                  </div>
+                  <div class="preview-timer" aria-hidden="true">
+                    <span class="preview-timer-bar" data-preview-timer></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="preview-viewport">
+                <div class="preview-track" data-preview-track>
+                  <figure
+                    class="preview-slide"
+                    data-title="知识库总览"
+                    data-caption="展示首页层级、主题结构与整体阅读氛围。"
+                  >
+                    <div class="preview-frame interactive-card">
+                      <img
+                        src="./assets/knowledge_base_demo.png"
+                        alt="Tapestry 知识库总览页面"
+                        style="--preview-position: 50% 50%"
+                      />
+                    </div>
+                  </figure>
+
+                  <figure
+                    class="preview-slide"
+                    data-title="导航与组织"
+                    data-caption="突出导航方式、目录入口与结构化浏览感受。"
+                  >
+                    <div class="preview-frame interactive-card">
+                      <img
+                        src="./assets/knowledge_base_demo.png"
+                        alt="Tapestry 知识库导航细节"
+                        style="--preview-position: 18% 28%"
+                      />
+                    </div>
+                  </figure>
+
+                  <figure
+                    class="preview-slide"
+                    data-title="阅读区细节"
+                    data-caption="聚焦正文阅读区域、章节密度与页面可读性。"
+                  >
+                    <div class="preview-frame interactive-card">
+                      <img
+                        src="./assets/knowledge_base_demo.png"
+                        alt="Tapestry 知识库阅读区细节"
+                        style="--preview-position: 76% 60%"
+                      />
+                    </div>
+                  </figure>
+
+                  <figure
+                    class="preview-slide"
+                    data-title="专题与卡片"
+                    data-caption="适合后续替换成更多专题页、门户效果图或对比视图。"
+                  >
+                    <div class="preview-frame interactive-card">
+                      <img
+                        src="./assets/knowledge_base_demo.png"
+                        alt="Tapestry 知识库专题页视图"
+                        style="--preview-position: 52% 18%"
+                      />
+                    </div>
+                  </figure>
+                </div>
+              </div>
+
+              <div class="preview-footer">
+                <div class="preview-copy interactive-card">
+                  <strong data-preview-title>知识库总览</strong>
+                  <p data-preview-caption>展示首页层级、主题结构与整体阅读氛围。</p>
+                </div>
+                <div class="preview-dots" data-preview-dots aria-label="轮播导航"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="sources" id="sources">
+          <div class="sources-shell glass-panel section-animate">
+            <div class="section-copy sources-heading">
+              <p class="eyebrow"><span class="eyebrow-cn">支持来源</span><span class="eyebrow-sep">·</span><span class="eyebrow-en">Knowledge Sources</span></p>
+              <h2>对社区讨论、社交平台、长文发布与通用网页，Tapestry 都提供了来源感知的采集路径，并把异构内容统一整理进同一套 Feed、笔记与门户结构中。</h2>
+              <p class="hero-english section-english">
+                Tapestry supports source-aware ingestion for communities, social streams, long-form publishing, and generic web pages, then normalizes them into one feed, note, and portal model.
+              </p>
+            </div>
+
+            <div class="sources-summary">
+              <article class="interactive-card">
+                <strong>来源专用抓取</strong>
+                <p>不同平台有不同页面结构与上下文模型，Tapestry 会先按来源类型匹配对应抓取路径。</p>
+              </article>
+              <article class="interactive-card">
+                <strong>统一 Feed 层</strong>
+                <p>无论来自知乎、微博还是通用 HTML，最终都进入可浏览、可继续综合的统一中间层。</p>
+              </article>
+              <article class="interactive-card">
+                <strong>门户统一呈现</strong>
+                <p>异构来源最终不是散落的文件，而是被整理成一个阅读风格一致的知识入口。</p>
+              </article>
+            </div>
+
+            <div class="source-grid">
+              <article class="source-card interactive-card section-animate delay-1">
+                <span class="source-icon zhihu" aria-hidden="true">知</span>
+                <div>
+                  <strong>知乎</strong>
+                  <span class="source-en">Zhihu</span>
+                  <p>支持专栏、回答与评论链采集，适合沉淀问答结构、观点推演与长讨论上下文。</p>
+                  <div class="source-tags">
+                    <span>专栏</span>
+                    <span>回答</span>
+                    <span>评论</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="source-card interactive-card section-animate delay-2">
+                <span class="source-icon reddit" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <circle cx="12" cy="13" r="6.4"></circle>
+                    <circle cx="9.2" cy="12.4" r="1.1" class="cut"></circle>
+                    <circle cx="14.8" cy="12.4" r="1.1" class="cut"></circle>
+                    <path d="M8.7 15.1c1 .95 2 1.35 3.3 1.35 1.3 0 2.35-.4 3.35-1.35" class="stroke"></path>
+                    <path d="M13.2 6.9l1.1-3.1 2.7.65" class="stroke"></path>
+                    <circle cx="17.7" cy="4.5" r="1.2"></circle>
+                    <path d="M6.2 11.2c-.75-.45-1.2-1.15-1.2-1.95 0-1.35 1.1-2.4 2.45-2.4.55 0 1.05.15 1.45.45" class="stroke"></path>
+                    <path d="M17.8 11.2c.75-.45 1.2-1.15 1.2-1.95 0-1.35-1.1-2.4-2.45-2.4-.55 0-1.05.15-1.45.45" class="stroke"></path>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Reddit</strong>
+                  <span class="source-en">Threaded communities</span>
+                  <p>适合层层评论、社区追问与多轮讨论归档，保留 thread 结构对后续综合尤其关键。</p>
+                  <div class="source-tags">
+                    <span>Thread</span>
+                    <span>评论树</span>
+                    <span>社区讨论</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="source-card interactive-card section-animate delay-3">
+                <span class="source-icon hackernews" aria-hidden="true">Y</span>
+                <div>
+                  <strong>Hacker News</strong>
+                  <span class="source-en">Technical link discussions</span>
+                  <p>适合技术链接、评论串与高信号密度讨论，便于把新闻入口和开发者反馈整合在一起。</p>
+                  <div class="source-tags">
+                    <span>技术链接</span>
+                    <span>评论串</span>
+                    <span>高信号</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="source-card interactive-card section-animate delay-4">
+                <span class="source-icon xmark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path d="M5 4.4h3.9l4.18 5.58L17.9 4.4H19.7l-5.76 6.45 6.06 8.75h-3.91l-4.42-6.13L6.06 19.6H4.3l6.4-7.17z"></path>
+                  </svg>
+                </span>
+                <div>
+                  <strong>X / Twitter</strong>
+                  <span class="source-en">Fast public signals</span>
+                  <p>适合短帖、转发链与快速传播中的观点快照，补足长文来源之外的实时公共信号层。</p>
+                  <div class="source-tags">
+                    <span>短帖</span>
+                    <span>转发链</span>
+                    <span>公共信号</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="source-card interactive-card section-animate delay-1">
+                <span class="source-icon wechat" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path d="M10 6.1c-4 0-7 2.65-7 6.05 0 1.55.67 2.95 1.82 4l-.72 2.35 2.73-1.35c.92.28 1.95.43 3.02.43 4 0 7.15-2.62 7.15-6.03C17 8.72 13.95 6.1 10 6.1z"></path>
+                    <path d="M16.65 10.6c2.45 0 4.35 1.65 4.35 3.82 0 1-.4 1.9-1.15 2.6l.42 1.55-1.82-.92c-.6.18-1.23.28-1.9.28-2.45 0-4.4-1.68-4.4-3.85 0-2.14 1.95-3.48 4.5-3.48z" class="cut"></path>
+                    <circle cx="7.9" cy="11.75" r="0.8" class="cut"></circle>
+                    <circle cx="11.95" cy="11.75" r="0.8" class="cut"></circle>
+                    <circle cx="15.8" cy="14.2" r="0.65"></circle>
+                    <circle cx="18.4" cy="14.2" r="0.65"></circle>
+                  </svg>
+                </span>
+                <div>
+                  <strong>微信公众号</strong>
+                  <span class="source-en">WeChat articles</span>
+                  <p>适合图文长文、栏目内容与公众号资料沉淀，把连续发布的内容组织进同一主题体系。</p>
+                  <div class="source-tags">
+                    <span>图文长文</span>
+                    <span>栏目</span>
+                    <span>资料沉淀</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="source-card interactive-card section-animate delay-2">
+                <span class="source-icon weibo" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <ellipse cx="11.2" cy="14.4" rx="5.9" ry="4.25"></ellipse>
+                    <circle cx="9.1" cy="13.85" r="1.05" class="cut"></circle>
+                    <circle cx="13.35" cy="13.85" r="1.05" class="cut"></circle>
+                    <path d="M8.3 16c.85.6 1.8.85 2.95.85 1.12 0 2.05-.25 2.88-.85" class="stroke"></path>
+                    <path d="M15.55 7.55c1.55-.2 3.02.42 3.95 1.7" class="stroke"></path>
+                    <path d="M16.45 4.9c2.2-.2 4.33.72 5.75 2.55" class="stroke"></path>
+                  </svg>
+                </span>
+                <div>
+                  <strong>微博</strong>
+                  <span class="source-en">Weibo trends</span>
+                  <p>适合热度追踪、短消息扩散与公开反应记录，便于保留舆论变化与时间上下文。</p>
+                  <div class="source-tags">
+                    <span>热度追踪</span>
+                    <span>公开反应</span>
+                    <span>时间线</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="source-card interactive-card section-animate delay-3">
+                <span class="source-icon xhs" aria-hidden="true">书</span>
+                <div>
+                  <strong>小红书</strong>
+                  <span class="source-en">Xiaohongshu</span>
+                  <p>适合图文笔记、评论反馈与视觉导向内容，把视觉化表达与文字说明一起纳入知识门户。</p>
+                  <div class="source-tags">
+                    <span>图文笔记</span>
+                    <span>视觉内容</span>
+                    <span>评论反馈</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="source-card interactive-card section-animate delay-4">
+                <span class="source-icon html" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation">
+                    <path d="M8.2 6.6L3.9 12l4.3 5.4" class="stroke"></path>
+                    <path d="M15.8 6.6L20.1 12l-4.3 5.4" class="stroke"></path>
+                    <path d="M13.65 5.1L10.35 18.9" class="stroke"></path>
+                  </svg>
+                </span>
+                <div>
+                  <strong>通用 HTML</strong>
+                  <span class="source-en">Generic HTML pages</span>
+                  <p>适合普通网页、文章页与更广泛的通用抓取入口，为未定制平台保留可靠的通用落点。</p>
+                  <div class="source-tags">
+                    <span>普通网页</span>
+                    <span>文章页</span>
+                    <span>通用入口</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="site-footer-inner">
+          <p>Tapestry · AI 原生网络书签知识库</p>
+          <a class="footer-link" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">
+            <span class="github-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="presentation">
+                <path
+                  d="M12 .75A11.25 11.25 0 0 0 .75 12a11.25 11.25 0 0 0 7.7 10.69c.56.1.76-.24.76-.54 0-.27-.01-.98-.02-1.92-3.13.68-3.8-1.51-3.8-1.51-.5-1.29-1.24-1.63-1.24-1.63-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.15 1.72 1.15 1 .1 1.94 1.22 1.94 1.22.9 1.53 2.37 1.09 2.95.83.09-.72.35-1.21.63-1.49-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.15-3.02-.12-.28-.5-1.4.11-2.92 0 0 .94-.3 3.08 1.15a10.63 10.63 0 0 1 5.6 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.52.23 2.64.11 2.92.72.79 1.15 1.79 1.15 3.02 0 4.32-2.63 5.28-5.14 5.56.36.31.68.91.68 1.84 0 1.33-.01 2.4-.01 2.73 0 .3.2.65.77.54A11.25 11.25 0 0 0 23.25 12 11.25 11.25 0 0 0 12 .75Z"
+                ></path>
+              </svg>
+            </span>
+            访问 GitHub 仓库
+          </a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -12,6 +12,14 @@ const resolvePath = (obj, path) =>
     return current[key];
   }, obj);
 
+const formatTemplate = (template, params = {}) =>
+  String(template).replace(/\{(\w+)\}/g, (_, key) => {
+    if (params[key] === undefined || params[key] === null) {
+      return `{${key}}`;
+    }
+    return String(params[key]);
+  });
+
 const applyLexicon = (lexicon) => {
   document.querySelectorAll("[data-copy]").forEach((element) => {
     const value = resolvePath(lexicon, element.dataset.copy);
@@ -31,6 +39,13 @@ const applyLexicon = (lexicon) => {
     const value = resolvePath(lexicon, element.dataset.copyContent);
     if (value !== undefined) {
       element.setAttribute("content", String(value));
+    }
+  });
+
+  document.querySelectorAll("[data-copy-aria-label]").forEach((element) => {
+    const value = resolvePath(lexicon, element.dataset.copyAriaLabel);
+    if (value !== undefined) {
+      element.setAttribute("aria-label", String(value));
     }
   });
 
@@ -154,7 +169,7 @@ const initTerminal = () => {
   }
 };
 
-const initPreview = () => {
+const initPreview = (lexicon) => {
   const preview = document.querySelector("[data-preview]");
 
   if (!preview) {
@@ -170,6 +185,8 @@ const initPreview = () => {
   const captionEl = preview.querySelector("[data-preview-caption]");
   const timerBar = preview.querySelector("[data-preview-timer]");
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const dotAriaTemplate =
+    resolvePath(lexicon, "preview.controls.dotAriaLabelTemplate") || "跳转到第 {n} 张预览";
 
   let currentIndex = 0;
   let autoplayId = null;
@@ -179,7 +196,7 @@ const initPreview = () => {
     const dot = document.createElement("button");
     dot.type = "button";
     dot.className = "preview-dot";
-    dot.setAttribute("aria-label", `跳转到第 ${index + 1} 张预览`);
+    dot.setAttribute("aria-label", formatTemplate(dotAriaTemplate, { n: index + 1 }));
     dot.addEventListener("click", () => {
       setSlide(index);
       startAutoplay();
@@ -270,10 +287,11 @@ const initPreview = () => {
 };
 
 const bootstrap = async () => {
+  let lexicon = null;
   try {
     const response = await fetch("./lexicon.json", { cache: "no-store" });
     if (response.ok) {
-      const lexicon = await response.json();
+      lexicon = await response.json();
       applyLexicon(lexicon);
     }
   } catch (error) {
@@ -284,7 +302,7 @@ const bootstrap = async () => {
   initLogoMotion();
   initStructure();
   initTerminal();
-  initPreview();
+  initPreview(lexicon);
 };
 
 bootstrap();

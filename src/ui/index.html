@@ -9,12 +9,9 @@
       data-copy-content="meta.description"
     />
     <title data-copy="meta.title">Tapestry | AI 原生知识门户</title>
-    <link rel="icon" type="image/png" href="./assets/tapestry-favicon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="./assets/tapestry-favicon.png" />
     <link rel="shortcut icon" href="./favicon.ico" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23d5925e'/%3E%3Cstop offset='100%25' stop-color='%23b7653d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Cpath d='M18 20h28v8H36v24h-8V28H18z' fill='%23fffaf4'/%3E%3C/svg%3E"
-    />
+    <link rel="apple-touch-icon" href="./assets/tapestry-favicon.png" />
     <link rel="stylesheet" href="./vendor/asciinema-player.css" />
     <link rel="stylesheet" href="./styles.css" />
     <script src="./vendor/asciinema-player.min.js"></script>
@@ -23,7 +20,7 @@
   <body>
     <div class="page-shell">
       <header class="site-header glass-panel">
-        <a class="brand" href="#top" aria-label="Tapestry 首页">
+        <a class="brand" href="#top" aria-label="Tapestry 首页" data-copy-aria-label="meta.brandAriaLabel">
           <img
             class="brand-logo"
             src="./assets/tapestry-logo-transparent.png"
@@ -38,12 +35,13 @@
           aria-expanded="false"
           aria-controls="site-nav"
           aria-label="切换导航"
+          data-copy-aria-label="nav.toggleAriaLabel"
         >
           <span></span>
           <span></span>
         </button>
 
-        <nav class="site-nav" id="site-nav" aria-label="主导航">
+        <nav class="site-nav" id="site-nav" aria-label="主导航" data-copy-aria-label="nav.ariaLabel">
           <a href="#top">
             <span class="nav-stack">
               <span class="nav-label" data-copy="nav.intro.label">介绍</span>
@@ -158,8 +156,8 @@
               </a>
             </div>
 
-            <div class="hero-structure" aria-label="Tapestry structure map" data-structure>
-              <svg viewBox="0 0 1200 420" role="img" aria-label="Tapestry structure map">
+            <div class="hero-structure" aria-label="Tapestry structure map" data-copy-aria-label="overview.structure.ariaLabel" data-structure>
+              <svg viewBox="0 0 1200 420" role="img" aria-label="Tapestry structure map" data-copy-aria-label="overview.structure.ariaLabel">
                 <defs>
                   <linearGradient id="overviewLine" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%" stop-color="#d5925e"></stop>
@@ -216,9 +214,9 @@
               </svg>
 
               <div class="structure-detail interactive-card">
-                <span class="structure-detail-eyebrow" data-structure-english>Match</span>
-                <strong data-structure-title>来源匹配</strong>
-                <p data-structure-detail>
+                <span class="structure-detail-eyebrow" data-structure-english data-copy="overview.structure.nodes.match.label.en">Match</span>
+                <strong data-structure-title data-copy="overview.structure.nodes.match.label.cn">来源匹配</strong>
+                <p data-structure-detail data-copy="overview.structure.nodes.match.detail">
                   按 URL、站点特征与平台规则路由到专用 crawler，优先保留来源语义，而不是用粗糙的通用抓取一把梭。
                 </p>
               </div>
@@ -292,15 +290,15 @@
               </p>
             </div>
 
-            <div class="preview-stage" aria-label="Knowledge Base previews" data-preview>
+            <div class="preview-stage" aria-label="Knowledge Base previews" data-copy-aria-label="preview.ariaLabel" data-preview>
               <div class="preview-header">
                 <div class="preview-copy-top preview-header-spacer" aria-hidden="true"></div>
                 <div class="preview-actions">
                   <div class="preview-controls">
-                    <button class="preview-button" type="button" data-preview-prev aria-label="上一张">
+                    <button class="preview-button" type="button" data-preview-prev aria-label="上一张" data-copy-aria-label="preview.controls.prevAriaLabel">
                       <span aria-hidden="true">&#8592;</span>
                     </button>
-                    <button class="preview-button" type="button" data-preview-next aria-label="下一张">
+                    <button class="preview-button" type="button" data-preview-next aria-label="下一张" data-copy-aria-label="preview.controls.nextAriaLabel">
                       <span aria-hidden="true">&#8594;</span>
                     </button>
                   </div>
@@ -363,7 +361,7 @@
                   <strong data-preview-title data-copy="preview.slides.0.title">书籍式总览</strong>
                   <p data-preview-caption data-copy="preview.slides.0.caption">主题、章节与索引并行呈现，直接体现 Tapestry 在 synthesis 之后生成的知识结构。</p>
                 </div>
-                <div class="preview-dots" data-preview-dots aria-label="轮播导航"></div>
+                <div class="preview-dots" data-preview-dots aria-label="轮播导航" data-copy-aria-label="preview.controls.dotsAriaLabel"></div>
               </div>
             </div>
           </div>
@@ -402,7 +400,7 @@
 
             <div class="source-grid">
               <article class="source-card interactive-card section-animate delay-1">
-                <span class="source-icon zhihu" aria-hidden="true">知</span>
+                <span class="source-icon zhihu" aria-hidden="true" data-copy="sources.cards.0.icon">知</span>
                 <div>
                   <strong data-copy="sources.cards.0.title">知乎</strong>
                   <span class="source-en" data-copy="sources.cards.0.en">Zhihu</span>
@@ -441,7 +439,7 @@
               </article>
 
               <article class="source-card interactive-card section-animate delay-3">
-                <span class="source-icon hackernews" aria-hidden="true">Y</span>
+                <span class="source-icon hackernews" aria-hidden="true" data-copy="sources.cards.2.icon">Y</span>
                 <div>
                   <strong data-copy="sources.cards.2.title">Hacker News</strong>
                   <span class="source-en" data-copy="sources.cards.2.en">Technical link discussions</span>
@@ -519,7 +517,7 @@
               </article>
 
               <article class="source-card interactive-card section-animate delay-3">
-                <span class="source-icon xhs" aria-hidden="true">书</span>
+                <span class="source-icon xhs" aria-hidden="true" data-copy="sources.cards.6.icon">书</span>
                 <div>
                   <strong data-copy="sources.cards.6.title">小红书</strong>
                   <span class="source-en" data-copy="sources.cards.6.en">Xiaohongshu</span>

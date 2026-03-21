@@ -2,9 +2,12 @@
   "meta": {
     "title": "Tapestry | AI 原生知识门户",
     "description": "Tapestry 是一套面向 Agent 的多平台内容采集、知识综合与展示技能库，用于把零散网页转化为可回访的知识资产。",
-    "logoAlt": "Tapestry logo"
+    "logoAlt": "Tapestry logo",
+    "brandAriaLabel": "Tapestry 首页"
   },
   "nav": {
+    "ariaLabel": "主导航",
+    "toggleAriaLabel": "切换导航",
     "intro": {
       "label": "介绍",
       "sub": "Intro"
@@ -64,6 +67,7 @@
     "ctaPrimary": "探索 Tapestry",
     "ctaSecondary": "查看知识库成品",
     "structure": {
+      "ariaLabel": "Tapestry structure map",
       "nodes": {
         "match": {
           "label": {
@@ -155,8 +159,15 @@
       "cn": "知识库",
       "en": "Knowledge Base"
     },
+    "ariaLabel": "Knowledge Base previews",
     "title": "知识库不是附属展示层，而是 Tapestry 把来源内容转化为长期资产之后的直接产品输出。",
     "english": "The knowledge base is the product output of Tapestry’s pipeline: structured, readable, and ready to be revisited.",
+    "controls": {
+      "prevAriaLabel": "上一张",
+      "nextAriaLabel": "下一张",
+      "dotsAriaLabel": "轮播导航",
+      "dotAriaLabelTemplate": "跳转到第 {n} 张预览"
+    },
     "slides": [
       {
         "title": "书籍式总览",
@@ -204,6 +215,7 @@
     "cards": [
       {
         "title": "知乎",
+        "icon": "知",
         "en": "Zhihu",
         "desc": "覆盖问题、回答、专栏与评论链，适合沉淀中文知识社区中的长链路问答、推演与观点结构。",
         "tags": ["问题", "回答", "专栏"]
@@ -216,6 +228,7 @@
       },
       {
         "title": "Hacker News",
+        "icon": "Y",
         "en": "Technical link discussions",
         "desc": "适合技术链接、评论串与高信号密度讨论，便于把新闻入口、原始链接和开发者反馈合并保存。",
         "tags": ["Links", "评论串", "高信号讨论"]
@@ -240,6 +253,7 @@
       },
       {
         "title": "小红书",
+        "icon": "书",
         "en": "Xiaohongshu",
         "desc": "适合图文笔记、评论反馈与视觉导向内容，把视觉表达、生活方式语境与文本说明一起纳入知识库。",
         "tags": ["图文笔记", "视觉内容", "评论"]

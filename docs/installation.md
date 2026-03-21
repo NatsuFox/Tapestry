@@ -1,8 +1,72 @@
 # Installation Guide
 
-## Quick Start
+## Skill Pack Installation
 
-### Option 1: Using pip with requirements.txt
+### Option 1: Claude Code plugin marketplace
+
+```bash
+/plugin marketplace add NatsuFox/Tapestry
+/plugin install tapestry@tapestry-skills
+
+# Or install directly
+claude plugin install tapestry@tapestry-skills
+```
+
+### Option 2: Universal npx skills install
+
+```bash
+# Install the bundle-first "tapestry" skill pack
+npx skills add NatsuFox/Tapestry --skill tapestry
+
+# Install globally (user-level)
+npx skills add NatsuFox/Tapestry --skill tapestry -g
+```
+
+All generated artifacts from skill-only installs live inside the installed Tapestry skill directory under `_data/`:
+
+```text
+~/.claude/skills/tapestry/_data/
+~/.openclaw/skills/tapestry/_data/
+~/.codex/skills/tapestry/_data/
+```
+
+### Option 3: Manual GitHub release bundle
+
+1. Download `tapestry-skills-vX.Y.Z.zip` or `tapestry-skills-vX.Y.Z.tar.gz` from [GitHub Releases](https://github.com/NatsuFox/Tapestry/releases).
+2. Extract the archive.
+3. Copy the bundled `skills/tapestry` folder into your local agent skill directory.
+
+```bash
+# Claude Code
+cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.claude/skills/
+
+# OpenClaw
+cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.openclaw/skills/
+
+# Codex
+cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.codex/skills/
+```
+
+### Option 4: Local checkout for development
+
+```bash
+git clone https://github.com/NatsuFox/Tapestry.git
+cd Tapestry
+
+# Stable local copy
+cp -r skills/tapestry ~/.claude/skills/
+cp -r skills/tapestry ~/.openclaw/skills/
+cp -r skills/tapestry ~/.codex/skills/
+
+# Live development symlink
+ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
+ln -s "$(pwd)/skills/tapestry" ~/.openclaw/skills/tapestry
+ln -s "$(pwd)/skills/tapestry" ~/.codex/skills/tapestry
+```
+
+## Python Dependencies
+
+### Option A: Using pip with requirements.txt
 
 ```bash
 # Install all dependencies (includes browser support)
@@ -14,9 +78,12 @@ playwright install chromium
 
 **Note**: The requirements.txt includes browser rendering support by default. To skip browser support, comment out the `playwright` line before installing.
 
-### Option 2: Using pyproject.toml
+### Option B: Using pyproject.toml
 
 ```bash
+# Install from the installed skill directory
+cd ~/.claude/skills/tapestry
+
 # Install core dependencies only
 pip install -e .
 

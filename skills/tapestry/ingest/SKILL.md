@@ -30,10 +30,10 @@ The runner auto-selects a crawler from the code-defined implementations under `_
 ## Workflow
 
 1. Collect every relevant URL from the current user request.
-2. Resolve the skill-local runner relative to this `SKILL.md` file and run it:
+2. Run the ingest runner. The script is at `ingest/_scripts/run.py` relative to the tapestry skill root (i.e., `$skill_root/ingest/_scripts/run.py`). Always run it from the tapestry skill root:
 
 ```bash
-python _scripts/run.py \
+python ingest/_scripts/run.py \
   "$ARGUMENTS"
 ```
 
@@ -96,7 +96,7 @@ This ensures the skill works correctly even if the user runs it from a different
 Include free-form request text when useful:
 
 ```bash
-python _scripts/run.py \
+python ingest/_scripts/run.py \
   --text "Ingest these into the local KB for later synthesis" \
   "https://news.ycombinator.com/item?id=1" \
   "https://example.com/post"
@@ -115,4 +115,4 @@ Expect a compact result that makes the storage chain obvious:
 
 ## Resource
 
-- `_scripts/run.py`: extracts URLs from args, `--text`, or stdin and runs the unified crawler registry via the shared `_src` support code.
+- `ingest/_scripts/run.py`: extracts URLs from args, `--text`, or stdin and runs the unified crawler registry via the shared `_src` support code.

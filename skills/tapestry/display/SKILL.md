@@ -41,10 +41,10 @@ It should:
 
 ```bash
 # For a specific book
-python _scripts/publish_viewer.py --data-path data/books/markets-and-trading --force
+python display/_scripts/publish_viewer.py --data-path data/books/markets-and-trading --force
 
 # For the entire knowledge base (default)
-python _scripts/publish_viewer.py --force
+python display/_scripts/publish_viewer.py --force
 ```
 
 4. **IMPORTANT**: The viewer is created at `<data-path>/_viewer`. Before serving, ensure the data symlink exists:
@@ -94,5 +94,5 @@ This ensures the frontend can access the manifest and document data without dupl
 
 ## Resources
 
-- `_scripts/publish_viewer.py`: scans `knowledge-base/`, copies frontend assets, and generates the JSON manifest.
+- `display/_scripts/publish_viewer.py`: scans `knowledge-base/`, copies frontend assets, and generates the JSON manifest.
 - `_ui/`: custom static frontend assets for the viewer.

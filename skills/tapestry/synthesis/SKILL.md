@@ -50,14 +50,14 @@ See `config/tapestry.config.json` for current mode setting.
 
 ```bash
 cd /path/to/your/tapestry/project
-python skills/tapestry/synthesis/_scripts/load_context.py \
+python synthesis/_scripts/load_context.py \
   "$ARGUMENTS"
 ```
 
 Or use the --project-root flag:
 
 ```bash
-python _scripts/load_context.py \
+python synthesis/_scripts/load_context.py \
   --project-root /path/to/your/tapestry/project \
   "$ARGUMENTS"
 ```
@@ -71,20 +71,20 @@ python _scripts/load_context.py \
 
 ```bash
 cd /path/to/your/tapestry/project
-python skills/tapestry/synthesis/_scripts/bootstrap_kb.py
+python synthesis/_scripts/bootstrap_kb.py
 ```
 
 Or use the --project-root flag:
 
 ```bash
-python _scripts/bootstrap_kb.py \
+python synthesis/_scripts/bootstrap_kb.py \
   --project-root /path/to/your/tapestry/project
 ```
 
 5. Read the knowledge-base governance files:
-   - `_kb_rules/_shared-governance.md`
-   - `_kb_rules/topic-taxonomy.md`
-   - `_kb_rules/chapter-decision-rules.md`
+   - `synthesis/_kb_rules/_shared-governance.md`
+   - `synthesis/_kb_rules/topic-taxonomy.md`
+   - `synthesis/_kb_rules/chapter-decision-rules.md`
 6. **CRITICAL**: Read the existing knowledge base structure thoroughly:
    - Explore `knowledge-base/books/` to understand existing topics and chapters
    - Read relevant `index.md` files to understand chapter scope and content
@@ -254,7 +254,7 @@ python _scripts/bootstrap_kb.py \
    - Always update parent `index.md` when creating new chapters
    - Update topic descriptions if content shifts the conceptual balance
    - Maintain navigation structure
-   - Follow governance rules in `_kb_rules/`
+   - Follow governance rules in `synthesis/_kb_rules/`
 
 **Anti-patterns to avoid**:
 - Creating a new chapter for every ingested article
@@ -280,7 +280,7 @@ python _scripts/bootstrap_kb.py \
 
 ## Resource
 
-- `_scripts/load_context.py`: resolves a note path or URL into a normalized Tapestry handoff payload.
-- `_scripts/bootstrap_kb.py`: creates missing `knowledge-base/` scaffolding with `index.md` at every level.
-- `_kb_rules/`: natural-language governance for topic creation, chapter updates, and hierarchy adjustments.
-- `_kb_blueprint/`: default `index.md` hierarchy used to initialize the book-like knowledge base.
+- `synthesis/_scripts/load_context.py`: resolves a note path or URL into a normalized Tapestry handoff payload.
+- `synthesis/_scripts/bootstrap_kb.py`: creates missing `knowledge-base/` scaffolding with `index.md` at every level.
+- `synthesis/_kb_rules/`: natural-language governance for topic creation, chapter updates, and hierarchy adjustments.
+- `synthesis/_kb_blueprint/`: default `index.md` hierarchy used to initialize the book-like knowledge base.

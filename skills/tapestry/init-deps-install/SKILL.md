@@ -82,11 +82,11 @@ Before installing dependencies, check if this is the first run:
 
 ```bash
 # Check if already initialized
-python skills/tapestry/init-deps-install/_scripts/check_initialized.py
+python init-deps-install/_scripts/check_initialized.py
 # Exit code 0 = already initialized, 1 = needs initialization
 
 # If not initialized, setup configuration
-python skills/tapestry/init-deps-install/_scripts/setup_config.py [project-root]
+python init-deps-install/_scripts/setup_config.py [project-root]
 ```
 
 The setup script will:
@@ -116,7 +116,7 @@ The setup script will:
 After successful setup and installation, create a marker file:
 ```bash
 # Create .tapestry_initialized marker
-python skills/tapestry/init-deps-install/_scripts/mark_initialized.py
+python init-deps-install/_scripts/mark_initialized.py
 ```
 
 This marker file indicates that Tapestry has been successfully initialized and prevents the skill from auto-triggering on future runs, saving tokens.
@@ -126,7 +126,7 @@ This marker file indicates that Tapestry has been successfully initialized and p
 Run the environment detection script:
 
 ```bash
-python skills/tapestry/init-deps-install/_scripts/detect_env.py
+python init-deps-install/_scripts/detect_env.py
 ```
 
 This outputs JSON with:
@@ -239,7 +239,7 @@ Monitor output and report:
 
 After installation, verify:
 ```bash
-python skills/tapestry/init-deps-install/_scripts/verify_install.py
+python init-deps-install/_scripts/verify_install.py
 ```
 
 This checks:

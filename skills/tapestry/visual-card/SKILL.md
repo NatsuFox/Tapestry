@@ -50,7 +50,7 @@ ls -d data/books/*/
 ### Step 2: Run the Context Preparation Script
 
 ```bash
-python skills/tapestry/visual-card/_scripts/generate_card.py --chapter "<topic>/<chapter.md>"
+python visual-card/_scripts/generate_card.py --chapter "<topic>/<chapter.md>"
 ```
 
 This prints a JSON object with three keys:
@@ -61,7 +61,7 @@ This prints a JSON object with three keys:
 
 ### Step 3: Read the Template Specification
 
-Read `skills/tapestry/visual-card/_templates/card_template_spec.md` to understand:
+Read `visual-card/_templates/card_template_spec.md` to understand:
 - What each of the 7 blocks is for
 - Quality criteria for content selection
 - Expected JSON output format with examples
@@ -118,7 +118,7 @@ Content decisions to make:
 ### Step 5: Generate HTML/PNG from Synthesis
 
 ```bash
-python skills/tapestry/visual-card/_scripts/generate_card_from_synthesis.py \
+python visual-card/_scripts/generate_card_from_synthesis.py \
   --synthesis /tmp/card_synthesis.json \
   --chapter "<topic>/<chapter.md>"
 ```
@@ -206,30 +206,30 @@ Dependencies are checked and installed automatically on first run.
 
 ## Resources
 
-- `_scripts/generate_card.py`: Main orchestrator for Agent-driven workflow
-- `_scripts/prepare_card_context.py`: Prepares context (source + template spec) for Agent
-- `_scripts/generate_card_from_synthesis.py`: Generates HTML/PNG from Agent synthesis
-- `_scripts/html2png.py`: Playwright-based HTML to PNG renderer
-- `_scripts/generate_card_legacy.py`: Legacy hardcoded extraction (fallback)
-- `_templates/card_template.html`: Canonical HTML/CSS template
-- `_templates/card_template_spec.md`: Natural language specification for Agent (describes 7 blocks, quality criteria, examples)
+- `visual-card/_scripts/generate_card.py`: Main orchestrator for Agent-driven workflow
+- `visual-card/_scripts/prepare_card_context.py`: Prepares context (source + template spec) for Agent
+- `visual-card/_scripts/generate_card_from_synthesis.py`: Generates HTML/PNG from Agent synthesis
+- `visual-card/_scripts/html2png.py`: Playwright-based HTML to PNG renderer
+- `visual-card/_scripts/generate_card_legacy.py`: Legacy hardcoded extraction (fallback)
+- `visual-card/_templates/card_template.html`: Canonical HTML/CSS template
+- `visual-card/_templates/card_template_spec.md`: Natural language specification for Agent (describes 7 blocks, quality criteria, examples)
 - `_assets/`: Additional assets (if needed)
 
 ## Example Usage
 
 ```bash
 # Generate a card for a specific chapter
-python skills/tapestry/visual-card/_scripts/generate_card.py \
+python visual-card/_scripts/generate_card.py \
   --chapter "data/books/markets-and-trading/market-structure-and-signals"
 
 # Generate with custom color scheme
-python skills/tapestry/visual-card/_scripts/generate_card.py \
+python visual-card/_scripts/generate_card.py \
   --chapter "data/books/ai-and-research/model-training-and-optimization" \
   --primary-color "#2d5a8c" \
   --accent-color "#d4af37"
 
 # Generate HTML only (skip PNG)
-python skills/tapestry/visual-card/_scripts/generate_card.py \
+python visual-card/_scripts/generate_card.py \
   --chapter "data/books/community-qa-and-discussion/platform-discussions" \
   --html-only
 ```

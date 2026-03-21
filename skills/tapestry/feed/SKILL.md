@@ -22,7 +22,7 @@ Use this skill when:
 
 This skill converts crawler-produced artifacts into a standardized but source-aware feed format.
 
-The source-specific rules live in natural-language spec files under `_specs/`. The Agent is expected to read the correct spec and then produce the feed text accordingly.
+The source-specific rules live in natural-language spec files under `feed/_specs/`. The Agent is expected to read the correct spec and then produce the feed text accordingly.
 
 ## Workflow
 
@@ -33,8 +33,8 @@ The source-specific rules live in natural-language spec files under `_specs/`. T
    - read the feed JSON
    - read the capture JSON when the spec requires raw evidence
 4. Determine the source type from `workflow_id` in the feed JSON.
-5. Open the matching source spec in `_specs/`.
-6. Also read `_specs/_shared-standard.md` before drafting the final feed.
+5. Open the matching source spec in `feed/_specs/`.
+6. Also read `feed/_specs/_shared-standard.md` before drafting the final feed.
 7. Produce the final feed text exactly in the structure required by the source spec.
 
 ### Example: Building a feed from an ingested URL
@@ -65,7 +65,7 @@ $tapestry-feed "knowledge-base/notes/2024-01-15-hn-discussion.md"
 
 ## Source Specs
 
-Read the correct file under `_specs/` based on the `workflow_id`:
+Read the correct file under `feed/_specs/` based on the `workflow_id`:
 
 - `generic_html.md`
 - `hackernews_discussion.md`
@@ -81,5 +81,5 @@ Read the correct file under `_specs/` based on the `workflow_id`:
 
 ## Resources
 
-- `_specs/_shared-standard.md`: global rules that apply to every feed.
-- `_specs/_index.md`: quick map from source id to spec file.
+- `feed/_specs/_shared-standard.md`: global rules that apply to every feed.
+- `feed/_specs/_index.md`: quick map from source id to spec file.

@@ -34,6 +34,9 @@ Quick navigation to all documentation resources.
 ### Development
 - **[Recent Improvements](archive/improvements.md)** - Latest enhancements and fixes
 - **[Implementation Archive](archive/changelog-archive.md)** - Detailed implementation notes from development
+- **[Portal Landing Page Record](archive/portal-landing-page-record.md)** - Design history, implementation details, interaction decisions, and editing preferences for the Tapestry launch portal
+- **[Portal Design and Implementation](archive/portal-design-implementation.md)** - Stable record of the portal’s layout, interaction model, assets, and verification rules
+- **[Portal Content and Lexicon Guide](archive/portal-content-lexicon-guide.md)** - Content strategy, lexicon system, and editing guidance for future portal copy refinement
 - **[Contributing Guide](../CONTRIBUTING.md)** - How to contribute to Tapestry
 - **[Changelog](../CHANGELOG.md)** - Version history
 - **[Roadmap](../ROADMAP.md)** - Future plans
@@ -124,6 +127,9 @@ Quick navigation to all documentation resources.
 - [Contributing Guide](../CONTRIBUTING.md)
 - [Recent Improvements](archive/improvements.md)
 - [Implementation Archive](archive/changelog-archive.md)
+- [Portal Landing Page Record](archive/portal-landing-page-record.md)
+- [Portal Design and Implementation](archive/portal-design-implementation.md)
+- [Portal Content and Lexicon Guide](archive/portal-content-lexicon-guide.md)
 - [Roadmap](../ROADMAP.md)
 
 ### Troubleshooting
@@ -153,6 +159,9 @@ Quick navigation to all documentation resources.
 | FAQ | ✓ Complete | 2026-03-16 |
 | Visual Cards | ✓ Complete | 2026-03-18 |
 | Visual Card Integration | ✓ Complete | 2026-03-18 |
+| Portal Landing Page Record | ✓ Complete | 2026-03-22 |
+| Portal Design and Implementation | ✓ Complete | 2026-03-22 |
+| Portal Content and Lexicon Guide | ✓ Complete | 2026-03-22 |
 
 ## 🚧 Planned Documentation
 

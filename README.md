@@ -15,13 +15,11 @@
 
 [中文](#中文) | [English](#english)
 
-### 🏠 门户网站 | Portal Website
+### 🏠 项目主页 | Project Homepage
 
-> **在线访问 Tapestry 门户网站：** https://natsufox.github.io/Tapestry/
+> **在线访问 Tapestry 项目主页：** https://natsufox.github.io/Tapestry/
 >
-> **Visit the live Tapestry portal:** https://natsufox.github.io/Tapestry/
->
-> [立即打开 | Open the Portal](https://natsufox.github.io/Tapestry/)
+> **Visit the live Tapestry project homepage:** https://natsufox.github.io/Tapestry/
 
 </div>
 
@@ -89,7 +87,7 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 - **2026-03-21**：
   - 修复了 Skills 脚本目录的路径问题
   - 添加了 Claude 插件市场的安装方法和说明，以及 npx skills 的安装方式
-  - 优化了门户网站的布局和样式，使之更加美观
+  - 优化了落地页的布局和样式，使之更加美观
 
 - **2026-03-20**：
   - 修复了 Github Actions 的错误，确保所有 Workflow 都能正确通过
@@ -1087,7 +1085,7 @@ Bookmarks lose the "why" behind saving them. Tapestry preserves your original in
 - **2026-03-21**:
   - Fixed path issues in the Skills script directories.
   - Added and documented the Claude plugin marketplace installation flow as well as the `npx skills` installation method.
-  - Optimized the portal site's layout and styling to make it more polished.
+  - Optimized the landing page's layout and styling to make it more polished.
 
 - **2026-03-20**:
   - Fixed GitHub Actions errors to ensure all workflows pass correctly.

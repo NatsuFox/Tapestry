@@ -4,7 +4,63 @@ const nav = document.querySelector(".site-nav");
 
 root.classList.add("js");
 
-if (navToggle && nav) {
+const resolvePath = (obj, path) =>
+  path.split(".").reduce((current, key) => {
+    if (current === undefined || current === null) {
+      return undefined;
+    }
+    return current[key];
+  }, obj);
+
+const applyLexicon = (lexicon) => {
+  document.querySelectorAll("[data-copy]").forEach((element) => {
+    const value = resolvePath(lexicon, element.dataset.copy);
+    if (value !== undefined) {
+      element.textContent = String(value);
+    }
+  });
+
+  document.querySelectorAll("[data-copy-alt]").forEach((element) => {
+    const value = resolvePath(lexicon, element.dataset.copyAlt);
+    if (value !== undefined) {
+      element.setAttribute("alt", String(value));
+    }
+  });
+
+  document.querySelectorAll("[data-copy-content]").forEach((element) => {
+    const value = resolvePath(lexicon, element.dataset.copyContent);
+    if (value !== undefined) {
+      element.setAttribute("content", String(value));
+    }
+  });
+
+  document.querySelectorAll("[data-structure-key]").forEach((node) => {
+    const key = node.dataset.structureKey;
+    const data = resolvePath(lexicon, `overview.structure.nodes.${key}`);
+    if (!data) {
+      return;
+    }
+    node.dataset.title = data.label.cn;
+    node.dataset.english = data.label.en;
+    node.dataset.detail = data.detail;
+  });
+
+  document.querySelectorAll("[data-preview-key]").forEach((slide) => {
+    const key = slide.dataset.previewKey;
+    const data = resolvePath(lexicon, `preview.slides.${key}`);
+    if (!data) {
+      return;
+    }
+    slide.dataset.title = data.title;
+    slide.dataset.caption = data.caption;
+  });
+};
+
+const initNav = () => {
+  if (!navToggle || !nav) {
+    return;
+  }
+
   navToggle.addEventListener("click", () => {
     const isOpen = root.classList.toggle("nav-open");
     navToggle.setAttribute("aria-expanded", String(isOpen));
@@ -16,12 +72,16 @@ if (navToggle && nav) {
       navToggle.setAttribute("aria-expanded", "false");
     });
   });
-}
+};
 
-const motionContainer = document.querySelector("[data-logo-motion]");
-const heroWordmark = document.querySelector(".hero-wordmark");
+const initLogoMotion = () => {
+  const motionContainer = document.querySelector("[data-logo-motion]");
+  const heroWordmark = document.querySelector(".hero-wordmark");
 
-if (motionContainer && heroWordmark && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (!motionContainer || !heroWordmark || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
   const resetLogoMotion = () => {
     motionContainer.style.setProperty("--logo-tilt-x", "0deg");
     motionContainer.style.setProperty("--logo-tilt-y", "0deg");
@@ -41,11 +101,15 @@ if (motionContainer && heroWordmark && !window.matchMedia("(prefers-reduced-moti
 
   motionContainer.addEventListener("pointerleave", resetLogoMotion);
   resetLogoMotion();
-}
+};
 
-const structure = document.querySelector("[data-structure]");
+const initStructure = () => {
+  const structure = document.querySelector("[data-structure]");
 
-if (structure) {
+  if (!structure) {
+    return;
+  }
+
   const nodes = Array.from(structure.querySelectorAll(".structure-node-group"));
   const titleEl = structure.querySelector("[data-structure-title]");
   const detailEl = structure.querySelector("[data-structure-detail]");
@@ -73,24 +137,30 @@ if (structure) {
   if (nodes[0]) {
     activateNode(nodes[0]);
   }
-}
+};
 
-const terminalPlayer = document.querySelector("[data-cast-player]");
+const initTerminal = () => {
+  const terminalPlayer = document.querySelector("[data-cast-player]");
 
-if (terminalPlayer && window.AsciinemaPlayer) {
-  window.AsciinemaPlayer.create(terminalPlayer.dataset.castSrc, terminalPlayer, {
-    autoPlay: true,
-    loop: true,
-    controls: true,
-    preload: true,
-    fit: "width",
-    theme: "asciinema"
-  });
-}
+  if (terminalPlayer && window.AsciinemaPlayer) {
+    window.AsciinemaPlayer.create(terminalPlayer.dataset.castSrc, terminalPlayer, {
+      autoPlay: true,
+      loop: true,
+      controls: true,
+      preload: true,
+      fit: "width",
+      theme: "asciinema"
+    });
+  }
+};
 
-const preview = document.querySelector("[data-preview]");
+const initPreview = () => {
+  const preview = document.querySelector("[data-preview]");
 
-if (preview) {
+  if (!preview) {
+    return;
+  }
+
   const track = preview.querySelector("[data-preview-track]");
   const slides = Array.from(preview.querySelectorAll(".preview-slide"));
   const dotsRoot = preview.querySelector("[data-preview-dots]");
@@ -197,4 +267,24 @@ if (preview) {
 
   setSlide(0);
   startAutoplay();
-}
+};
+
+const bootstrap = async () => {
+  try {
+    const response = await fetch("./lexicon.json", { cache: "no-store" });
+    if (response.ok) {
+      const lexicon = await response.json();
+      applyLexicon(lexicon);
+    }
+  } catch (error) {
+    console.warn("Failed to load portal lexicon:", error);
+  }
+
+  initNav();
+  initLogoMotion();
+  initStructure();
+  initTerminal();
+  initPreview();
+};
+
+bootstrap();

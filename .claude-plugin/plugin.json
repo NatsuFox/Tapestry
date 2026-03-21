@@ -1,0 +1,23 @@
+{
+  "name": "tapestry",
+  "version": "0.1.0",
+  "description": "Bundle-first Tapestry skill pack for crawling, organizing, and synthesizing web content into reusable feed and knowledge-base artifacts",
+  "author": {
+    "name": "NatsuFox",
+    "url": "https://github.com/NatsuFox/Tapestry"
+  },
+  "homepage": "https://github.com/NatsuFox/Tapestry",
+  "repository": "https://github.com/NatsuFox/Tapestry",
+  "license": "MIT",
+  "keywords": [
+    "tapestry",
+    "web-intelligence",
+    "crawler",
+    "knowledge-base",
+    "synthesis",
+    "research"
+  ],
+  "skills": [
+    "./skills/tapestry/"
+  ]
+}

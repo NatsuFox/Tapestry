@@ -1,0 +1,32 @@
+{
+  "name": "tapestry-skills",
+  "owner": {
+    "name": "NatsuFox"
+  },
+  "metadata": {
+    "description": "Official Tapestry skill pack for Claude Code",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "tapestry",
+      "source": "./",
+      "description": "Bundle-first Tapestry skill pack for crawling, organizing, and synthesizing web content into reusable feed and knowledge-base artifacts",
+      "version": "0.1.0",
+      "author": {
+        "name": "NatsuFox"
+      },
+      "homepage": "https://github.com/NatsuFox/Tapestry",
+      "repository": "https://github.com/NatsuFox/Tapestry",
+      "license": "MIT",
+      "keywords": [
+        "tapestry",
+        "web-intelligence",
+        "crawler",
+        "knowledge-base",
+        "synthesis",
+        "research"
+      ]
+    }
+  ]
+}

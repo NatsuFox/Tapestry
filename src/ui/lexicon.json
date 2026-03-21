@@ -35,8 +35,8 @@
         "cn": "介绍",
         "en": "Introduction"
       },
-      "leadCn": "Tapestry 是一套面向 Agent 的多平台内容采集、知识综合与展示技能库，把零散网页转化为可回访、可综合、可发布的知识资产。",
-      "leadEn": "Tapestry is an agent-native skill library for multi-source web capture, knowledge synthesis, and publishable outputs.",
+      "leadCn": "Tapestry - 基于 Agent Skill Bundle 的轻量级书签知识库",
+      "leadEn": "面向 Agent 的多平台内容采集、知识综合与展示技能库，把零散网页转化为可回访、可综合、可发布的知识资产。",
       "logoAlt": "Tapestry transparent logo"
     },
     "metrics": [

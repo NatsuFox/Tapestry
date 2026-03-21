@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from _src.config import TapestryConfig, skill_root
 
 
@@ -24,9 +22,22 @@ def test_relative_project_root_from_config_is_resolved_against_skill_root(tmp_pa
     "data_dir": "_data"
   }
 }
-""".strip()
-        + "\n",
+""".strip() + "\n",
         encoding="utf-8",
     )
     config = TapestryConfig.load(config_path)
     assert config.resolve_project_root(config_path) == (tmp_path.parent / "runtime-root").resolve()
+
+
+def test_synthesis_mode_helpers_match_config_mode():
+    auto_config = TapestryConfig()
+    assert auto_config.should_auto_synthesize() is True
+    assert auto_config.should_deterministic_synthesize() is False
+
+    deterministic_config = TapestryConfig.model_validate({"synthesis": {"mode": "deterministic"}})
+    assert deterministic_config.should_auto_synthesize() is True
+    assert deterministic_config.should_deterministic_synthesize() is True
+
+    manual_config = TapestryConfig.model_validate({"synthesis": {"mode": "manual"}})
+    assert manual_config.should_auto_synthesize() is False
+    assert manual_config.should_deterministic_synthesize() is False

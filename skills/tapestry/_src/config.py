@@ -57,7 +57,9 @@ class TapestryConfig(BaseModel):
         return (anchor / candidate).resolve()
 
     def resolve_data_root(self, project_root: Path | None = None, config_path: Path | None = None) -> Path:
-        base_root = Path(project_root).expanduser().resolve() if project_root else self.resolve_project_root(config_path)
+        base_root = (
+            Path(project_root).expanduser().resolve() if project_root else self.resolve_project_root(config_path)
+        )
         data_dir = self.paths.data_dir.strip() or "_data"
         candidate = Path(data_dir).expanduser()
         if candidate.is_absolute():
@@ -85,6 +87,14 @@ class TapestryConfig(BaseModel):
 
         return cls()
 
+    def should_auto_synthesize(self) -> bool:
+        """Check if synthesis should run automatically after ingest."""
+        return self.synthesis.mode in ("auto", "deterministic")
+
+    def should_deterministic_synthesize(self) -> bool:
+        """Check if synthesis should run deterministically after every ingest."""
+        return self.synthesis.mode == "deterministic"
+
 
 def skill_root() -> Path:
     """Return the installed Tapestry skill root."""
@@ -99,14 +109,6 @@ def config_anchor(config_path: Path | None = None) -> Path:
             return resolved.parent.parent
         return resolved.parent
     return skill_root()
-
-    def should_auto_synthesize(self) -> bool:
-        """Check if synthesis should run automatically after ingest."""
-        return self.synthesis.mode in ("auto", "deterministic")
-
-    def should_deterministic_synthesize(self) -> bool:
-        """Check if synthesis should run deterministically after every ingest."""
-        return self.synthesis.mode == "deterministic"
 
 
 def find_project_root(start_path: Path | None = None) -> Path | None:

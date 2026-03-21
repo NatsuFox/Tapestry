@@ -12,9 +12,9 @@ TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
 if str(TAPESTRY_ROOT) not in sys.path:
     sys.path.insert(0, str(TAPESTRY_ROOT))
 
-from _src.config import TapestryConfig
-from _src.ingest import IngestionService
-from _src.registry import CrawlerRegistry
+from _src.config import TapestryConfig  # noqa: E402
+from _src.ingest import IngestionService  # noqa: E402
+from _src.registry import CrawlerRegistry  # noqa: E402
 
 URL_RE = re.compile(r"https?://[^\s<>()\[\]{}\"']+")
 

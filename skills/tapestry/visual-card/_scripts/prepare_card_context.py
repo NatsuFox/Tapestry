@@ -14,15 +14,16 @@ import json
 import sys
 from pathlib import Path
 
+TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
+if str(TAPESTRY_ROOT) not in sys.path:
+    sys.path.insert(0, str(TAPESTRY_ROOT))
+
+from _src.config import TapestryConfig, skill_root
+
 
 def find_project_root() -> Path:
     """Find the Tapestry project root."""
-    current = Path.cwd()
-    while current != current.parent:
-        if (current / "data").exists() or (current / "knowledge-base").exists():
-            return current
-        current = current.parent
-    raise RuntimeError("Could not find Tapestry project root")
+    return TapestryConfig.load().resolve_project_root()
 
 
 def parse_chapter_content(chapter_path: Path) -> dict:
@@ -69,12 +70,14 @@ def main():
     args = parser.parse_args()
 
     # Find project root
-    project_root = Path(args.project_root) if args.project_root else find_project_root()
+    config = TapestryConfig.load()
+    project_root = Path(args.project_root).expanduser().resolve() if args.project_root else find_project_root()
+    data_root = config.resolve_data_root(project_root)
 
     # Resolve chapter path
     chapter_path = None
     for path in [
-        project_root / "data" / "books" / args.chapter,
+        data_root / "books" / args.chapter,
         project_root / "knowledge-base" / "books" / args.chapter,
         Path(args.chapter)
     ]:
@@ -100,7 +103,7 @@ def main():
     topic_name = chapter_path.parent.name
 
     # Load template specification
-    template_spec_path = project_root / "skills" / "tapestry" / "visual-card" / "_templates" / "card_template_spec.md"
+    template_spec_path = skill_root() / "visual-card" / "_templates" / "card_template_spec.md"
     if not template_spec_path.exists():
         print(f"❌ Template specification not found: {template_spec_path}")
         sys.exit(1)

@@ -19,27 +19,28 @@ import subprocess
 import sys
 from pathlib import Path
 
+TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
+if str(TAPESTRY_ROOT) not in sys.path:
+    sys.path.insert(0, str(TAPESTRY_ROOT))
+
+from _src.config import TapestryConfig, skill_root
+
 
 def find_project_root() -> Path:
-    current = Path.cwd()
-    while current != current.parent:
-        if (current / "data").exists() or (current / "skills").exists():
-            return current
-        current = current.parent
-    raise RuntimeError("Could not find Tapestry project root")
+    return TapestryConfig.load().resolve_project_root()
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--chapter", required=True)
-    parser.add_argument("--output", help="Output directory (default: data/cards)")
+    parser.add_argument("--output", help="Output directory (default: _data/cards)")
     parser.add_argument("--html-only", action="store_true")
     parser.add_argument("--scale", type=float, default=1.5)
     parser.add_argument("--use-legacy", action="store_true", help="Skip Agent synthesis, use legacy extraction")
     args = parser.parse_args()
 
     project_root = find_project_root()
-    scripts_dir = project_root / "skills" / "tapestry" / "visual-card" / "_scripts"
+    scripts_dir = skill_root() / "visual-card" / "_scripts"
 
     if args.use_legacy:
         cmd = [sys.executable, str(scripts_dir / "generate_card_legacy.py"), "--chapter", args.chapter]

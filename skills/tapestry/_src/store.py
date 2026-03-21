@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse
 
+from _src.config import TapestryConfig
 from _src.models import AnalysisHandoff, CapturedPage, CatalogRecord, FeedEntry, WorkflowProfile
 
 
@@ -34,13 +35,15 @@ def _first_excerpt(text: str, limit: int = 240) -> str:
 class KnowledgeBaseStore:
     """Persist each ingest stage to the project tree."""
 
-    def __init__(self, project_root: Path) -> None:
+    def __init__(self, project_root: Path, *, config: TapestryConfig | None = None) -> None:
+        config = config or TapestryConfig.load()
         self._project_root = Path(project_root).resolve()
-        self._capture_root = self._project_root / "data" / "captures"
-        self._feed_root = self._project_root / "data" / "feeds"
-        self._note_root = self._project_root / "data" / "notes"
-        self._catalog_path = self._project_root / "data" / "catalog.jsonl"
-        self._books_root = self._project_root / "data" / "books"
+        self._data_root = config.resolve_data_root(self._project_root)
+        self._capture_root = self._data_root / "captures"
+        self._feed_root = self._data_root / "feeds"
+        self._note_root = self._data_root / "notes"
+        self._catalog_path = self._data_root / "catalog.jsonl"
+        self._books_root = self._data_root / "books"
         self._ensure_layout()
 
     def save_capture(self, capture: CapturedPage) -> str:
@@ -148,12 +151,18 @@ class KnowledgeBaseStore:
         return self._project_root
 
     @property
+    def data_root(self) -> Path:
+        return self._data_root
+
+    @property
     def books_root(self) -> Path:
         """Return the root directory for book-like knowledge base."""
         return self._books_root
 
     def _relative(self, path: Path) -> str:
-        return path.relative_to(self._project_root).as_posix()
+        if path.is_relative_to(self._project_root):
+            return path.relative_to(self._project_root).as_posix()
+        return path.as_posix()
 
     def _iter_catalog_records(self):
         if not self._catalog_path.exists():

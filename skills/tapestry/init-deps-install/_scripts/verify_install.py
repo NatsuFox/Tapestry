@@ -53,7 +53,9 @@ def verify_core_dependencies() -> List[Dict[str, any]]:
     """Verify core dependencies from pyproject.toml."""
     core_deps = [
         ("httpx", "httpx"),
+        ("Markdown", "markdown"),
         ("pydantic", "pydantic"),
+        ("pymdown-extensions", "pymdownx"),
         ("selectolax", "selectolax"),
         ("readability-lxml", "readability"),
         ("chardet", "chardet"),

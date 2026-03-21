@@ -17,15 +17,16 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
+if str(TAPESTRY_ROOT) not in sys.path:
+    sys.path.insert(0, str(TAPESTRY_ROOT))
+
+from _src.config import TapestryConfig, skill_root
+
 
 def find_project_root() -> Path:
     """Find the Tapestry project root."""
-    current = Path.cwd()
-    while current != current.parent:
-        if (current / "data").exists() or (current / "knowledge-base").exists():
-            return current
-        current = current.parent
-    raise RuntimeError("Could not find Tapestry project root")
+    return TapestryConfig.load().resolve_project_root()
 
 
 def load_synthesis(synthesis_path: Path) -> dict:
@@ -187,10 +188,9 @@ def main():
     args = parser.parse_args()
 
     # Find project root
-    if args.project_root:
-        project_root = Path(args.project_root)
-    else:
-        project_root = find_project_root()
+    config = TapestryConfig.load()
+    project_root = Path(args.project_root).expanduser().resolve() if args.project_root else config.resolve_project_root()
+    data_root = config.resolve_data_root(project_root)
 
     print(f"📁 Project root: {project_root}")
 
@@ -211,7 +211,7 @@ def main():
     if args.output:
         output_dir = project_root / args.output
     else:
-        output_dir = synthesis_path.parent
+        output_dir = data_root / "cards"
 
     # Generate output filename from synthesis metadata
     chapter_name = synthesis["metadata"]["title_en"].lower().replace(" ", "-")
@@ -220,7 +220,7 @@ def main():
     output_html = output_subdir / f"{chapter_name}.html"
 
     # Find template
-    template_path = project_root / "skills" / "tapestry" / "visual-card" / "_templates" / "card_template.html"
+    template_path = skill_root() / "visual-card" / "_templates" / "card_template.html"
     if not template_path.exists():
         print(f"❌ Template not found: {template_path}")
         sys.exit(1)
@@ -245,7 +245,7 @@ def main():
     # Generate PNG if requested
     if not args.html_only:
         output_png = output_subdir / f"{chapter_name}.png"
-        html2png_script = project_root / "skills" / "tapestry" / "visual-card" / "_scripts" / "html2png.py"
+        html2png_script = skill_root() / "visual-card" / "_scripts" / "html2png.py"
 
         if html2png_script.exists():
             print(f"🖼️  Generating PNG (scale={args.scale})...")

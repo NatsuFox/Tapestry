@@ -24,7 +24,7 @@ This skill acts as the presentation layer for the knowledge base.
 
 It should:
 
-- scan the specified data directory hierarchy (or default to `data/books/`)
+- scan the specified data directory hierarchy (or default to `_data/books/`)
 - preserve the topic and chapter structure defined by `index.md`
 - generate a readable frontend that feels closer to a blog, notebook, or research portal than to a file browser
 - support building viewers for specific books or the entire knowledge base
@@ -32,8 +32,8 @@ It should:
 ## Workflow
 
 1. Resolve the data path from the argument:
-   - If a specific path is provided (e.g., "markets-and-trading"), use `data/books/markets-and-trading`
-   - If no argument is provided, default to `data/books/` (entire knowledge base)
+   - If a specific path is provided (e.g., "markets-and-trading"), use `_data/books/markets-and-trading`
+   - If no argument is provided, default to `_data/books/` (entire knowledge base)
 
 2. Ensure the data directory exists and contains markdown files
 
@@ -41,30 +41,20 @@ It should:
 
 ```bash
 # For a specific book
-python display/_scripts/publish_viewer.py --data-path data/books/markets-and-trading --force
+python display/_scripts/publish_viewer.py --data-path _data/books/markets-and-trading --force
 
 # For the entire knowledge base (default)
 python display/_scripts/publish_viewer.py --force
 ```
 
-4. **IMPORTANT**: The viewer is created at `<data-path>/_viewer`. Before serving, ensure the data symlink exists:
-
-```bash
-# Navigate to the viewer directory
-cd <data-path>/_viewer
-
-# Create symlink if it doesn't exist (the viewer expects data/knowledge-base.json)
-ln -sf "$(pwd)/data" data 2>/dev/null || true
-```
-
-5. Serve the generated frontend:
+4. **IMPORTANT**: The viewer is created at `<data-path>/_viewer`. Serve that generated directory directly:
 
 ```bash
 # Serve from the viewer directory
 python -m http.server 8766 --directory <data-path>/_viewer
 ```
 
-6. Report back with:
+5. Report back with:
    - the data source path
    - the viewer output directory
    - the generated manifest path
@@ -82,17 +72,11 @@ python -m http.server 8766 --directory <data-path>/_viewer
 
 ### Data Path Not Found
 
-The frontend (`_ui/index.html`) expects to load `data/knowledge-base.json` relative to its location. If you see a JSON parsing error like "Unexpected token '<'", it means the data directory is missing.
+The generated viewer expects `data/knowledge-base.json` under `<data-path>/_viewer/`. If you see a JSON parsing error like "Unexpected token '<'", it usually means `_ui/` was served directly instead of the published `_viewer/` output.
 
-**Solution**: Create a symlink from `_ui/data` to the actual data location:
-
-```bash
-ln -sf "$(pwd)/data/books/_viewer/data" _ui/data
-```
-
-This ensures the frontend can access the manifest and document data without duplicating files.
+**Solution**: Re-run `publish_viewer.py` and serve `<data-path>/_viewer`.
 
 ## Resources
 
-- `display/_scripts/publish_viewer.py`: scans `knowledge-base/`, copies frontend assets, and generates the JSON manifest.
+- `display/_scripts/publish_viewer.py`: scans `_data/books/`, copies frontend assets, and generates the JSON manifest.
 - `_ui/`: custom static frontend assets for the viewer.

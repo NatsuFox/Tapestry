@@ -34,10 +34,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
-    project_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
 
     # Determine template: CLI flag > config > default
     template = args.template
+    config = None
     if not template:
         # Try to load from config
         try:
@@ -48,8 +48,22 @@ def main() -> int:
         except Exception:
             template = "default"
 
+    if config is None:
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+            from _src.config import TapestryConfig
+            config = TapestryConfig.load()
+        except Exception:
+            config = None
+
+    project_root = (
+        Path(args.project_root).expanduser().resolve()
+        if args.project_root
+        else (config.resolve_project_root() if config else Path.cwd().resolve())
+    )
+
     template_root = Path(__file__).resolve().parent.parent / "_kb_templates" / template
-    destination_root = project_root / "data" / "books"
+    destination_root = config.resolve_data_root(project_root) / "books" if config else project_root / "_data" / "books"
 
     if not template_root.exists():
         print(f"Error: Template '{template}' not found at {template_root}", file=sys.stderr)

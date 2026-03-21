@@ -10,8 +10,8 @@
   },
   "paths": {
     "project_root": ".",
-    "data_dir": "data",
-    "description": "All generated content (captures, feeds, notes, books, catalog) stored under data/. Note: project_root will be auto-detected and updated to absolute path on first run."
+    "data_dir": "_data",
+    "description": "All generated content (captures, feeds, notes, books, catalog) stored under the installed skill-local _data/ directory. Note: project_root defaults to the installed Tapestry skill root and can be overridden explicitly."
   },
   "fonts": {
     "en_font": "Inter",

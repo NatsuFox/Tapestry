@@ -34,9 +34,9 @@ class LanguageConfig(BaseModel):
 
 
 class PathsConfig(BaseModel):
-    project_root: str = "."
-    data_dir: str = "data"
-    knowledge_base_dir: str = "knowledge-base"
+    project_root: str = ""
+    data_dir: str = "_data"
+    knowledge_base_dir: str = "_data/books"
 
 
 class TapestryConfig(BaseModel):
@@ -45,6 +45,24 @@ class TapestryConfig(BaseModel):
     paths: PathsConfig = Field(default_factory=PathsConfig)
     fonts: FontConfig = Field(default_factory=FontConfig)
     language: LanguageConfig = Field(default_factory=LanguageConfig)
+
+    def resolve_project_root(self, config_path: Path | None = None) -> Path:
+        configured = self.paths.project_root.strip()
+        anchor = config_anchor(config_path)
+        if not configured or configured == ".":
+            return anchor
+        candidate = Path(configured).expanduser()
+        if candidate.is_absolute():
+            return candidate.resolve()
+        return (anchor / candidate).resolve()
+
+    def resolve_data_root(self, project_root: Path | None = None, config_path: Path | None = None) -> Path:
+        base_root = Path(project_root).expanduser().resolve() if project_root else self.resolve_project_root(config_path)
+        data_dir = self.paths.data_dir.strip() or "_data"
+        candidate = Path(data_dir).expanduser()
+        if candidate.is_absolute():
+            return candidate.resolve()
+        return (base_root / candidate).resolve()
 
     @classmethod
     def load(cls, config_path: Path | None = None) -> TapestryConfig:
@@ -66,6 +84,21 @@ class TapestryConfig(BaseModel):
             return cls.model_validate(data)
 
         return cls()
+
+
+def skill_root() -> Path:
+    """Return the installed Tapestry skill root."""
+    return Path(__file__).resolve().parents[1]
+
+
+def config_anchor(config_path: Path | None = None) -> Path:
+    """Resolve relative config paths against the installed skill root."""
+    if config_path is not None:
+        resolved = Path(config_path).resolve()
+        if resolved.parent.name == "config":
+            return resolved.parent.parent
+        return resolved.parent
+    return skill_root()
 
     def should_auto_synthesize(self) -> bool:
         """Check if synthesis should run automatically after ingest."""
@@ -90,6 +123,9 @@ def find_project_root(start_path: Path | None = None) -> Path | None:
 
     # Search up to 10 levels to avoid infinite loops
     for _ in range(10):
+        if _is_skill_root(current):
+            return current
+
         # Check for skills/tapestry structure
         if (current / "skills" / "tapestry").is_dir():
             return current
@@ -110,7 +146,7 @@ def find_project_root(start_path: Path | None = None) -> Path | None:
             break
         current = parent
 
-    return None
+    return skill_root()
 
 
 def validate_and_fix_project_root(config_path: Path, current_root: Path) -> Path:
@@ -125,7 +161,11 @@ def validate_and_fix_project_root(config_path: Path, current_root: Path) -> Path
         The validated (and possibly corrected) project root path
     """
     # Resolve the current root to absolute path
-    resolved_root = Path(current_root).resolve()
+    configured_root = Path(current_root).expanduser()
+    if configured_root.is_absolute():
+        resolved_root = configured_root.resolve()
+    else:
+        resolved_root = (config_anchor(config_path) / configured_root).resolve()
 
     # Check if current root is relative (like ".")
     is_relative = not Path(current_root).is_absolute()
@@ -163,6 +203,9 @@ def _is_valid_project_root(path: Path) -> bool:
     """Check if a path is a valid Tapestry project root."""
     path = Path(path).resolve()
 
+    if _is_skill_root(path):
+        return True
+
     # Check for skills/tapestry structure
     if (path / "skills" / "tapestry").is_dir():
         return True
@@ -178,3 +221,9 @@ def _is_valid_project_root(path: Path) -> bool:
             pass
 
     return False
+
+
+def _is_skill_root(path: Path) -> bool:
+    """Check if a path is the self-contained installed skill root."""
+    path = Path(path).resolve()
+    return (path / "SKILL.md").is_file() and (path / "_src").is_dir()

@@ -16,15 +16,16 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
+TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
+if str(TAPESTRY_ROOT) not in sys.path:
+    sys.path.insert(0, str(TAPESTRY_ROOT))
+
+from _src.config import TapestryConfig, skill_root
+
 
 def find_project_root() -> Path:
-    """Find the Tapestry project root by looking for data/ or knowledge-base/ directory."""
-    current = Path.cwd()
-    while current != current.parent:
-        if (current / "data").exists() or (current / "knowledge-base").exists():
-            return current
-        current = current.parent
-    raise RuntimeError("Could not find Tapestry project root (no data/ or knowledge-base/ directory found)")
+    """Find the Tapestry project root."""
+    return TapestryConfig.load().resolve_project_root()
 
 
 def parse_chapter_content(chapter_path: Path) -> Dict:
@@ -462,7 +463,7 @@ def generate_html_card(
 def main():
     parser = argparse.ArgumentParser(description="Generate visual note cards from Tapestry KB content")
     parser.add_argument("--chapter", required=True, help="Chapter path (e.g., 'ai-and-research/model-training')")
-    parser.add_argument("--output", default="data/cards", help="Output directory (default: data/cards)")
+    parser.add_argument("--output", default="_data/cards", help="Output directory (default: _data/cards)")
     parser.add_argument("--project-root", help="Tapestry project root (auto-detected if not provided)")
     parser.add_argument("--html-only", action="store_true", help="Generate HTML only, skip PNG")
     parser.add_argument("--scale", type=float, default=1.5, help="PNG scale factor (default: 1.5)")
@@ -472,17 +473,16 @@ def main():
     args = parser.parse_args()
 
     # Find project root
-    if args.project_root:
-        project_root = Path(args.project_root)
-    else:
-        project_root = find_project_root()
+    config = TapestryConfig.load()
+    project_root = Path(args.project_root).expanduser().resolve() if args.project_root else find_project_root()
+    data_root = config.resolve_data_root(project_root)
 
     print(f"📁 Project root: {project_root}")
 
     # Resolve chapter path - try multiple locations
     chapter_path = None
     possible_paths = [
-        project_root / "data" / "books" / args.chapter,
+        data_root / "books" / args.chapter,
         project_root / "knowledge-base" / "books" / args.chapter,
         Path(args.chapter)
     ]
@@ -516,7 +516,7 @@ def main():
     output_html = output_dir / f"{chapter_name}.html"
 
     # Find template
-    template_path = project_root / "skills" / "tapestry" / "visual-card" / "_templates" / "card_template.html"
+    template_path = skill_root() / "visual-card" / "_templates" / "card_template.html"
     if not template_path.exists():
         print(f"❌ Template not found: {template_path}")
         sys.exit(1)
@@ -543,7 +543,7 @@ def main():
     # Generate PNG if requested
     if not args.html_only:
         output_png = output_dir / f"{chapter_name}.png"
-        html2png_script = project_root / "skills" / "tapestry" / "visual-card" / "_scripts" / "html2png.py"
+        html2png_script = skill_root() / "visual-card" / "_scripts" / "html2png.py"
 
         if html2png_script.exists():
             print(f"🖼️  Generating PNG (scale={args.scale})...")

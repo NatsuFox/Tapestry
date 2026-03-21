@@ -116,6 +116,7 @@ def analyze_dependencies(project_path: Path) -> Dict:
 def generate_install_commands(
     env_info: Dict,
     deps_info: Dict,
+    package_root: Path,
     install_mode: str = "all"
 ) -> List[Dict[str, str]]:
     """
@@ -138,13 +139,13 @@ def generate_install_commands(
         if project_has_pyproject:
             # Install in editable mode with pyproject.toml
             commands.append({
-                "command": f"{sys.executable} -m pip install -e .",
+                "command": f'{sys.executable} -m pip install -e "{package_root}"',
                 "description": "Install core dependencies (editable mode)",
                 "type": "core",
             })
         elif deps_info["source"] == "requirements.txt":
             commands.append({
-                "command": f"{sys.executable} -m pip install -r requirements.txt",
+                "command": f'{sys.executable} -m pip install -r "{package_root / "requirements.txt"}"',
                 "description": "Install core dependencies from requirements.txt",
                 "type": "core",
             })
@@ -153,7 +154,7 @@ def generate_install_commands(
     if install_mode == "all" and deps_info["optional"]:
         if "browser" in deps_info["optional"]:
             commands.append({
-                "command": f"{sys.executable} -m pip install -e .[browser]",
+                "command": f'{sys.executable} -m pip install -e "{package_root}[browser]"',
                 "description": "Install browser support (Playwright)",
                 "type": "optional",
             })
@@ -206,7 +207,7 @@ def main():
         "project_path",
         nargs="?",
         default=".",
-        help="Path to project directory (default: current directory)"
+        help="Optional runtime root for generated data (default: current directory)"
     )
     parser.add_argument(
         "--mode",
@@ -222,16 +223,18 @@ def main():
 
     args = parser.parse_args()
     project_path = Path(args.project_path).resolve()
+    skill_root = Path(__file__).resolve().parents[2]
 
     if not project_path.exists():
         print(f"Error: Project path does not exist: {project_path}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"Installing dependencies for: {project_path}\n")
+    print(f"Installing dependencies for skill pack: {skill_root}")
+    print(f"Target runtime root: {project_path}\n")
 
     # Load environment info (should be passed as JSON via stdin or file)
     # For now, we'll detect it inline
-    env_detect_script = project_path / "skills" / "tapestry-install" / "_scripts" / "detect_env.py"
+    env_detect_script = skill_root / "init-deps-install" / "_scripts" / "detect_env.py"
     if env_detect_script.exists():
         result = subprocess.run(
             [sys.executable, str(env_detect_script)],
@@ -244,14 +247,14 @@ def main():
         sys.exit(1)
 
     # Analyze dependencies
-    deps_info = analyze_dependencies(project_path)
+    deps_info = analyze_dependencies(skill_root)
 
     if not deps_info["source"]:
         print("No dependency files found (pyproject.toml or requirements.txt)")
         sys.exit(1)
 
     # Generate commands
-    commands = generate_install_commands(env_info, deps_info, args.mode)
+    commands = generate_install_commands(env_info, deps_info, skill_root, args.mode)
 
     if args.dry_run:
         print("Dry run - commands that would be executed:")

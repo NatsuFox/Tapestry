@@ -27,7 +27,7 @@ def setup_config(project_root=None):
     Setup Tapestry configuration.
 
     Args:
-        project_root: Optional project root path. If None, uses CWD.
+        project_root: Optional project root path. If None, uses the installed skill root.
 
     Returns:
         dict: Status information
@@ -49,7 +49,7 @@ def setup_config(project_root=None):
     if project_root:
         project_root = Path(project_root).resolve()
     else:
-        project_root = Path.cwd().resolve()
+        project_root = tapestry_root.resolve()
 
     result["project_root"] = str(project_root)
 

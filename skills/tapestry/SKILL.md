@@ -35,8 +35,8 @@ Tapestry has six internal sub-skills that work together:
 Tapestry uses a two-phase design with automatic dependency setup:
 
 **Phase 0 (Init)**: Auto-triggered dependency installation when first launched or dependencies missing
-**Phase 1 (Ingest)**: Deterministic extraction → `knowledge-base/notes/YYYY/MM/` (date-organized)
-**Phase 2 (Synthesis)**: AI-driven analysis → `knowledge-base/{topic}/{chapter}/` (book-organized)
+**Phase 1 (Ingest)**: Deterministic extraction → `_data/notes/YYYY/MM/` (date-organized)
+**Phase 2 (Synthesis)**: AI-driven analysis → `_data/books/{topic}/{chapter}/` (book-organized)
 
 By default, synthesis runs automatically after each ingest (`synthesis.mode: "auto"` in `tapestry.config.json`). You can configure this to "manual" or "batch" mode.
 
@@ -200,7 +200,7 @@ Action:
 
 - **Always read the sub-skill SKILL.md files**: They contain the actual implementation details
 - **Don't invent workflows**: Follow what's written in the sub-skill instructions
-- **Preserve artifacts**: The pipeline creates captures/, feeds/, notes/, and knowledge-base/ directories
+- **Preserve artifacts**: The pipeline creates `_data/captures/`, `_data/feeds/`, `_data/notes/`, and `_data/books/`
 - **Respect the architecture**: Ingest is deterministic, synthesis is interpretive
 - **Check for errors**: Sub-skills may fail; handle gracefully and report to user
 

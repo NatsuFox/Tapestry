@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from _src.config import TapestryConfig
 from _src.fetch import Fetcher
 from _src.links import extract_urls
 from _src.models import BatchIngestReport, CatalogRecord, IngestResult
@@ -34,15 +35,17 @@ class IngestionService:
         *,
         registry: CrawlerRegistry | None = None,
     ) -> IngestionService:
-        root = cls._resolve_project_root(project_root)
-        store = KnowledgeBaseStore(root)
+        config = TapestryConfig.load()
+        root = cls._resolve_project_root(project_root, config=config)
+        store = KnowledgeBaseStore(root, config=config)
         return cls(registry=registry or CrawlerRegistry(), store=store)
 
     @staticmethod
-    def _resolve_project_root(project_root: Path | None) -> Path:
+    def _resolve_project_root(project_root: Path | None, *, config: TapestryConfig | None = None) -> Path:
         if project_root is not None:
             return Path(project_root).resolve()
-        return Path.cwd().resolve()
+        active_config = config or TapestryConfig.load()
+        return active_config.resolve_project_root()
 
     async def ingest_text(self, text: str) -> BatchIngestReport:
         urls = extract_urls(text)

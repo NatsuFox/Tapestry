@@ -13,6 +13,7 @@ TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
 if str(TAPESTRY_ROOT) not in sys.path:
     sys.path.insert(0, str(TAPESTRY_ROOT))
 
+from _src.config import TapestryConfig
 from _src.store import KnowledgeBaseStore
 
 
@@ -22,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--project-root",
         default="",
-        help="Project root containing the stored Tapestry artifacts (defaults to current working directory)",
+        help="Project root containing the stored Tapestry artifacts (defaults to the installed skill root)",
     )
     return parser
 
@@ -30,14 +31,10 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     args = build_parser().parse_args()
 
-    # Use provided project root, or default to current working directory
-    # This ensures we look in the user's project, not the skill cache
-    if args.project_root:
-        target_root = Path(args.project_root).expanduser().resolve()
-    else:
-        target_root = Path.cwd().resolve()
+    config = TapestryConfig.load()
+    target_root = Path(args.project_root).expanduser().resolve() if args.project_root else config.resolve_project_root()
 
-    store = KnowledgeBaseStore(target_root)
+    store = KnowledgeBaseStore(target_root, config=config)
     target = args.target.strip()
 
     try:

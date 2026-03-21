@@ -5,7 +5,12 @@ from __future__ import annotations
 import argparse
 import asyncio
 import re
+import sys
 from pathlib import Path
+
+TAPESTRY_ROOT = Path(__file__).resolve().parents[2]
+if str(TAPESTRY_ROOT) not in sys.path:
+    sys.path.insert(0, str(TAPESTRY_ROOT))
 
 from _src.config import TapestryConfig
 from _src.ingest import IngestionService
@@ -73,7 +78,7 @@ async def run_cli(args: argparse.Namespace) -> int:
     # Load config and validate/fix project root
     from _src.config import find_project_root, validate_and_fix_project_root
 
-    target_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
+    target_root = Path(args.project_root).expanduser().resolve() if args.project_root else None
 
     # Try to find and load config
     config_candidates = [
@@ -90,14 +95,17 @@ async def run_cli(args: argparse.Namespace) -> int:
 
     # Validate and auto-correct project root if needed
     if config_path:
+        config = TapestryConfig.load(config_path)
+        target_root = target_root or config.resolve_project_root(config_path)
         target_root = validate_and_fix_project_root(config_path, target_root)
     else:
         # No config found, try to find project root automatically
-        found_root = find_project_root(target_root)
+        found_root = find_project_root(target_root or Path.cwd())
         if found_root:
             target_root = found_root
 
-    config = TapestryConfig.load()  # Will find config in skills/tapestry/config/
+    config = TapestryConfig.load(config_path) if config_path else TapestryConfig.load()
+    target_root = target_root or config.resolve_project_root(config_path)
     service = IngestionService.for_project_root(target_root, registry=registry)
     report = await service.ingest_urls(urls, forced_crawler_id=None if args.crawler == "auto" else args.crawler)
 

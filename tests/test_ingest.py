@@ -50,7 +50,7 @@ async def test_ingest_text_creates_capture_feed_and_note(tmp_path):
 
     feed_payload = json.loads(feed_path.read_text(encoding="utf-8"))
     assert feed_payload["title"] == "Test Article Title"
-    assert "data/notes" in result.note_path
+    assert "_data/notes" in result.note_path
     assert result.analysis.skill == "tapestry-synthesis"
     note_text = note_path.read_text(encoding="utf-8")
     assert "## Deterministic Highlights" in note_text

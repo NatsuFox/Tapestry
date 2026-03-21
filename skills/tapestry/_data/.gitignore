@@ -1,0 +1,12 @@
+*
+!.gitignore
+!books/
+!books/.gitkeep
+!captures/
+!captures/.gitkeep
+!feeds/
+!feeds/.gitkeep
+!notes/
+!notes/.gitkeep
+!cards/
+!cards/.gitkeep

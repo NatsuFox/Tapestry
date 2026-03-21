@@ -29,12 +29,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--project-root",
         default="",
-        help="Project root containing data/books/. Defaults to the current working directory.",
+        help="Project root containing the Tapestry skill-local _data/ tree. Defaults to the installed skill root.",
     )
     parser.add_argument(
         "--data-path",
         default="",
-        help="Specific data directory to build viewer for (e.g., data/books/markets-and-trading). If not specified, builds for entire data/books/.",
+        help="Specific data directory to build viewer for (e.g., _data/books/markets-and-trading). If not specified, builds for the entire _data/books/ tree.",
     )
     parser.add_argument(
         "--force",
@@ -369,18 +369,24 @@ def build_tree(root: Path) -> dict:
 
 def main() -> int:
     args = build_parser().parse_args()
-    project_root = Path(args.project_root).expanduser().resolve() if args.project_root else Path.cwd().resolve()
 
     # Load Tapestry configuration
     config = TapestryConfig.load()
+    project_root = Path(args.project_root).expanduser().resolve() if args.project_root else config.resolve_project_root()
+    data_root = config.resolve_data_root(project_root)
 
     # Determine the data source path
     if args.data_path:
-        data_source = Path(args.data_path).expanduser().resolve()
-        if not data_source.is_absolute():
-            data_source = project_root / args.data_path
+        requested = Path(args.data_path).expanduser()
+        if requested.is_absolute():
+            data_source = requested
+        else:
+            project_candidate = project_root / args.data_path
+            data_source = project_candidate if project_candidate.exists() else data_root / args.data_path
     else:
-        data_source = project_root / "data" / "books"
+        data_source = data_root / "books"
+
+    data_source = data_source.resolve()
 
     if not data_source.exists():
         raise SystemExit(f"Data source {data_source} does not exist.")

@@ -17,9 +17,9 @@
 
 ### 🏠 项目主页 | Project Homepage
 
-> **在线访问 Tapestry 项目主页：** https://natsufox.github.io/Tapestry/
+> **在线访问 Tapestry 项目主页：** https://natsufox.github.io/Tapestry
 >
-> **Visit the live Tapestry project homepage:** https://natsufox.github.io/Tapestry/
+> **Visit the live Tapestry project homepage:** https://natsufox.github.io/Tapestry
 
 </div>
 
@@ -91,7 +91,7 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 
 - **2026-03-20**：
   - 修复了 Github Actions 的错误，确保所有 Workflow 都能正确通过
-  - 🏠 添加了项目主页，并适配到了 Github Pages 上，访问地址为 https://natsufox.github.io/Tapestry/
+  - 🏠 添加了项目主页，并适配到了 Github Pages 上，访问地址为 https://natsufox.github.io/Tapestry
 
 - **2026-03-18**：
   - 优化了知识库前端样式布局和 Markdown 渲染
@@ -1089,7 +1089,7 @@ Bookmarks lose the "why" behind saving them. Tapestry preserves your original in
 
 - **2026-03-20**:
   - Fixed GitHub Actions errors to ensure all workflows pass correctly.
-  - 🏠 Added a project homepage and deployed it to GitHub Pages — visit it at https://natsufox.github.io/Tapestry/
+  - 🏠 Added a project homepage and deployed it to GitHub Pages — visit it at https://natsufox.github.io/Tapestry
 
 - **2026-03-18**:
   - Optimized knowledge-base frontend layout and Markdown rendering.

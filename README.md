@@ -15,6 +15,14 @@
 
 [中文](#中文) | [English](#english)
 
+### 🏠 门户网站 | Portal Website
+
+> **在线访问 Tapestry 门户网站：** https://natsufox.github.io/Tapestry/
+>
+> **Visit the live Tapestry portal:** https://natsufox.github.io/Tapestry/
+>
+> [立即打开 | Open the Portal](https://natsufox.github.io/Tapestry/)
+
 </div>
 
 ---

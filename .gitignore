@@ -46,3 +46,4 @@ libs/
 /backups/
 backup.sh
 backup_*.sh
+src/

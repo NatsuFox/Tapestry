@@ -165,18 +165,25 @@ AI 助手会生成静态前端并启动本地服务器（通常是 `http://local
 
 #### 安装
 
+**方法 1：Claude Code 插件市场安装**
+
 ```bash
-# 方法 1：Claude Code 插件市场安装
 /plugin marketplace add NatsuFox/Tapestry
 /plugin install tapestry@tapestry-skills
 
-# 或者直接安装插件
+# 或者直接安装
 claude plugin install tapestry@tapestry-skills
+```
 
-# 方法 2：通用 npx skills 安装
-# 安装 bundle-first 的 "tapestry" 技能包
+**方法 2：通用 npx skills 安装**
+
+安装 bundle-first 的 `tapestry` 技能包：
+
+```bash
 npx skills add NatsuFox/Tapestry --skill tapestry
-npx skills add NatsuFox/Tapestry --skill tapestry -g
+
+# 仅在你需要用户级全局安装时，才使用该行命令
+# npx skills add NatsuFox/Tapestry --skill tapestry -g
 ```
 
 通过纯技能安装方式产生的所有数据，都会写入已安装的 Tapestry 技能目录下的 `_data/`：
@@ -1155,18 +1162,25 @@ Your AI assistant will generate a static frontend and start a local server (usua
 
 #### Installation
 
+**Method 1: Claude Code plugin marketplace**
+
 ```bash
-# Method 1: Claude Code plugin marketplace
 /plugin marketplace add NatsuFox/Tapestry
 /plugin install tapestry@tapestry-skills
 
-# Or install the plugin directly
+# Or install it directly
 claude plugin install tapestry@tapestry-skills
+```
 
-# Method 2: Universal npx skills install
-# Installs the bundle-first "tapestry" skill pack.
+**Method 2: Universal npx skills install**
+
+Installs the bundle-first `tapestry` skill pack:
+
+```bash
 npx skills add NatsuFox/Tapestry --skill tapestry
-npx skills add NatsuFox/Tapestry --skill tapestry -g
+
+# Use this line only when you want a user-global install
+# npx skills add NatsuFox/Tapestry --skill tapestry -g
 ```
 
 All generated artifacts from skill-only installs now live inside the installed Tapestry skill directory under `_data/`:

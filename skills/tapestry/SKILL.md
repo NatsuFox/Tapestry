@@ -57,55 +57,29 @@ Analyze what the user wants:
 Read and follow the instructions in the relevant sub-skill SKILL.md files:
 
 #### For Dependency Installation (Auto-Triggered)
-```bash
-# This is automatically triggered when dependencies are missing
-# Read the init-deps-install sub-skill instructions
-cat init-deps-install/SKILL.md
 
-# Manual trigger if needed
-python init-deps-install/_scripts/detect_env.py
-```
+Read the file `init-deps-install/SKILL.md` to understand the detection and installation workflow.
+All installation steps require explicit user confirmation before execution.
 
 #### For URL Ingestion
-```bash
-# Read the ingest sub-skill instructions
-cat ingest/SKILL.md
 
-# Then execute according to those instructions
-python ingest/_scripts/run.py "$ARGUMENTS"
-```
+Read the file `ingest/SKILL.md`, then follow the workflow described there.
 
 #### For Structured Feeds
-```bash
-# Read the feed sub-skill instructions
-cat feed/SKILL.md
 
-# Then follow the workflow described there
-```
+Read the file `feed/SKILL.md`, then follow the workflow described there.
 
 #### For Synthesis & Knowledge Base
-```bash
-# Read the synthesis sub-skill instructions
-cat synthesis/SKILL.md
 
-# Then follow the workflow described there
-```
+Read the file `synthesis/SKILL.md`, then follow the workflow described there.
 
 #### For Visualization
-```bash
-# Read the display sub-skill instructions
-cat display/SKILL.md
 
-# Then follow the workflow described there
-```
+Read the file `display/SKILL.md`, then follow the workflow described there.
 
 #### For Visual Cards
-```bash
-# Read the visual-card sub-skill instructions
-cat visual-card/SKILL.md
 
-# Then follow the workflow described there
-```
+Read the file `visual-card/SKILL.md`, then follow the workflow described there.
 
 ### Step 3: Chain Sub-Skills When Needed
 

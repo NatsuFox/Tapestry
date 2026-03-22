@@ -106,6 +106,28 @@
               data-copy-alt="hero.intro.logoAlt"
             />
 
+            <p class="hit-install-label">A single command for a quick installation.</p>
+            <div class="hero-install-terminal" data-install-terminal>
+              <div class="hit-toolbar">
+                <div class="hit-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                <div class="hit-tabs" role="tablist" aria-label="Installation method">
+                  <button class="hit-tab is-active" role="tab" aria-selected="true" data-install-tab="npx">npx</button>
+                  <button class="hit-tab" role="tab" aria-selected="false" data-install-tab="claude">Claude Code</button>
+                </div>
+                <button class="hit-copy" type="button" aria-label="Copy command" data-install-copy>
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <rect x="5" y="5" width="8" height="9" rx="1.4" stroke="currentColor" stroke-width="1.3"/>
+                    <path d="M3 11V3.5A1.5 1.5 0 0 1 4.5 2H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                  </svg>
+                  <span data-copy-label>Copy</span>
+                </button>
+              </div>
+              <div class="hit-body">
+                <p class="hit-panel is-active" data-install-panel="npx"><span class="hit-prompt">$</span><code>npx skills add https://github.com/natsufox/tapestry --skill tapestry</code></p>
+                <p class="hit-panel" data-install-panel="claude"><span class="hit-prompt">$</span><code>claude plugin install tapestry@tapestry-skills</code></p>
+              </div>
+            </div>
+
             <div class="hero-metrics">
               <article class="interactive-card">
                 <strong data-copy="hero.metrics.0.value">8+</strong>

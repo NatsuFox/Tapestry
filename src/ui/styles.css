@@ -641,6 +641,182 @@ main {
   box-shadow: none !important;
 }
 
+.hit-install-label {
+  margin: 1.4rem 0 0.55rem;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+
+.hero-install-terminal {
+  max-width: 44rem;
+  margin: 0 auto;
+  border-radius: 0.9rem;
+  overflow: hidden;
+  background: #111;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+@media (hover: hover) {
+  .hero-install-terminal:hover .hit-toolbar {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .hero-install-terminal:hover .hit-dots span {
+    transform: translateY(-1px) scale(1.08);
+    box-shadow:
+      0 4px 10px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  }
+
+  .hero-install-terminal:hover .hit-dots span::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hit-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.52rem 0.85rem;
+  background: #1c1c1c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.hit-dots {
+  display: flex;
+  gap: 0.38rem;
+  flex-shrink: 0;
+}
+
+.hit-dots span {
+  position: relative;
+  display: block;
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 50%;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.hit-dots span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(30, 18, 10, 0.9);
+  font-size: 0.44rem;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.hit-dots span:nth-child(1)::after { content: "\00D7"; }
+.hit-dots span:nth-child(2)::after { content: "\2212"; }
+.hit-dots span:nth-child(3)::after { content: "+"; }
+
+.hit-dots span:nth-child(1) { background: #ff5f57; }
+.hit-dots span:nth-child(2) { background: #febc2e; }
+.hit-dots span:nth-child(3) { background: #28c840; }
+
+.hit-tabs {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.hit-copy {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin-left: auto;
+  padding: 0.18rem 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+  flex-shrink: 0;
+}
+
+.hit-copy svg {
+  width: 0.72rem;
+  height: 0.72rem;
+  flex-shrink: 0;
+}
+
+.hit-copy:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.hit-copy.is-copied {
+  color: #28c840;
+  border-color: rgba(40, 200, 64, 0.4);
+}
+
+.hit-tab {
+  padding: 0.2rem 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.hit-tab.is-active {
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.hit-tab:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.hit-body {
+  padding: 0.9rem 1.1rem;
+}
+
+.hit-panel {
+  display: none;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin: 0;
+  font-family: "SF Mono", "Fira Mono", "Cascadia Code", "Consolas", monospace;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #e2e2e2;
+  word-break: break-all;
+}
+
+.hit-panel.is-active {
+  display: flex;
+}
+
+.hit-prompt {
+  color: #28c840;
+  font-weight: 700;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.hit-panel code {
+  color: #e2e2e2;
+}
+
 .terminal-notes {
   display: grid;
   gap: 1rem;

@@ -286,6 +286,47 @@ const initPreview = (lexicon) => {
   startAutoplay();
 };
 
+const initInstallTerminal = () => {
+  const terminal = document.querySelector("[data-install-terminal]");
+  if (!terminal) return;
+
+  const tabs = Array.from(terminal.querySelectorAll("[data-install-tab]"));
+  const panels = Array.from(terminal.querySelectorAll("[data-install-panel]"));
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.installTab;
+      tabs.forEach((t) => {
+        t.classList.toggle("is-active", t.dataset.installTab === target);
+        t.setAttribute("aria-selected", String(t.dataset.installTab === target));
+      });
+      panels.forEach((panel) => {
+        panel.classList.toggle("is-active", panel.dataset.installPanel === target);
+      });
+    });
+  });
+
+  const copyBtn = terminal.querySelector("[data-install-copy]");
+  const copyLabel = copyBtn ? copyBtn.querySelector("[data-copy-label]") : null;
+  let copyTimeout = null;
+
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      const activePanel = terminal.querySelector(".hit-panel.is-active code");
+      if (!activePanel) return;
+      navigator.clipboard.writeText(activePanel.textContent.trim()).then(() => {
+        copyBtn.classList.add("is-copied");
+        if (copyLabel) copyLabel.textContent = "Copied!";
+        clearTimeout(copyTimeout);
+        copyTimeout = setTimeout(() => {
+          copyBtn.classList.remove("is-copied");
+          if (copyLabel) copyLabel.textContent = "Copy";
+        }, 800);
+      });
+    });
+  }
+};
+
 const bootstrap = async () => {
   let lexicon = null;
   try {
@@ -300,6 +341,7 @@ const bootstrap = async () => {
 
   initNav();
   initLogoMotion();
+  initInstallTerminal();
   initStructure();
   initTerminal();
   initPreview(lexicon);

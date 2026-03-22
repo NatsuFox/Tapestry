@@ -1084,6 +1084,10 @@ Bookmarks lose the "why" behind saving them. Tapestry preserves your original in
 
 ### 📢 Latest Progress
 
+- **2026-03-22**:
+  - Added a Release Building workflow and published the first release v0.0.1.
+  - Added installation commands to the landing page; adjusted some text content and knowledge-base preview screenshots.
+
 - **2026-03-21**:
   - Fixed path issues in the Skills script directories.
   - Added and documented the Claude plugin marketplace installation flow as well as the `npx skills` installation method.

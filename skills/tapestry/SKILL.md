@@ -18,10 +18,12 @@ Use this skill when the user:
 - Asks to organize content into a knowledge base
 - Wants structured feeds or analysis of web content
 - Needs to visualize their knowledge base
+- Wants to manage RSS/Atom feed subscriptions (list, add, remove sources)
+- Wants to refresh or fetch the latest content from subscribed sources
 
 ## Workflow Overview
 
-Tapestry has six internal sub-skills that work together:
+Tapestry has seven internal sub-skills that work together:
 
 1. **Init Deps Install** (`init-deps-install/SKILL.md`) - Auto-triggered dependency installation (Phase 0: setup)
 2. **Ingest** (`ingest/SKILL.md`) - Crawl and capture URLs (Phase 1: deterministic)
@@ -29,6 +31,7 @@ Tapestry has six internal sub-skills that work together:
 4. **Feed** (`feed/SKILL.md`) - Generate structured, source-aware feeds
 5. **Display** (`display/SKILL.md`) - Visualize the knowledge base as a website
 6. **Visual Card** (`visual-card/SKILL.md`) - Generate visual note cards from KB content
+7. **Subscriptions** (`subscriptions/SKILL.md`) - Manage RSS/Atom sources and refresh them into the knowledge base
 
 ### Two-Phase Architecture
 
@@ -51,6 +54,8 @@ Analyze what the user wants:
 - **Browse knowledge base?** → Use display
 - **Visual summary?** → Use visual-card to generate infographic cards
 - **Complete workflow?** → Ingest automatically triggers synthesis in "auto" mode
+- **Manage subscriptions?** → Use subscriptions (list/add/remove sources)
+- **Refresh subscribed feeds?** → Use subscriptions fetch → ingest → synthesis pipeline
 
 ### Step 2: Execute the Appropriate Sub-Skill(s)
 
@@ -80,6 +85,10 @@ Read the file `display/SKILL.md`, then follow the workflow described there.
 #### For Visual Cards
 
 Read the file `visual-card/SKILL.md`, then follow the workflow described there.
+
+#### For Subscription Management & Feed Refresh
+
+Read the file `subscriptions/SKILL.md`, then follow the workflow described there.
 
 ### Step 3: Chain Sub-Skills When Needed
 
@@ -114,6 +123,7 @@ tapestry/
 ├── synthesis/SKILL.md             # Analysis & KB sub-skill
 ├── display/SKILL.md               # Visualization sub-skill
 ├── visual-card/SKILL.md           # Visual card generation sub-skill
+├── subscriptions/SKILL.md         # RSS/Atom subscription management sub-skill
 ├── _src/                          # Shared code (crawlers, parsers, storage)
 └── _tests/                        # Unit tests
 ```
@@ -168,6 +178,18 @@ Action:
 1. Read ingest/SKILL.md and batch process all URLs
 2. With "auto" mode, synthesis runs for each URL automatically
 3. Summarize the results
+```
+
+### Pattern 5: Subscription Refresh
+```
+User: "Refresh all my subscribed feeds"
+
+Action:
+1. Read subscriptions/SKILL.md
+2. Run: python subscriptions/_scripts/run.py fetch
+3. Collect the printed URLs
+4. Pass them to $tapestry-ingest for ingestion
+5. Let the synthesis pipeline run per config
 ```
 
 ## Important Notes

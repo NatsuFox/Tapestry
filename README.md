@@ -2,8 +2,6 @@
 
 <img src="assets/tapestry_logo.png" alt="Tapestry Logo" width="400"/>
 
-# Tapestry
-
 **AI 原生的网络书签知识库 | AI-Native Web Bookmark Knowledge Base**
 
 *通过与 Agent 助手的自然对话，将分散的网络内容转化为有组织、可搜索的知识库*
@@ -17,9 +15,9 @@
 
 ### 🏠 项目主页 | Project Homepage
 
-> **在线访问 Tapestry 项目主页：** https://natsufox.github.io/Tapestry
+> **项目主页：** https://natsufox.github.io/Tapestry
 >
-> **Visit the live Tapestry project homepage:** https://natsufox.github.io/Tapestry
+> **Project Landing Page:** https://natsufox.github.io/Tapestry
 
 </div>
 
@@ -83,6 +81,10 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 ---
 
 ### 🎉 最新进展
+
+- **2026-03-22**：
+  - 添加了 Release Building 的 Workflow，并发布了第一个版本 v0.0.1
+  - 在落地页中添加了安装命令，调整了部分文本内容和知识库展示截图
 
 - **2026-03-21**：
   - 修复了 Skills 脚本目录的路径问题

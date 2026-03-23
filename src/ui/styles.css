@@ -396,12 +396,12 @@ main {
 
 .hero-copy h2 {
   margin-top: 0.48rem;
-  font-size: clamp(1.82rem, 3.85vw, 2.85rem);
+  font-size: clamp(1.52rem, 2.7vw, 2.2rem);
 }
 
 .section-copy h2 {
   margin-top: 0.45rem;
-  font-size: clamp(1.72rem, 3.2vw, 2.55rem);
+  font-size: clamp(1.52rem, 2.7vw, 2.2rem);
 }
 
 .hero-english {
@@ -812,6 +812,17 @@ main {
 
 .hit-panel.is-active {
   display: flex;
+}
+
+.hit-panel--stack.is-active {
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.hit-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
 }
 
 .hit-prompt {

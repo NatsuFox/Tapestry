@@ -15,13 +15,8 @@
 
 ### 🏠 项目主页 | Project Homepage
 
-> **项目主页：** https://natsufox.github.io/Tapestry
->
-> **Project Landing Page:** https://natsufox.github.io/Tapestry
+https://natsufox.github.io/Tapestry
 
-</div>
-
----
 
 ### ⭐ 支持项目 | Support the Project
 
@@ -34,6 +29,8 @@
 > Your Star is not just recognition of the developer's work, but also motivation for continuous improvement. Every Star encourages us to develop more useful features, fix bugs and improve stability, enhance documentation and guides, and support more platforms and languages.
 >
 > [⭐ Star this project on GitHub](https://github.com/NatsuFox/Tapestry)
+
+</div>
 
 ---
 

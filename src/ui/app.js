@@ -312,9 +312,11 @@ const initInstallTerminal = () => {
 
   if (copyBtn) {
     copyBtn.addEventListener("click", () => {
-      const activePanel = terminal.querySelector(".hit-panel.is-active code");
-      if (!activePanel) return;
-      navigator.clipboard.writeText(activePanel.textContent.trim()).then(() => {
+      const activePanelEl = terminal.querySelector(".hit-panel.is-active");
+      if (!activePanelEl) return;
+      const codeBlocks = Array.from(activePanelEl.querySelectorAll("code"));
+      const text = codeBlocks.map((c) => c.textContent.trim()).join("\n");
+      navigator.clipboard.writeText(text).then(() => {
         copyBtn.classList.add("is-copied");
         if (copyLabel) copyLabel.textContent = "Copied!";
         clearTimeout(copyTimeout);

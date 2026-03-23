@@ -39,6 +39,10 @@
       "leadEn": "面向 Agent 的多平台内容采集、知识综合与展示技能库，把零散网页转化为可回访、可综合、可发布的知识资产",
       "logoAlt": "Tapestry transparent logo"
     },
+    "install": {
+      "labelCn": "快速安装，按需选择",
+      "labelEn": "Pick your install method and get started."
+    },
     "metrics": [
       {
         "value": "8+",
@@ -62,7 +66,7 @@
       "cn": "概览",
       "en": "Overview"
     },
-    "title": "从 URL 到知识资产，Tapestry 把抓取、规范化、综合与展示串成一条可复用的内容智能管线",
+    "title": "Tapestry 把 URL 抓取、规范化、知识库综合与展示串成一条可复用的技能管线",
     "english": "A reusable content-intelligence pipeline connecting capture, normalization, synthesis, and display from a single URL.",
     "ctaPrimary": "探索 Tapestry",
     "ctaSecondary": "查看知识库成品",
@@ -196,7 +200,7 @@
       "cn": "支持来源",
       "en": "Knowledge Sources"
     },
-    "title": "Tapestry 提供来源感知的抓取路径与统一 schema，让异构内容进入同一条知识管线",
+    "title": "Tapestry 提供来源感知的抓取 schema，让异构内容进入统一的知识管线",
     "english": "Source-aware ingestion, unified feed normalization, and one knowledge model across communities, social streams, long-form publishing, and generic web pages.",
     "summary": [
       {

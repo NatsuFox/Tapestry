@@ -173,10 +173,7 @@ AI 助手会生成静态前端并启动本地服务器（通常是 `http://local
 **方法 1：Claude Code 插件市场安装**
 
 ```bash
-/plugin marketplace add NatsuFox/Tapestry
-/plugin install tapestry@tapestry-skills
-
-# 或者直接安装
+claude plugin marketplace add https://github.com/NatsuFox/Tapestry
 claude plugin install tapestry@tapestry-skills
 ```
 
@@ -1174,10 +1171,7 @@ Your AI assistant will generate a static frontend and start a local server (usua
 **Method 1: Claude Code plugin marketplace**
 
 ```bash
-/plugin marketplace add NatsuFox/Tapestry
-/plugin install tapestry@tapestry-skills
-
-# Or install it directly
+claude plugin marketplace add https://github.com/NatsuFox/Tapestry
 claude plugin install tapestry@tapestry-skills
 ```
 

@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/styles.css?v=11" />
+    <link rel="stylesheet" href="assets/styles.css?v=14" />
   </head>
   <body>
     <div class="ambient ambient-a"></div>
@@ -79,10 +79,6 @@
 
           <aside class="context-rail">
             <section class="context-card">
-              <div class="context-label" data-i18n="document-meta">Document Meta</div>
-              <div id="doc-meta" class="meta-stack"></div>
-            </section>
-            <section class="context-card">
               <div class="context-label" data-i18n="on-this-page">On This Page</div>
               <nav id="toc" class="toc"></nav>
             </section>
@@ -90,12 +86,20 @@
               <div class="context-label" data-i18n="nearby">Nearby</div>
               <div id="sibling-links" class="link-stack"></div>
             </section>
+            <section class="context-card" id="export-card">
+              <div class="context-label" data-i18n="export">Export</div>
+              <div class="export-actions">
+                <button id="export-md" class="export-btn" type="button" data-i18n="export-md">Markdown</button>
+                <button id="export-html" class="export-btn" type="button" data-i18n="export-html">HTML</button>
+                <button id="export-pdf" class="export-btn" type="button" data-i18n="export-pdf">PDF</button>
+              </div>
+            </section>
           </aside>
         </div>
       </main>
     </div>
 
-    <script type="module" src="assets/app.js?v=7"></script>
+    <script type="module" src="assets/app.js?v=10"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
   </body>

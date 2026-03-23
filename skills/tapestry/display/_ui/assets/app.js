@@ -1,3 +1,8 @@
+// ── Freshness thresholds (configurable) ─────────────────────────────────────
+const NEW_THRESHOLD_DAYS = 3;
+const UPDATED_THRESHOLD_DAYS = 14;
+// ─────────────────────────────────────────────────────────────────────────────
+
 const state = {
   manifest: null,
   documents: {},
@@ -11,9 +16,10 @@ const state = {
 
 // DOM elements - will be initialized after DOM is ready
 let treeEl, searchEl, searchResultsEl, titleEl, subtitleEl, heroStatsEl;
-let bodyEl, relatedSectionEl, tocEl, metaEl, siblingLinksEl, breadcrumbsEl;
+let bodyEl, relatedSectionEl, tocEl, siblingLinksEl, breadcrumbsEl;
 let navToggleEl, sidebarEl, sidebarBackdropEl, homeLinkEl;
 let themeSelectEl, langSelectEl;
+let exportMdEl, exportHtmlEl, exportPdfEl;
 
 const translations = {
   en: {
@@ -41,6 +47,15 @@ const translations = {
     "no-nearby": "No nearby sections available.",
     "no-related": "No related documents found in this section.",
     "chapter-homepage": "Chapter Homepage",
+    "export": "Export",
+    "export-md": "Markdown",
+    "export-html": "HTML",
+    "export-pdf": "PDF",
+    "status": "Status",
+    "freshness-new": "New",
+    "freshness-updated": "Updated",
+    "tags": "Tags",
+    "categories": "Categories",
   },
   zh: {
     "knowledge-base": "知识库",
@@ -67,6 +82,15 @@ const translations = {
     "no-nearby": "没有相关章节。",
     "no-related": "本节没有相关文档。",
     "chapter-homepage": "章节主页",
+    "export": "导出",
+    "export-md": "Markdown",
+    "export-html": "HTML",
+    "export-pdf": "PDF",
+    "status": "状态",
+    "freshness-new": "最新",
+    "freshness-updated": "已更新",
+    "tags": "标签",
+    "categories": "分类",
   },
 };
 
@@ -93,6 +117,225 @@ if (document.readyState === 'loading') {
   init();
 }
 
+// ── Read tracking ───────────────────────────────────────────────────────────
+
+function getReadSet() {
+  try { return new Set(JSON.parse(localStorage.getItem("tapestry-read") || "[]")); }
+  catch { return new Set(); }
+}
+
+function markRead(path) {
+  const read = getReadSet();
+  read.add(path);
+  localStorage.setItem("tapestry-read", JSON.stringify([...read]));
+}
+
+// ── Freshness helper ────────────────────────────────────────────────────────
+
+function docFreshness(doc) {
+  if (!doc || !doc.updatedAt) return null;
+  if (getReadSet().has(doc.path)) return null;
+  const ageDays = (Date.now() / 1000 - doc.updatedAt) / 86400;
+  if (ageDays <= NEW_THRESHOLD_DAYS) return "new";
+  if (ageDays <= UPDATED_THRESHOLD_DAYS) return "updated";
+  return null;
+}
+
+// ── Export helpers ──────────────────────────────────────────────────────────
+
+function safeName(doc) {
+  return (doc.title || doc.path)
+    .replace(/[^\w\-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase() || "export";
+}
+
+function triggerDownload(content, filename, mimeType) {
+  const url = URL.createObjectURL(new Blob([content], { type: mimeType }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+function _esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function buildStandaloneHtml(doc, { autoPrint = false } = {}) {
+  const title = _esc(doc.title || doc.path);
+  // doc.html is always pre-rendered by publish_viewer.py; renderMarkdown fallback only for edge cases
+  const body = doc.html || "";
+  const printScript = autoPrint
+    ? `<script>window.addEventListener('load', function() { window.print(); });<\/script>`
+    : "";
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${title}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+<style>
+  body { max-width: 820px; margin: 40px auto; padding: 0 24px; font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.75; color: #1a1a1a; }
+  h1,h2,h3,h4,h5,h6 { font-family: system-ui, sans-serif; line-height: 1.25; margin-top: 2em; }
+  h1 { font-size: 2em; margin-top: 0; }
+  pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
+  code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-size: 0.88em; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+  th { background: #f0f0f0; }
+  blockquote { margin: 0; padding: 0 1em; border-left: 4px solid #ccc; color: #555; }
+  img { max-width: 100%; height: auto; }
+  a { color: #185d54; }
+  @media print { body { margin: 0; padding: 0 16px; font-size: 14px; } }
+</style>
+</head>
+<body>
+<h1>${title}</h1>
+${body}
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"><\/script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\\\(',right:'\\\\)',display:false},{left:'\\\\[',right:'\\\\]',display:true}], throwOnError: false});"><\/script>
+${printScript}
+</body>
+</html>`;
+}
+
+function downloadMarkdown(doc) {
+  triggerDownload(doc.markdown || "", safeName(doc) + ".md", "text/markdown");
+}
+
+function downloadHtml(doc) {
+  const html = buildStandaloneHtml(doc);
+  triggerDownload(html, safeName(doc) + ".html", "text/html");
+}
+
+function downloadPdf(doc) {
+  // Open a new blank window and write the self-printing HTML into it.
+  // Called from a user click so popup blockers won't interfere.
+  const html = buildStandaloneHtml(doc, { autoPrint: true });
+  const win = window.open("", "_blank");
+  if (win) {
+    win.document.write(html);
+    win.document.close();
+  } else {
+    // Fallback if window.open is somehow blocked
+    triggerDownload(html, safeName(doc) + ".print.html", "text/html");
+  }
+}
+
+// ── Glossary tooltip ────────────────────────────────────────────────────────
+
+let tooltipEl = null;
+
+function ensureTooltip() {
+  if (tooltipEl) return tooltipEl;
+  tooltipEl = document.createElement("div");
+  tooltipEl.id = "glossary-tooltip";
+  tooltipEl.className = "glossary-tooltip";
+  tooltipEl.setAttribute("role", "tooltip");
+  tooltipEl.setAttribute("aria-hidden", "true");
+  tooltipEl.innerHTML = '<div class="tooltip-term"></div><div class="tooltip-def"></div>';
+  document.body.appendChild(tooltipEl);
+  return tooltipEl;
+}
+
+function applyGlossaryTooltips(doc) {
+  const terms = doc.glossary || [];
+  if (!terms.length) return;
+
+  // Sort longest first to avoid partial matches replacing substrings
+  const sorted = [...terms].sort((a, b) => b.term.length - a.term.length);
+
+  // Build a single regex that matches any term (whole word, case-insensitive)
+  const pattern = sorted
+    .map(t => t.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|");
+  const regex = new RegExp(`\\b(${pattern})\\b`, "gi");
+
+  // Build lookup map: lowercase term → definition
+  const defMap = {};
+  for (const t of terms) defMap[t.term.toLowerCase()] = { term: t.term, definition: t.definition };
+
+  const SKIP_TAGS = new Set(["CODE", "PRE", "A", "SCRIPT", "STYLE"]);
+
+  // Walk text nodes
+  const walker = document.createTreeWalker(bodyEl, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      let el = node.parentElement;
+      while (el && el !== bodyEl) {
+        if (SKIP_TAGS.has(el.tagName) || el.classList.contains("glossary-term")) return NodeFilter.FILTER_REJECT;
+        el = el.parentElement;
+      }
+      return regex.test(node.textContent) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+
+  const nodesToProcess = [];
+  let node;
+  while ((node = walker.nextNode())) nodesToProcess.push(node);
+
+  for (const textNode of nodesToProcess) {
+    regex.lastIndex = 0;
+    const text = textNode.textContent;
+    const frag = document.createDocumentFragment();
+    let last = 0, match;
+    regex.lastIndex = 0;
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > last) frag.appendChild(document.createTextNode(text.slice(last, match.index)));
+      const entry = defMap[match[0].toLowerCase()];
+      if (entry) {
+        const span = document.createElement("span");
+        span.className = "glossary-term";
+        span.textContent = match[0];
+        span.dataset.term = entry.term;
+        span.dataset.def = entry.definition;
+        frag.appendChild(span);
+      } else {
+        frag.appendChild(document.createTextNode(match[0]));
+      }
+      last = match.index + match[0].length;
+    }
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    textNode.parentNode.replaceChild(frag, textNode);
+  }
+
+  // Attach tooltip events via delegation on bodyEl
+  bodyEl.addEventListener("mouseover", handleGlossaryMouseover);
+  bodyEl.addEventListener("mouseout", handleGlossaryMouseout);
+}
+
+function handleGlossaryMouseover(e) {
+  const target = e.target.closest(".glossary-term");
+  if (!target) return;
+  const tip = ensureTooltip();
+  tip.querySelector(".tooltip-term").textContent = target.dataset.term;
+  tip.querySelector(".tooltip-def").textContent = target.dataset.def;
+  const rect = target.getBoundingClientRect();
+  const tipWidth = 300;
+  let left = rect.left;
+  if (left + tipWidth > window.innerWidth - 12) left = window.innerWidth - tipWidth - 12;
+  tip.style.left = left + "px";
+  tip.style.top = (rect.bottom + 8) + "px";
+  tip.classList.add("is-visible");
+  tip.setAttribute("aria-hidden", "false");
+}
+
+function handleGlossaryMouseout(e) {
+  const target = e.target.closest(".glossary-term");
+  if (!target) return;
+  const tip = ensureTooltip();
+  tip.classList.remove("is-visible");
+  tip.setAttribute("aria-hidden", "true");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 function init() {
   console.log('Initializing Tapestry viewer...');
 
@@ -106,7 +349,6 @@ function init() {
   bodyEl = document.getElementById("content-body");
   relatedSectionEl = document.getElementById("related-section");
   tocEl = document.getElementById("toc");
-  metaEl = document.getElementById("doc-meta");
   siblingLinksEl = document.getElementById("sibling-links");
   breadcrumbsEl = document.getElementById("breadcrumbs");
   navToggleEl = document.getElementById("nav-toggle");
@@ -115,6 +357,9 @@ function init() {
   homeLinkEl = document.getElementById("home-link");
   themeSelectEl = document.getElementById("theme-select");
   langSelectEl = document.getElementById("lang-select");
+  exportMdEl = document.getElementById("export-md");
+  exportHtmlEl = document.getElementById("export-html");
+  exportPdfEl = document.getElementById("export-pdf");
 
   console.log('Elements found:', {
     navToggle: !!navToggleEl,
@@ -461,6 +706,13 @@ function renderTreeNode(node) {
     link.href = `#/${node.index}`;
     link.className = `tree-link${state.activePath === node.index ? " is-active" : ""}`;
     link.textContent = translations[state.uiLang]["chapter-homepage"];
+    const indexFreshness = docFreshness(indexDoc);
+    if (indexFreshness) {
+      const badge = document.createElement("span");
+      badge.className = `freshness-badge freshness-${indexFreshness}`;
+      badge.textContent = translations[state.uiLang][`freshness-${indexFreshness}`];
+      link.appendChild(badge);
+    }
     link.addEventListener("click", (event) => {
       event.preventDefault();
       openDoc(node.index);
@@ -475,6 +727,13 @@ function renderTreeNode(node) {
     link.href = `#/${doc.path}`;
     link.className = `tree-link${state.activePath === doc.path ? " is-active" : ""}`;
     link.textContent = doc.title;
+    const freshness = docFreshness(doc);
+    if (freshness) {
+      const badge = document.createElement("span");
+      badge.className = `freshness-badge freshness-${freshness}`;
+      badge.textContent = translations[state.uiLang][`freshness-${freshness}`];
+      link.appendChild(badge);
+    }
     link.addEventListener("click", (event) => {
       event.preventDefault();
       openDoc(doc.path);
@@ -553,11 +812,15 @@ function renderBreadcrumbs(doc) {
 
 function renderHeroStats(doc) {
   const node = nodeRecord(doc.parent ?? ".");
+  const updatedStr = doc.updatedAt
+    ? new Date(doc.updatedAt * 1000).toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" })
+    : translations[state.uiLang]["unknown"];
+  const freshness = docFreshness(doc);
   const stats = [
     { label: translations[state.uiLang]["word-count"], value: doc.wordCount ?? 0 },
-    { label: translations[state.uiLang]["headings"], value: (doc.headings || []).length },
+    { label: translations[state.uiLang]["updated"], value: updatedStr },
+    { label: translations[state.uiLang]["kind"], value: doc.kind },
     { label: translations[state.uiLang]["section-depth"], value: doc.depth ?? 0 },
-    { label: translations[state.uiLang]["sibling-docs"], value: (node?.documents || []).length },
   ];
   heroStatsEl.innerHTML = "";
   for (const stat of stats) {
@@ -569,21 +832,38 @@ function renderHeroStats(doc) {
     `;
     heroStatsEl.appendChild(el);
   }
-}
-
-function renderMeta(doc) {
-  metaEl.innerHTML = "";
-  const rows = [
-    [translations[state.uiLang]["kind"], doc.kind],
-    [translations[state.uiLang]["path"], doc.path],
-    [translations[state.uiLang]["updated"], doc.updatedAt ? new Date(doc.updatedAt * 1000).toLocaleString() : translations[state.uiLang]["unknown"]],
-    [translations[state.uiLang]["word-count"], doc.wordCount ?? 0],
-  ];
-  for (const [label, value] of rows) {
-    const pill = document.createElement("div");
-    pill.className = "meta-pill";
-    pill.innerHTML = `<strong>${escapeHtml(label)}:</strong> ${escapeHtml(String(value))}`;
-    metaEl.appendChild(pill);
+  // Freshness badge
+  if (freshness) {
+    const badgeEl = document.createElement("div");
+    badgeEl.className = "stat-card";
+    badgeEl.innerHTML = `
+      <div class="stat-label">${escapeHtml(translations[state.uiLang]["status"])}</div>
+      <div class="stat-value"><span class="freshness-badge freshness-${freshness}">${escapeHtml(translations[state.uiLang]["freshness-" + freshness])}</span></div>
+    `;
+    heroStatsEl.appendChild(badgeEl);
+  }
+  // Tags + Categories pills row — appended to the hero element to span full width
+  const heroEl = heroStatsEl.closest(".hero");
+  const existingTags = heroEl ? heroEl.querySelector(".hero-tags") : null;
+  if (existingTags) existingTags.remove();
+  const tags = doc.tags || [];
+  const cats = doc.categories || [];
+  if ((tags.length || cats.length) && heroEl) {
+    const pillsRow = document.createElement("div");
+    pillsRow.className = "hero-tags";
+    for (const cat of cats) {
+      const p = document.createElement("span");
+      p.className = "cat-pill";
+      p.textContent = cat;
+      pillsRow.appendChild(p);
+    }
+    for (const tag of tags) {
+      const p = document.createElement("span");
+      p.className = "tag-pill";
+      p.textContent = tag;
+      pillsRow.appendChild(p);
+    }
+    heroEl.appendChild(pillsRow);
   }
 }
 
@@ -876,13 +1156,14 @@ function openDoc(path, options = {}) {
   renderSearchResults();
   renderBreadcrumbs(doc);
   renderHeroStats(doc);
-  renderMeta(doc);
   renderToc(doc);
   renderSiblings(doc);
   renderRelated(doc);
 
   titleEl.textContent = doc.title;
-  subtitleEl.innerHTML = inlineMarkdown(doc.excerpt || doc.path, doc.path);
+  const rawExcerpt = doc.excerpt || doc.path;
+  const shortExcerpt = rawExcerpt.length > 120 ? rawExcerpt.slice(0, 117).trimEnd() + "…" : rawExcerpt;
+  subtitleEl.innerHTML = inlineMarkdown(shortExcerpt, doc.path);
 
   // Detect language and apply appropriate styling
   let lang = state.langPreference;
@@ -909,8 +1190,10 @@ function openDoc(path, options = {}) {
     ${renderedBody}
   `;
   enhanceRenderedLinks(doc.path);
+  applyGlossaryTooltips(doc);
   renderMathInDocument();
   animateDocumentSwap();
+  markRead(path);
   if (updateHistory) {
     history.replaceState(null, "", `#/${doc.path}${anchor ? `::${anchor}` : ""}`);
   }
@@ -1003,6 +1286,10 @@ async function loadManifest() {
   });
 
   homeLinkEl.addEventListener("click", openHome);
+
+  exportMdEl.addEventListener("click", () => { const d = documentRecord(state.activePath); if (d) downloadMarkdown(d); });
+  exportHtmlEl.addEventListener("click", () => { const d = documentRecord(state.activePath); if (d) downloadHtml(d); });
+  exportPdfEl.addEventListener("click", () => { const d = documentRecord(state.activePath); if (d) downloadPdf(d); });
 
   loadManifest().catch((error) => {
     titleEl.textContent = "Viewer Error";

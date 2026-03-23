@@ -560,14 +560,16 @@ body {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 10px 16px;
   padding: 16px 24px;
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: var(--surface-strong);
   box-shadow: var(--shadow-lg);
-  margin-bottom: 22px;
+  margin-bottom: 14px;
+  align-items: start;
 }
 
 .hero-copy {
@@ -576,8 +578,8 @@ body {
 }
 
 .hero-copy h2 {
-  margin: 2px 0 10px;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0 0 4px;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   line-height: 1.15;
   font-family: var(--font-title);
   font-weight: 400;
@@ -588,12 +590,12 @@ body {
   margin: 0;
   max-width: 70ch;
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.45;
   white-space: pre-wrap !important;
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
   display: block !important;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 #page-subtitle {
@@ -605,8 +607,9 @@ body {
 .hero-stats {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  justify-content: center;
+  gap: 8px;
+  align-items: flex-end;
+  justify-content: flex-start;
 }
 
 .stat-card {
@@ -617,10 +620,11 @@ body {
   display: flex;
   align-items: baseline;
   gap: 8px;
+  text-align: right;
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: var(--muted);
   text-transform: none;
   letter-spacing: normal;
@@ -629,8 +633,41 @@ body {
 .stat-value {
   margin-top: 0;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--ink);
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  margin-top: 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.tag-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border: 1px solid var(--accent-soft);
+}
+
+.cat-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: rgba(185, 135, 47, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(185, 135, 47, 0.25);
 }
 
 .content-grid {
@@ -1045,6 +1082,112 @@ body {
 .empty-state {
   color: var(--muted);
   line-height: 1.6;
+}
+
+/* ── Glossary term underline + tooltip ─────────────────────────────────────── */
+.glossary-term {
+  border-bottom: 1px dashed var(--accent);
+  cursor: help;
+  color: inherit;
+  text-decoration: none;
+}
+
+.glossary-tooltip {
+  position: fixed;
+  z-index: 9999;
+  max-width: 300px;
+  padding: 10px 14px;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  font-family: var(--font-ui);
+}
+
+.glossary-tooltip.is-visible {
+  opacity: 1;
+}
+
+.tooltip-term {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tooltip-def {
+  color: var(--ink);
+}
+
+/* ── Freshness badges (sidebar tree) ───────────────────────────────────────── */
+.freshness-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  margin-left: 6px;
+  line-height: 1.6;
+}
+
+.freshness-badge.freshness-new,
+.meta-badge.freshness-new {
+  background: rgba(34, 197, 94, 0.18);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.freshness-badge.freshness-updated,
+.meta-badge.freshness-updated {
+  background: rgba(245, 158, 11, 0.15);
+  color: #b45309;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* ── Meta badge (Document Meta side rail) ───────────────────────────────────── */
+.meta-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.export-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.export-btn {
+  flex: 1 1 auto;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.export-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 980px) {

@@ -279,6 +279,39 @@ python synthesis/_scripts/bootstrap_kb.py \
 - Every hierarchy level must keep a valid `index.md`.
 - Top-level topics should stay coarse and semantically clean. If a feed no longer fits cleanly, restructure instead of forcing it.
 
+## Glossary Extraction
+
+After writing or updating a chapter `.md` file in `_data/books/`, also write a sidecar **`<stem>.glossary.json`** file beside it. This file powers the viewer's tag pills, category labels, and hover-tooltip glossary feature.
+
+The sidecar must follow this exact schema:
+
+```json
+{
+  "tags": ["tag-one", "tag-two"],
+  "categories": ["High-Level Category"],
+  "terms": [
+    { "term": "example term", "definition": "Plain-English explanation suitable for a beginner in this field." }
+  ]
+}
+```
+
+**Extraction rules:**
+- `tags`: 3–8 specific keywords that best describe the document's content. Lowercase, concise.
+- `categories`: 1–2 broad, high-level classification labels (e.g. "AI & Research", "Market Structure", "Community Discussion"). Use title case. Keep categories coarse — they should apply to multiple documents.
+- `terms`: 3–15 domain-specific words, technical jargon, abbreviations, or professional concepts a beginner would not know. For each:
+  - `term`: the exact word or phrase as it appears in the text (preserve original case)
+  - `definition`: a 1–3 sentence plain-English explanation. Do not use the term itself in the definition.
+- Do not include common English words or obvious terms.
+- If the document is in Chinese, write both `term` and `definition` in Chinese.
+- The sidecar filename must exactly match the `.md` stem: if the chapter is `market-signals.md`, write `market-signals.glossary.json`.
+- If a sidecar already exists, update it in place rather than overwriting with a blank file.
+
+**Example invocation** (after writing `_data/books/ai/model-training.md`):
+```bash
+# Write sidecar beside the chapter file
+# (Use the Write tool to create _data/books/ai/model-training.glossary.json)
+```
+
 ## Resource
 
 - `synthesis/_scripts/load_context.py`: resolves a note path or URL into a normalized Tapestry handoff payload.

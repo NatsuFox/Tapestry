@@ -317,6 +317,8 @@ def build_tree(root: Path) -> dict:
 
         if index_path.exists():
             rel_index = index_path.relative_to(root).as_posix()
+            index_glossary_path = index_path.with_suffix(".glossary.json")
+            index_glossary = json.loads(index_glossary_path.read_text(encoding="utf-8")) if index_glossary_path.exists() else {}
             docs[index_path.relative_to(root).as_posix()] = {
                 "title": read_markdown_title(index_path),
                 "path": rel_index,
@@ -329,12 +331,17 @@ def build_tree(root: Path) -> dict:
                 "updatedAt": int(index_path.stat().st_mtime),
                 "parent": parent,
                 "depth": depth,
+                "tags": index_glossary.get("tags", []),
+                "categories": index_glossary.get("categories", []),
+                "glossary": index_glossary.get("terms", []),
             }
 
         for doc in child_docs:
             rel = doc.relative_to(root).as_posix()
             markdown = doc.read_text(encoding="utf-8")
             rendered = render_markdown_document(markdown, current_path=rel)
+            glossary_path = doc.with_suffix(".glossary.json")
+            glossary = json.loads(glossary_path.read_text(encoding="utf-8")) if glossary_path.exists() else {}
             docs[rel] = {
                 "title": read_markdown_title(doc),
                 "path": rel,
@@ -347,6 +354,9 @@ def build_tree(root: Path) -> dict:
                 "updatedAt": int(doc.stat().st_mtime),
                 "parent": relative_dir,
                 "depth": depth + 1,
+                "tags": glossary.get("tags", []),
+                "categories": glossary.get("categories", []),
+                "glossary": glossary.get("terms", []),
             }
             node["documents"].append(rel)
 

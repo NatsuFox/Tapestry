@@ -1,7 +1,7 @@
 ---
 name: subscriptions
 description: Manage RSS/Atom feed subscriptions and refresh them into the Tapestry knowledge base. Use when the user wants to list, add, remove, or refresh subscribed feed sources by name rather than by URL.
-argument-hint: [list|add <name> <url>|remove <name>|fetch [names...]]
+argument-hint: "[list|add <name> <url>|remove <name>|fetch [names...]]"
 allowed-tools: Bash(*), Read, Glob, Grep, Write, Edit
 ---
 

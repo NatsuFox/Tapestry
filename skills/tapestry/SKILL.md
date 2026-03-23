@@ -23,7 +23,7 @@ Use this skill when the user:
 
 ## Workflow Overview
 
-Tapestry has seven internal sub-skills that work together:
+Tapestry has eight internal sub-skills that work together:
 
 1. **Init Deps Install** (`init-deps-install/SKILL.md`) - Auto-triggered dependency installation (Phase 0: setup)
 2. **Ingest** (`ingest/SKILL.md`) - Crawl and capture URLs (Phase 1: deterministic)
@@ -32,6 +32,7 @@ Tapestry has seven internal sub-skills that work together:
 5. **Display** (`display/SKILL.md`) - Visualize the knowledge base as a website
 6. **Visual Card** (`visual-card/SKILL.md`) - Generate visual note cards from KB content
 7. **Subscriptions** (`subscriptions/SKILL.md`) - Manage RSS/Atom sources and refresh them into the knowledge base
+8. **Export** (`export/SKILL.md`) - Export KB content to PDF, Markdown, or HTML files saved under `_data/exports/`
 
 ### Two-Phase Architecture
 
@@ -192,11 +193,21 @@ Action:
 5. Let the synthesis pipeline run per config
 ```
 
+### Pattern 6: Export KB Content
+```
+User: "Export the entire knowledge base as PDF"
+
+Action:
+1. Read export/SKILL.md
+2. Run: python export/_scripts/export.py --format pdf --scope kb
+3. Report the output paths from _data/exports/pdf/
+```
+
 ## Important Notes
 
 - **Always read the sub-skill SKILL.md files**: They contain the actual implementation details
 - **Don't invent workflows**: Follow what's written in the sub-skill instructions
-- **Preserve artifacts**: The pipeline creates `_data/captures/`, `_data/feeds/`, `_data/notes/`, and `_data/books/`
+- **Preserve artifacts**: The pipeline creates `_data/captures/`, `_data/feeds/`, `_data/notes/`, `_data/books/`, and `_data/exports/`
 - **Respect the architecture**: Ingest is deterministic, synthesis is interpretive
 - **Check for errors**: Sub-skills may fail; handle gracefully and report to user
 

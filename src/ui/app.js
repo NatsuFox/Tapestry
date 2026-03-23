@@ -310,23 +310,44 @@ const initInstallTerminal = () => {
   const copyLabel = copyBtn ? copyBtn.querySelector("[data-copy-label]") : null;
   let copyTimeout = null;
 
+  const flashCopied = () => {
+    copyBtn.classList.add("is-copied");
+    if (copyLabel) copyLabel.textContent = "Copied!";
+    clearTimeout(copyTimeout);
+    copyTimeout = setTimeout(() => {
+      copyBtn.classList.remove("is-copied");
+      if (copyLabel) copyLabel.textContent = "Copy";
+    }, 800);
+  };
+
   if (copyBtn) {
     copyBtn.addEventListener("click", () => {
       const activePanelEl = terminal.querySelector(".hit-panel.is-active");
       if (!activePanelEl) return;
-      const codeBlocks = Array.from(activePanelEl.querySelectorAll("code"));
-      const text = codeBlocks.map((c) => c.textContent.trim()).join("\n");
-      navigator.clipboard.writeText(text).then(() => {
-        copyBtn.classList.add("is-copied");
-        if (copyLabel) copyLabel.textContent = "Copied!";
-        clearTimeout(copyTimeout);
-        copyTimeout = setTimeout(() => {
-          copyBtn.classList.remove("is-copied");
-          if (copyLabel) copyLabel.textContent = "Copy";
-        }, 800);
-      });
+      const text = activePanelEl.dataset.clipboard ||
+        Array.from(activePanelEl.querySelectorAll("code")).map((c) => c.textContent.trim()).join("\n");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(flashCopied).catch(() => {
+          fallbackCopy(text);
+          flashCopied();
+        });
+      } else {
+        fallbackCopy(text);
+        flashCopied();
+      }
     });
   }
+};
+
+const fallbackCopy = (text) => {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.cssText = "position:fixed;top:-9999px;left:-9999px;opacity:0";
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand("copy"); } catch (_) {}
+  document.body.removeChild(ta);
 };
 
 const bootstrap = async () => {

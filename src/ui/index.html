@@ -126,8 +126,11 @@
                 </button>
               </div>
               <div class="hit-body">
-                <p class="hit-panel is-active" data-install-panel="npx"><span class="hit-prompt">$</span><code>npx skills add https://github.com/natsufox/tapestry --skill tapestry</code></p>
-                <p class="hit-panel" data-install-panel="claude"><span class="hit-prompt">$</span><code>claude plugin marketplace add https://github.com/NatsuFox/Tapestry</code><br><span class="hit-prompt">$</span><code>claude plugin install tapestry@tapestry-skills</code></p>
+                <p class="hit-panel is-active" data-install-panel="npx" data-clipboard="npx skills add https://github.com/natsufox/tapestry --skill tapestry"><span class="hit-prompt">$</span><code>npx skills add https://github.com/natsufox/tapestry --skill tapestry</code></p>
+                <div class="hit-panel hit-panel--stack" data-install-panel="claude" data-clipboard="claude plugin marketplace add https://github.com/NatsuFox/Tapestry&#10;claude plugin install tapestry@tapestry-skills">
+                  <span class="hit-line"><span class="hit-prompt">$</span><code>claude plugin marketplace add https://github.com/NatsuFox/Tapestry</code></span>
+                  <span class="hit-line"><span class="hit-prompt">$</span><code>claude plugin install tapestry@tapestry-skills</code></span>
+                </div>
               </div>
             </div>
 

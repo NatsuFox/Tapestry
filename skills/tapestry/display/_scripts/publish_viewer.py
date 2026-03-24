@@ -244,6 +244,18 @@ def extract_excerpt(markdown: str, *, limit: int = 400) -> str:
         if stripped.startswith("- ") and ":" in stripped[:50]:
             continue
 
+        # Skip bold-key metadata lines: **Key**: value (common in synthesis docs)
+        if re.match(r'^\*\*[^*]+\*\*\s*:', stripped):
+            continue
+
+        # Skip blockquote metadata lines: > **Key**: value
+        if re.match(r'^>\s*\*\*[^*]+\*\*\s*:', stripped):
+            continue
+
+        # Skip plain key: value metadata lines at top of doc (e.g. "Source: url")
+        if re.match(r'^[A-Z][\w ]{1,30}:\s+\S', stripped):
+            continue
+
         # Skip lines with display math delimiters
         if stripped.startswith("\\[") or stripped.startswith("\\]"):
             continue

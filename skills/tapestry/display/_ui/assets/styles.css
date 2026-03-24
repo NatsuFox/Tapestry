@@ -1173,6 +1173,10 @@ body {
 
 .export-btn {
   flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -1182,6 +1186,12 @@ body {
   font-size: 0.82rem;
   cursor: pointer;
   transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.export-btn svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: 0 0 auto;
 }
 
 .export-btn:hover {

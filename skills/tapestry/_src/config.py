@@ -72,7 +72,7 @@ class TapestryConfig(BaseModel):
         if config_path is None:
             # Look for config in skills/tapestry/config/ or project root
             candidates = [
-                Path(__file__).resolve().parents[1] / "config" / "tapestry.config.json",  # skills/tapestry/config/
+                skill_root() / "config" / "tapestry.config.json",  # skills/tapestry/config/
                 Path.cwd() / "tapestry.config.json",  # Project root (legacy)
                 Path.cwd() / "skills" / "tapestry" / "config" / "tapestry.config.json",  # From project root
             ]
@@ -85,7 +85,46 @@ class TapestryConfig(BaseModel):
             data = json.loads(config_path.read_text(encoding="utf-8"))
             return cls.model_validate(data)
 
-        return cls()
+        # No config found — bootstrap from example with auto-detected paths
+        return cls._bootstrap_from_example()
+
+    @classmethod
+    def _bootstrap_from_example(cls) -> "TapestryConfig":
+        """
+        Create the user config from the example file on first run.
+
+        Copies tapestry.config.example.json to tapestry.config.json and
+        writes an absolute project_root (the installed skill root) so that
+        all relative path resolution is anchored correctly regardless of CWD.
+        """
+        sr = skill_root()
+        example_path = sr / "config" / "tapestry.config.example.json"
+        target_path = sr / "config" / "tapestry.config.json"
+
+        data: dict = {}
+        if example_path.exists():
+            try:
+                data = json.loads(example_path.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+
+        # Pin project_root to the absolute skill root so paths never drift
+        if "paths" not in data:
+            data["paths"] = {}
+        data["paths"]["project_root"] = str(sr)
+
+        # Best-effort write — if the filesystem is read-only, in-memory config
+        # is still correct for this session.
+        try:
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            target_path.write_text(
+                json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+        except Exception:
+            pass
+
+        return cls.model_validate(data)
 
     def should_auto_synthesize(self) -> bool:
         """Check if synthesis should run automatically after ingest."""

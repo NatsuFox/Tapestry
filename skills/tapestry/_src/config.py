@@ -89,7 +89,7 @@ class TapestryConfig(BaseModel):
         return cls._bootstrap_from_example()
 
     @classmethod
-    def _bootstrap_from_example(cls) -> "TapestryConfig":
+    def _bootstrap_from_example(cls) -> TapestryConfig:
         """
         Create the user config from the example file on first run.
 

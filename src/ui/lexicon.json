@@ -40,7 +40,7 @@
       "logoAlt": "Tapestry transparent logo"
     },
     "install": {
-      "labelCn": "简便命令，快速安装",
+      "labelCn": "简单命令，快速安装",
       "labelEn": "Simple commands for a quick installation."
     },
     "metrics": [
@@ -166,23 +166,33 @@
     "slides": [
       {
         "title": "书籍式总览",
-        "caption": "主题、章节与索引并行呈现，直接体现 synthesis 之后生成的知识结构",
+        "caption": "主题、章节与索引并行呈现，体现以话题为中心聚合的知识结构",
         "alt": "Tapestry 知识库总览页面"
       },
       {
-        "title": "结构化导航",
-        "caption": "从 feed 与 synthesis 层自然生长出来的阅读入口，清晰直观",
-        "alt": "Tapestry 知识库导航细节"
-      },
-      {
-        "title": "阅读级正文",
-        "caption": "保留来源价值，重构为适合长期阅读与复查的章节格式",
+        "title": "富样式正文",
+        "caption": "保留来源价值，支持 LaTeX 渲染，技术与学术内容原样呈现",
         "alt": "Tapestry 知识库阅读区细节"
       },
       {
-        "title": "项目级展示",
-        "caption": "知识库成熟后，一键发布为可对外展示与交付的成果界面",
-        "alt": "Tapestry 知识库专题页视图"
+        "title": "元数据头部",
+        "caption": "面包屑导航、自动提取标签与分类，清晰呈现来源、作者与知识属性",
+        "alt": "知识库文档元数据头部展示"
+      },
+      {
+        "title": "多格式导出",
+        "caption": "一键将知识库文章导出为多种格式，满足不同交付与归档需求",
+        "alt": "知识库文章导出按钮"
+      },
+      {
+        "title": "新内容徽标",
+        "caption": "新增或更新页面在导航栏自动显示徽标，帮助读者快速定位增量内容",
+        "alt": "知识库导航栏新内容 New 徽标"
+      },
+      {
+        "title": "自动词汇表",
+        "caption": "自动扫描提取术语与抽象概念，悬停显示词语解释，知识脉络一目了然",
+        "alt": "知识库术语自动解释悬停展示"
       }
     ]
   },

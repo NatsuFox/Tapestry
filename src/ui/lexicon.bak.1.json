@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "title": "Tapestry | AI 原生知识门户",
+    "description": "Tapestry 是一套面向 Agent 的多平台内容采集、知识综合与展示技能库，用于把零散网页转化为可回访的知识资产",
+    "logoAlt": "Tapestry logo",
+    "brandAriaLabel": "Tapestry 首页"
+  },
+  "nav": {
+    "ariaLabel": "主导航",
+    "toggleAriaLabel": "切换导航",
+    "intro": {
+      "label": "介绍",
+      "sub": "Intro"
+    },
+    "terminal": {
+      "label": "终端操作",
+      "sub": "Terminal"
+    },
+    "knowledgeBase": {
+      "label": "知识库",
+      "sub": "Knowledge Base"
+    },
+    "sources": {
+      "label": "支持来源",
+      "sub": "Sources"
+    },
+    "github": {
+      "label": "GitHub",
+      "sub": "Repo"
+    }
+  },
+  "hero": {
+    "intro": {
+      "eyebrow": {
+        "cn": "介绍",
+        "en": "Introduction"
+      },
+      "leadCn": "Tapestry - 基于 Agent Skill Bundle 的轻量级书签知识库",
+      "leadEn": "面向 Agent 的多平台内容采集、知识综合与展示技能库，把零散网页转化为可回访、可综合、可发布的知识资产",
+      "logoAlt": "Tapestry transparent logo"
+    },
+    "install": {
+      "labelCn": "简便命令，快速安装",
+      "labelEn": "Simple commands for a quick installation."
+    },
+    "metrics": [
+      {
+        "value": "8+",
+        "label": "原生来源抓取",
+        "sub": "platform-aware crawlers"
+      },
+      {
+        "value": "4 层",
+        "label": "采集、Feed、综合、展示",
+        "sub": "ingest to display"
+      },
+      {
+        "value": "1 条管线",
+        "label": "确定性内容智能流程",
+        "sub": "reproducible pipeline"
+      }
+    ]
+  },
+  "overview": {
+    "eyebrow": {
+      "cn": "概览",
+      "en": "Overview"
+    },
+    "title": "Tapestry 把 URL 抓取、规范化、知识库综合与展示串成一条可复用的技能管线",
+    "english": "A reusable content-intelligence pipeline connecting capture, normalization, synthesis, and display from a single URL.",
+    "ctaPrimary": "探索 Tapestry",
+    "ctaSecondary": "查看知识库成品",
+    "structure": {
+      "ariaLabel": "Tapestry structure map",
+      "nodes": {
+        "match": {
+          "label": {
+            "cn": "来源匹配",
+            "en": "Match"
+          },
+          "detail": "按 URL、站点特征与平台规则路由到专用 crawler，优先保留来源语义，而不是用粗糙的通用抓取一把梭"
+        },
+        "capture": {
+          "label": {
+            "cn": "内容采集",
+            "en": "Capture"
+          },
+          "detail": "通过 HTTP、可读性算法与浏览器回退链抓取正文、评论、作者与上下文，并保留原始快照供回查与重现"
+        },
+        "feed": {
+          "label": {
+            "cn": "Feed 整理",
+            "en": "Feed"
+          },
+          "detail": "把异构平台内容映射进统一 Feed schema，使浏览、去重、索引、重放与后续综合都有稳定的中间层"
+        },
+        "synthesis": {
+          "label": {
+            "cn": "综合成章",
+            "en": "Synthesis"
+          },
+          "detail": "利用 synthesis 层把来源材料组织成主题、章节、笔记与引用关系，让保存升级为真正可读、可沉淀的知识结构"
+        },
+        "structure": {
+          "label": {
+            "cn": "知识结构",
+            "en": "Structure"
+          },
+          "detail": "将目录、索引、交叉引用与章节关系组织成面向阅读的知识入口，而不是一堆分散的 Markdown 文件"
+        },
+        "display": {
+          "label": {
+            "cn": "展示输出",
+            "en": "Display"
+          },
+          "detail": "通过 display 层把知识库发布成可分享的静态前端，让项目成果可以直接交付给团队、客户与社区"
+        }
+      },
+      "boxes": [
+        {
+          "title": "可重现原始采集层",
+          "sub": "raw captures and evidence"
+        },
+        {
+          "title": "统一 Feed 与知识组织层",
+          "sub": "feeds, notes, chapters"
+        },
+        {
+          "title": "可分享的展示输出层",
+          "sub": "display and portal delivery"
+        }
+      ]
+    }
+  },
+  "terminal": {
+    "eyebrow": {
+      "cn": "终端操作",
+      "en": "Terminal Operations"
+    },
+    "title": "Tapestry 是真实可执行、可观察、可复现的终端工作流",
+    "english": "A live workflow replay showing how Tapestry executes source ingestion as a real skill, not just a concept on a slide.",
+    "castLabel": "zhihu_fetch.cast",
+    "notes": [
+      {
+        "label": "真实操作",
+        "title": "录屏直接来自一次真实运行",
+        "body": "这不是为了装饰 landing page，而是为了证明 Tapestry 的 skill 工作流可以从命令入口直接落地执行"
+      },
+      {
+        "label": "流程入口",
+        "title": "从单个知乎链接进入整条管线",
+        "body": "录屏展示了如何读取 ingest 规则、选择 crawler、执行采集并继续进入 Tapestry 的后续知识处理过程"
+      },
+      {
+        "label": "展示价值",
+        "title": "把可执行性变成产品说服力",
+        "body": "访问者看到的不是一张静态效果图，而是一套能从来源到知识资产真正跑通的 AI 原生工作流"
+      }
+    ]
+  },
+  "preview": {
+    "eyebrow": {
+      "cn": "知识库",
+      "en": "Knowledge Base"
+    },
+    "ariaLabel": "Knowledge Base previews",
+    "title": "Tapestry 把来源内容转化为的知识库形式的长期资产，并加以展示",
+    "english": "The knowledge base is the product output of Tapestry’s pipeline: structured, readable, and ready to be revisited.",
+    "controls": {
+      "prevAriaLabel": "上一张",
+      "nextAriaLabel": "下一张",
+      "dotsAriaLabel": "轮播导航",
+      "dotAriaLabelTemplate": "跳转到第 {n} 张预览"
+    },
+    "slides": [
+      {
+        "title": "书籍式总览",
+        "caption": "主题、章节与索引并行呈现，直接体现 Tapestry 在 synthesis 之后生成的知识结构",
+        "alt": "Tapestry 知识库总览页面"
+      },
+      {
+        "title": "结构化导航",
+        "caption": "导航不是附加装饰，而是从 feed 与 synthesis 层自然生长出来的阅读入口",
+        "alt": "Tapestry 知识库导航细节"
+      },
+      {
+        "title": "阅读级正文",
+        "caption": "章节页面保留来源价值，同时把内容重构为适合长期阅读与复查的格式",
+        "alt": "Tapestry 知识库阅读区细节"
+      },
+      {
+        "title": "项目级展示",
+        "caption": "当知识库成熟后，Tapestry 可以把它发布成能够直接对外展示与交付的成果界面",
+        "alt": "Tapestry 知识库专题页视图"
+      }
+    ]
+  },
+  "sources": {
+    "eyebrow": {
+      "cn": "支持来源",
+      "en": "Knowledge Sources"
+    },
+    "title": "Tapestry 提供来源感知的抓取 schema，让异构内容进入统一的知识管线",
+    "english": "Source-aware ingestion, unified feed normalization, and one knowledge model across communities, social streams, long-form publishing, and generic web pages.",
+    "summary": [
+      {
+        "title": "来源感知抓取",
+        "body": "不同平台有不同页面结构、评论模型与上下文语义，Tapestry 先按来源类型匹配专用 crawler，再进入统一流程"
+      },
+      {
+        "title": "统一 Feed 中间层",
+        "body": "无论来自知乎、微博还是通用 HTML，最终都会进入可索引、可去重、可继续综合的标准化 Feed 层"
+      },
+      {
+        "title": "一致的知识输出",
+        "body": "异构来源最终不会散落成一堆文件，而是被组织进同一套笔记、章节、目录与展示结果之中"
+      }
+    ],
+    "cards": [
+      {
+        "title": "知乎",
+        "icon": "知",
+        "en": "Zhihu",
+        "desc": "覆盖问题、回答、专栏与评论链，适合沉淀中文知识社区中的长链路问答、推演与观点结构",
+        "tags": ["问题", "回答", "专栏"]
+      },
+      {
+        "title": "Reddit",
+        "en": "Threaded communities",
+        "desc": "适合 thread、评论树与社区追问归档，保留讨论层级对后续综合、聚类与引用关系尤为关键",
+        "tags": ["Threads", "评论树", "Subreddit"]
+      },
+      {
+        "title": "Hacker News",
+        "icon": "Y",
+        "en": "Technical link discussions",
+        "desc": "适合技术链接、评论串与高信号密度讨论，便于把新闻入口、原始链接和开发者反馈合并保存",
+        "tags": ["Links", "评论串", "高信号讨论"]
+      },
+      {
+        "title": "X / Twitter",
+        "en": "Fast public signals",
+        "desc": "适合短帖、转发链与公共信号快照，用来补足长文来源之外的实时舆论与观点传播层",
+        "tags": ["Posts", "转发链", "实时信号"]
+      },
+      {
+        "title": "微信公众号",
+        "en": "WeChat articles",
+        "desc": "适合图文长文、栏目内容与公众号资料沉淀，把连续发布的内容组织进统一主题与章节体系",
+        "tags": ["公众号文章", "栏目", "长文"]
+      },
+      {
+        "title": "微博",
+        "en": "Weibo trends",
+        "desc": "适合热度追踪、短消息扩散与公开反应记录，便于保留舆论变化、时间线与公共反馈上下文",
+        "tags": ["趋势", "公开反应", "时间线"]
+      },
+      {
+        "title": "小红书",
+        "icon": "书",
+        "en": "Xiaohongshu",
+        "desc": "适合图文笔记、评论反馈与视觉导向内容，把视觉表达、生活方式语境与文本说明一起纳入知识库",
+        "tags": ["图文笔记", "视觉内容", "评论"]
+      },
+      {
+        "title": "通用 HTML",
+        "en": "Generic HTML pages",
+        "desc": "作为通用后备入口，覆盖普通网页、文章页与未定制站点，保证来源扩展能力不会被平台边界限制",
+        "tags": ["Fallback", "文章页", "通用入口"]
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Tapestry · 面向 Agent 的多平台内容采集、知识综合与展示技能库",
+    "githubCta": "访问 GitHub Repo"
+  }
+}

@@ -277,8 +277,10 @@ const initPreview = (lexicon) => {
     startAutoplay();
   });
 
-  preview.addEventListener("mouseenter", stopAutoplay);
-  preview.addEventListener("mouseleave", startAutoplay);
+  const viewport = preview.querySelector(".preview-viewport");
+  const hoverTarget = viewport || preview;
+  hoverTarget.addEventListener("mouseenter", stopAutoplay);
+  hoverTarget.addEventListener("mouseleave", startAutoplay);
   preview.addEventListener("focusin", stopAutoplay);
   preview.addEventListener("focusout", startAutoplay);
 
@@ -369,5 +371,9 @@ const bootstrap = async () => {
   initTerminal();
   initPreview(lexicon);
 };
+
+if (window.__LEXICON__) {
+  applyLexicon(window.__LEXICON__);
+}
 
 bootstrap();

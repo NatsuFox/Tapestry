@@ -11,7 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)
 
-[中文](#中文) | [English](#english)
+[中文](#中文) | [English](README.en.md)
 
 ### 🏠 项目主页 | Project Homepage
 
@@ -34,46 +34,11 @@ https://natsufox.github.io/Tapestry
 
 ---
 
-## 中文
-
 ### 🎯 Tapestry 是什么？
 
 Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整理和综合网络内容的方式。不再需要收藏链接或复制粘贴文章，你将获得一个完整的工作流：爬取来源、规范化内容、构建结构化知识库——全部通过与 Agent 框架的自然对话完成。
 
 **兼容框架**：Claude Code、OpenClaw、Codex 等主流 Agent 框架
-
-### 👥 适合谁使用？
-
-- **研究人员**：需要跨多个平台（知乎、Reddit、HN、X/Twitter）追踪讨论
-- **内容策展人**：从多样化来源构建有组织的知识仓库
-- **开发者**：希望系统化地归档技术讨论和文档
-- **知识工作者**：厌倦了散落在书签和标签页中的宝贵见解
-
-### 💡 解决的问题
-
-**问题 1：平台碎片化** 🌐
-有价值的内容分散在知乎、X、Reddit、Hacker News、小红书、微博和无数博客中。每个平台都有不同的结构、API 和访问模式。Tapestry 提供统一的爬虫，为你处理这些复杂性。
-
-**问题 2：内容衰减** ⏳
-网络内容会消失、被编辑或变得无法访问。Tapestry 捕获完整快照——包括评论、元数据和上下文——让你拥有持久的本地副本。
-
-**问题 3：信息过载** 📚
-保存的链接堆积如山却没有结构。Tapestry 不仅保存内容——它将内容组织成带有主题、章节和交叉引用的层次化知识库，让检索变得轻松。
-
-**问题 4：丢失上下文** 🔍
-书签会丢失保存它们背后的"原因"。Tapestry 保留你的原始意图，综合见解，并维护相关材料之间的连接。
-
----
-
-### ✨ 核心特性
-
-- **🕷️ 多平台爬虫**：原生支持知乎、X/Twitter、小红书、微博、微信公众号、Hacker News、Reddit 和通用 HTML 页面
-- **📦 三层架构**：摄取（捕获）→ 订阅源（规范化）→ 综合（分析）
-- **📖 书籍式知识库**：带有主题、章节和自动索引生成的层次化组织
-- **🎨 可视化前端**：通过简洁、可读的网页界面浏览你的知识库
-- **🤖 AI 原生工作流**：为主流 Agent 框架设计——通过自然语言工作，而非 CLI 命令
-- **🔄 确定性管道**：可重现的捕获，事实与解释清晰分离
-- **🔧 自动依赖修复**：智能检测并自动修复缺失的依赖包，无需手动干预
 
 ---
 
@@ -124,8 +89,29 @@ Tapestry 是一个 **AI 原生的技能包**，它彻底改变了你捕获、整
 
 **摄取一个知乎回答：**
 
+首先打开一个 Agent 框架（如 Claude Code）：
+
+```bash
+ ▐▛███▜▌   Claude Code v2.1.81
+▝▜█████▛▘  Opus 4.6 (1M context) with max effort · API Usage Billing
+  ▘▘ ▝▝    
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ （下文展示的命令都在这里输入）
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ bypass permissions on (shift+tab to cycle)
 ```
-"摄取这个知乎回答：https://www.zhihu.com/question/12345/answer/67890"
+
+然后调用 tapestry skill 爬取来源：
+
+```bash
+/tapestry https://www.zhihu.com/question/12345/answer/67890
+```
+
+也可以用类似含义的自然语言隐式调用：
+
+```bash
+获取内容 https://www.zhihu.com/question/12345/answer/67890
 ```
 
 AI 助手会：
@@ -153,24 +139,32 @@ AI 助手会：
 
 这个过程完全自动化，用户只需发出自然指令，系统会处理所有技术细节。
 
-**查看结果：**
-
-```
-"显示最近摄取的内容"
-```
-
 **组织到知识库：**
 
+```bash
+/tapestry synthesis
 ```
-"把这个回答综合到我的知识库"
+
+同样地，自然语言表达：
+
+```bash
+将近期收集的内容整合到知识库
 ```
 
 AI 助手会分析内容并自动决定放在哪个主题/章节下。
 
 **浏览知识库：**
 
+使用如下命令启动知识库前端：
+
 ```
-"把我的知识库显示为网站"
+/tapestry display
+```
+
+或自然语言指令：
+
+```
+把我的知识库显示为网站
 ```
 
 AI 助手会生成静态前端并启动本地服务器（通常是 `http://localhost:8766`）。
@@ -247,7 +241,7 @@ ln -s "$(pwd)/skills/tapestry" ~/.codex/skills/tapestry
 打开你的 Agent 框架，输入：
 
 ```
-"列出可用的爬虫"
+列出可用的爬虫
 ```
 
 如果看到支持的平台列表，说明安装成功！
@@ -261,9 +255,7 @@ Tapestry 提供了智能依赖安装功能，可以自动检测你的环境并�
 安装技能包后，只需在 Agent 框架中输入：
 
 ```
-"安装 Tapestry 的依赖"
-或
-"设置 Tapestry 项目"
+设置 Tapestry 项目，并安装 Tapestry 依赖
 ```
 
 **工作原理：**
@@ -340,32 +332,81 @@ pip install -e .[dev]
 #### 常见使用场景
 
 **场景 1：追踪技术讨论**
-```
-"摄取这些 Hacker News 讨论：
-https://news.ycombinator.com/item?id=123
-https://news.ycombinator.com/item?id=456"
 
-"综合这些讨论，找出共同的观点"
+收集 Hacker News 上关于某个技术话题的讨论：
+
+```
+摄取这些 Hacker News 讨论：
+https://news.ycombinator.com/item?id=123
+https://news.ycombinator.com/item?id=456
+```
+
+文本分析和综合（这算是 Agent Backbone 模型自身的能力支持，和 Tapestry 关系不大）：
+
+```
+综合这些讨论，找出共同的观点
+```
+
+将分析结果整合到知识库：
+
+```
+把这些观点组织到知识库的“技术讨论”主题下
 ```
 
 **场景 2：归档研究资料**
+
+收集原始资料：
+
 ```
-"摄取这个知乎问题下的所有高赞回答"
-"在知识库中创建一个新主题：机器学习基础"
-"把这些回答组织到新主题下"
+摄取这个知乎问题下的所有高赞回答 https://www.zhihu.com/question/12345
+```
+
+手动指定知识库话题创建：
+
+```
+在知识库中创建一个新主题：机器学习基础
+```
+
+将收集的内容整合到知识库话题内：
+
+```
+把这些回答组织到新主题下
 ```
 
 **场景 3：内容策展**
-```
-"摄取这个小红书用户的所有笔记：
-https://www.xiaohongshu.com/user/profile/xxx"
 
-"生成这个用户的内容摘要"
+收集某个用户的所有小红书笔记内容：
+
 ```
+摄取这个小红书用户的所有笔记：
+https://www.xiaohongshu.com/user/profile/xxx
+```
+
+对用户内容进行分析，提取主要兴趣和主题（这也是 Agent Backbone 模型的能力）：
+
+```
+生成这个用户的内容摘要
+```
+
+将用户内容整合到知识库的个人档案主题下。
+
+```
+把这些内容组织到知识库的“个人档案”主题下
+```
+
+如果需要精细的整理，还可以在知识库中创建一个专门的个人档案话题：
+
+```
+把这些内容组织到知识库的“个人档案”主题下，归档到用户 xxx 的子章节里
+```
+
+
 
 ---
 
 ### ⚙️ 配置与合并频率
+
+如下是一些更细节的配置和功能。
 
 #### 合并频率设置
 
@@ -683,28 +724,15 @@ python -m http.server 8766 --directory knowledge-base/_viewer
 
 ---
 
-### 🧪 测试
-
-验证与代码并存：
-
-```bash
-cd skills/tapestry/_tests
-pytest
-```
-
-测试覆盖共享的 `_src` 支持代码和注册表行为。
-
----
-
 ### ❓ 常见问题
 
 #### 什么是 Tapestry？
 
-Tapestry 是一个为 Claude Code 设计的技能包，用于从多个平台爬取网络内容并组织成结构化的知识库。它不是传统的库或工具，而是通过自然语言对话工作的 AI 原生工作流。
+Tapestry 是一个为 Agent CLI 设计的技能包，用于从多个平台爬取网络内容并组织成结构化的知识库。它不是传统的库或工具，而是通过自然语言对话工作的 AI 原生工作流。
 
 #### 我需要编程经验吗？
 
-不需要。你只需要与 Claude 自然对话即可使用 Tapestry。
+不需要。你只需要与 Agent 自然对话即可使用 Tapestry，具体调用 Skill 的方式不尽相同，但主流的 Agent 框架都支持显式指定 Skill 触发和自然语言隐式调用两种方式。
 
 #### 会被平台封禁吗？
 
@@ -715,11 +743,11 @@ Tapestry 尊重平台的速率限制和 robots.txt。对于公开内容，风险
 
 #### 数据存储在哪里？
 
-所有数据都存储在你的本地文件系统中。Tapestry 不会将数据发送到任何外部服务器（除了原始平台）。
+所有数据都存储在你的本地文件系统中。Tapestry 本身不会将个人数据发送到任何外部服务器，但和 Agent 交互的数据会不可避免地发送给 API 提供商，如 OpenAI, Anthropic 等。
 
 #### 如何备份我的知识库？
 
-只需备份整个项目目录，特别是 `captures/`、`feeds/`、`notes/` 和 `knowledge-base/` 目录。
+只需备份整个数据目录，即 `_data/` 目录。
 
 #### 如何添加新平台的爬虫？
 
@@ -902,661 +930,3 @@ ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
-
-### ⚙️ Configuration and Merge Frequency
-
-#### Merge Frequency Settings
-
-**Important Reminder**: Frequent merging into the knowledge base can lead to high overhead, especially if you perform a merge after every single ingest. Tapestry provides flexible merge strategies to balance real-time updates with performance.
-
-Configuration file location: `skills/tapestry/config/tapestry.config.json`
-
-```json
-{
-  "synthesis": {
-    "mode": "auto",
-    "kb_template": "default"
-  }
-}
-```
-
-#### Merge Modes Explained
-
-**1. Auto Mode (Intelligent Automatic)**
-```json
-"mode": "auto"
-```
-
-- **Behavior**: Agent automatically assesses the current accumulation of notes and decides whether to proceed with merge
-- **Advantages**: Automated decision-making based on load, avoids unnecessary merge overhead
-- **Use Cases**:
-  - Daily usage, balancing real-time updates with performance
-  - Uncertain when merging is most appropriate
-  - Want AI to intelligently manage knowledge base updates
-
-**How it works**:
-- Agent evaluates the quantity and quality of unmerged notes
-- Considers content relevance and importance
-- Decides whether to merge immediately, delay, or batch merge
-- Avoids forced merge after every single ingest
-
-**2. Manual Mode (Manual Control)**
-```json
-"mode": "manual"
-```
-
-- **Behavior**: Synthesis only runs when explicitly invoked
-- **Advantages**: Complete control over merge timing, zero automatic overhead
-- **Use Cases**:
-  - Batch capture content, organize later
-  - Need to review notes before deciding to merge
-  - Performance-critical scenarios
-
-**Workflow Example**:
-```bash
-# Quickly capture multiple URLs
-"Ingest this Zhihu answer: https://..."
-"Ingest this HN discussion: https://..."
-"Ingest this article: https://..."
-
-# Later, selectively merge
-"Synthesize the first answer into the knowledge base"
-"Synthesize the HN discussion under technical discussions topic"
-```
-
-**3. Batch Mode (Batch Processing)**
-```json
-"mode": "batch"
-```
-
-- **Behavior**: Ingest multiple URLs, then merge all content at once
-- **Advantages**: Minimizes merge count, suitable for large-scale content collection
-- **Use Cases**:
-  - Bulk import historical content
-  - Periodic organization of large amounts of material
-  - Need unified analysis of multiple sources
-
-**Workflow Example**:
-```bash
-# Batch ingest
-"Ingest these URLs:
-https://example.com/1
-https://example.com/2
-https://example.com/3"
-
-# Automatically triggers batch merge
-# Agent analyzes all content and organizes into knowledge base
-```
-
-#### Deterministic Option (Deterministic Mode)
-
-If you need to force knowledge base updates after every ingest, use deterministic mode:
-
-```json
-{
-  "synthesis": {
-    "mode": "deterministic",
-    "kb_template": "default"
-  }
-}
-```
-
-- **Behavior**: Immediately executes knowledge base merge after each ingest
-- **Advantages**: Knowledge base always stays up-to-date
-- **Disadvantages**: High overhead, frequent merging may impact performance
-- **Use Cases**:
-  - Real-time knowledge base update requirements
-  - Low ingest frequency (few times per day)
-  - Performance is not a primary concern
-
-#### Performance Considerations
-
-**Merge Overhead Sources**:
-- Reading and analyzing existing knowledge base structure
-- Semantic matching and topic decision-making
-- Updating multiple `index.md` files
-- Maintaining navigation and cross-references
-
-**Recommended Strategies**:
-- **Daily use**: `auto` mode (recommended)
-- **Bulk import**: `batch` mode
-- **Fine control**: `manual` mode
-- **Real-time updates**: `deterministic` mode (use cautiously)
-
-**Optimization Tips**:
-- Avoid merging individually after ingesting large amounts of content in a short time
-- Use `batch` or `auto` mode to let Agent optimize merge timing
-- Update knowledge base regularly rather than frequently
-- Consider batch processing historical content during off-hours
-
-#### Modifying Configuration
-
-Edit the configuration file:
-```bash
-# Edit configuration
-vim skills/tapestry/config/tapestry.config.json
-
-# Or let Agent help you modify
-"Change merge mode to manual"
-"Enable auto mode intelligent merging"
-```
-
-Configuration takes effect immediately, no restart required.
-
----
-
-## English
-
-### 🎯 What is Tapestry?
-
-Tapestry is an **AI-native skill pack** that transforms how you capture, organize, and synthesize web content. Instead of bookmarking links or copy-pasting articles, you get a complete workflow that crawls sources, normalizes content, and builds a structured knowledge base—all through natural conversation with your AI assistant.
-
-**Compatible Frameworks**: Claude Code, OpenClaw, Codex, and other mainstream agent frameworks
-
-### 👥 Who Should Use This?
-
-- **Researchers** who need to track discussions across multiple platforms (Zhihu, Reddit, HN, X/Twitter)
-- **Content curators** building organized knowledge repositories from diverse sources
-- **Developers** who want to archive technical discussions and documentation systematically
-- **Knowledge workers** tired of losing valuable insights scattered across bookmarks and tabs
-
-### 💡 Problems It Solves
-
-**Problem 1: Platform Fragmentation** 🌐
-Valuable content lives across Zhihu, X, Reddit, Hacker News, Xiaohongshu, Weibo, and countless blogs. Each platform has different structures, APIs, and access patterns. Tapestry provides unified crawlers that handle the complexity for you.
-
-**Problem 2: Content Decay** ⏳
-Web content disappears, gets edited, or becomes inaccessible. Tapestry captures complete snapshots—including comments, metadata, and context—so you have durable local copies.
-
-**Problem 3: Information Overload** 📚
-Saved links pile up without structure. Tapestry doesn't just save content—it organizes it into a hierarchical knowledge base with topics, chapters, and cross-references, making retrieval effortless.
-
-**Problem 4: Lost Context** 🔍
-Bookmarks lose the "why" behind saving them. Tapestry preserves your original intent, synthesizes insights, and maintains connections between related materials.
-
----
-
-### ✨ Key Features
-
-- **🕷️ Multi-Platform Crawlers**: Native support for Zhihu, X/Twitter, Xiaohongshu, Weibo, Hacker News, Reddit, and generic HTML pages
-- **📦 Three-Layer Architecture**: Ingest (capture) → Feed (normalize) → Synthesis (analyze)
-- **📖 Book-Like Knowledge Base**: Hierarchical organization with topics, chapters, and automatic index generation
-- **🎨 Visual Frontend**: Browse your knowledge base through a clean, readable web interface
-- **🤖 AI-Native Workflow**: Designed for mainstream agent frameworks—work through natural language, not CLI commands
-- **🔄 Deterministic Pipeline**: Reproducible captures with clear separation between facts and interpretation
-- **🔧 Automatic Dependency Repair**: Intelligently detects and auto-fixes missing dependencies without manual intervention
-
----
-
-### 📢 Latest Progress
-
-- **2026-03-22**:
-  - Added a Release Building workflow and published the first release v0.0.1.
-  - Added installation commands to the landing page; adjusted some text content and knowledge-base preview screenshots.
-
-- **2026-03-21**:
-  - Fixed path issues in the Skills script directories.
-  - Added and documented the Claude plugin marketplace installation flow as well as the `npx skills` installation method.
-  - Optimized the landing page's layout and styling to make it more polished.
-
-- **2026-03-20**:
-  - Fixed GitHub Actions errors to ensure all workflows pass correctly.
-  - 🏠 Added a project homepage and deployed it to GitHub Pages — visit it at https://natsufox.github.io/Tapestry
-
-- **2026-03-18**:
-  - Optimized knowledge-base frontend layout and Markdown rendering.
-  - Implemented direct URL navigation within the knowledge base.
-  - Improved Markdown syntax compliance and formatting standards in the synthesis skill.
-  - Added LaTeX rendering support in the knowledge-base frontend.
-  - 🎨 Added visual card generation feature — inspired by [beilunyang/visual-note-card-skills](https://github.com/beilunyang/visual-note-card-skills).
-
-- **2026-03-17**:
-  - Added a WeChat Official Account article crawler.
-  - Implemented Markdown rendering for the knowledge-base frontend.
-
----
-
-### 🚀 Quick Start
-
-#### Demo: Understanding Tapestry in One Minute
-
-**Ingest a Zhihu answer:**
-
-```
-"Ingest this Zhihu answer: https://www.zhihu.com/question/12345/answer/67890"
-```
-
-Your AI assistant will:
-1. Automatically recognize it's a Zhihu link
-2. Select the Zhihu crawler
-3. Capture full content (including comments)
-4. Save in three formats:
-   - `captures/` - Raw JSON
-   - `feeds/` - Normalized JSON
-   - `notes/` - Markdown notes
-
-**Terminal Demo:**
-
-<div align="center">
-  <img src="assets/zhihu_fetch.gif" width="90%" alt="Tapestry Terminal Demo" />
-</div>
-
-**🎬 Real-World Test Demonstration**
-
-During this actual Zhihu content fetching test, Tapestry demonstrated powerful capabilities:
-
-1. **Automatic Dependency Repair**: System detected missing package dependencies during connection setup and automatically completed installation and configuration
-2. **Successful Content Retrieval**: After dependency repair, successfully completed full Zhihu content capture (including main text and comments)
-3. **Knowledge Base Integration**: Captured content was automatically analyzed and integrated into the appropriate topics in the core knowledge base
-
-This entire process is fully automated—users simply issue natural language commands, and the system handles all technical details.
-
-**View results:**
-
-```
-"Show recently ingested content"
-```
-
-**Organize into knowledge base:**
-
-```
-"Synthesize this answer into my knowledge base"
-```
-
-Your AI assistant will analyze the content and automatically decide which topic/chapter to place it under.
-
-**Browse knowledge base:**
-
-```
-"Show my knowledge base as a website"
-```
-
-Your AI assistant will generate a static frontend and start a local server (usually `http://localhost:8766`).
-
-<div align="center">
-  <img src="assets/knowledge_base_demo.png" width="90%" alt="Knowledge Base Frontend Demo" />
-  <p><em>Knowledge Base Visualization - Book-like hierarchical structure with topic navigation and chapter browsing</em></p>
-</div>
-
-#### Installation
-
-**Method 1: Claude Code plugin marketplace**
-
-```bash
-claude plugin marketplace add https://github.com/NatsuFox/Tapestry
-claude plugin install tapestry@tapestry-skills
-```
-
-**Method 2: Universal npx skills install**
-
-Installs the bundle-first `tapestry` skill pack:
-
-```bash
-npx skills add NatsuFox/Tapestry --skill tapestry
-
-# Use this line only when you want a user-global install
-# npx skills add NatsuFox/Tapestry --skill tapestry -g
-```
-
-All generated artifacts from skill-only installs now live inside the installed Tapestry skill directory under `_data/`:
-
-```text
-~/.claude/skills/tapestry/_data/
-~/.openclaw/skills/tapestry/_data/
-~/.codex/skills/tapestry/_data/
-```
-
-**Method 3: Manual GitHub release bundle**
-
-1. Download `tapestry-skills-vX.Y.Z.zip` or `tapestry-skills-vX.Y.Z.tar.gz` from the [GitHub Releases](https://github.com/NatsuFox/Tapestry/releases) page.
-2. Extract the archive.
-3. Copy the bundled `skills/tapestry` directory into your agent's skill directory.
-
-```bash
-# Claude Code
-cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.claude/skills/
-
-# OpenClaw
-cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.openclaw/skills/
-
-# Codex
-cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.codex/skills/
-```
-
-**Method 4: Local checkout (recommended for development and auto-updates)**
-
-```bash
-git clone https://github.com/NatsuFox/Tapestry.git
-cd Tapestry
-
-# Stable local copy
-cp -r skills/tapestry ~/.claude/skills/
-cp -r skills/tapestry ~/.openclaw/skills/
-cp -r skills/tapestry ~/.codex/skills/
-
-# Live development symlink
-ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
-ln -s "$(pwd)/skills/tapestry" ~/.openclaw/skills/tapestry
-ln -s "$(pwd)/skills/tapestry" ~/.codex/skills/tapestry
-```
-
-#### Verify Installation
-
-Open your agent framework and type:
-
-```
-"List available crawlers"
-```
-
-If you see the list of supported platforms, installation is successful!
-
-#### Automatic Dependency Installation (Recommended)
-
-Tapestry provides intelligent dependency installation that automatically detects your environment and installs required packages.
-
-**How to Use:**
-
-After installing the skill pack, simply type in your agent framework:
-
-```
-"Install Tapestry dependencies"
-or
-"Set up the Tapestry project"
-```
-
-**How It Works:**
-
-1. **Environment Detection**: Automatically identifies your Python environment
-   - Virtual environments (venv, virtualenv)
-   - Conda environments
-   - System Python
-   - Package managers (pip, conda, poetry, uv)
-
-2. **Dependency Analysis**: Scans `pyproject.toml` and identifies:
-   - Core dependencies (httpx, pydantic, selectolax, etc.)
-   - Optional dependencies (playwright for browser rendering)
-   - Development tools (pytest, black, ruff, etc.)
-
-3. **Generate Installation Plan**: Creates a detailed installation plan
-   - Python package installation commands
-   - System-level tools (e.g., `playwright install chromium`)
-   - Optional components and recommendations
-
-4. **User Confirmation**: Presents the plan and waits for your approval
-
-5. **Execute Installation**: Runs approved commands and reports results
-
-**Installation Options:**
-
-- **Install all (recommended)**: Core dependencies + browser support + post-install tools
-- **Core only**: Install only required dependencies, skip optional packages
-- **Custom selection**: Manually choose which components to install
-
-**Example Output:**
-
-```
-Environment: Python 3.11.5 in conda environment 'myenv'
-Package Manager: conda (with pip fallback)
-
-Installation Steps:
-1. Install core dependencies:
-   pip install -e .
-
-2. Install browser support (recommended for JavaScript-heavy sites):
-   pip install -e .[browser]
-   playwright install chromium
-
-3. [Optional] Install development tools:
-   pip install -e .[dev]
-```
-
-**Important Notes:**
-
-- If using system Python, you'll receive a warning and recommendation to create a virtual environment
-- All installation operations require your explicit approval
-- After installation, automatic verification ensures all packages import correctly
-
-**Manual Installation (Alternative):**
-
-If you prefer manual control, run the install from the installed `tapestry` skill directory:
-
-```bash
-# Example: Claude Code skill install
-cd ~/.claude/skills/tapestry
-
-# Install core dependencies
-pip install -e .
-
-# Install browser support (optional, for JavaScript rendering)
-pip install -e .[browser]
-playwright install chromium
-
-# Install development tools (optional)
-pip install -e .[dev]
-```
-
-#### Common Use Cases
-
-**Scenario 1: Track Technical Discussions**
-```
-"Ingest these Hacker News discussions:
-https://news.ycombinator.com/item?id=123
-https://news.ycombinator.com/item?id=456"
-
-"Synthesize these discussions and find common viewpoints"
-```
-
-**Scenario 2: Archive Research Materials**
-```
-"Ingest all highly-voted answers under this Zhihu question"
-"Create a new topic in the knowledge base: Machine Learning Basics"
-"Organize these answers under the new topic"
-```
-
-**Scenario 3: Content Curation**
-```
-"Ingest all notes from this Xiaohongshu user:
-https://www.xiaohongshu.com/user/profile/xxx"
-
-"Generate a content summary for this user"
-```
-
----
-
-### 📋 Workflow Overview
-
-```mermaid
-flowchart LR
-    A[URL Input] --> B[INGEST<br/>tapestry-ingest]
-    B --> C[FEED<br/>tapestry-feed]
-    C --> D[SYNTHESIS<br/>tapestry-synthesis]
-    D --> E[DISPLAY<br/>tapestry-display]
-    E --> F[Knowledge Base<br/>Website]
-
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
-    style B fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#000
-    style C fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
-    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:3px,color:#000
-    style E fill:#fce4ec,stroke:#c2185b,stroke-width:3px,color:#000
-    style F fill:#e1f5ff,stroke:#0288d1,stroke-width:3px,color:#000
-```
-
----
-
-### 🛠️ Architecture Design
-
-Tapestry is **not a traditional Python library**—it's a skill pack meticulously designed for AI agent framework workflow models.
-
-#### Core Design Philosophy
-
-```mermaid
-flowchart LR
-    A[AI Agent<br/>Conversation Layer] --> B1[INGEST]
-    A --> B2[FEED]
-    A --> B3[SYNTHESIS]
-
-    B1 & B2 & B3 --> C[Shared Deterministic<br/>Logic Layer]
-    C --> D[Platform<br/>Crawler Layer]
-    D --> E[Data Persistence<br/>Layer]
-
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
-    style B1 fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#000
-    style B2 fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#000
-    style B3 fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#000
-    style C fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
-    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:3px,color:#000
-    style E fill:#fce4ec,stroke:#c2185b,stroke-width:3px,color:#000
-```
-
-This architecture ensures:
-- ✅ **Separation of Concerns**: Workflow, logic, and implementation are distinct
-- ✅ **Testability**: Deterministic logic layer is fully unit-testable
-- ✅ **Extensibility**: New platforms and skills are easy to add
-- ✅ **Maintainability**: Natural language workflows + clear code structure
-
----
-
-### 📚 Supported Sources
-
-| Platform | Coverage | Notes |
-|----------|----------|-------|
-| 🇨🇳 Zhihu | Questions, Answers, Articles, Profiles | Reverse-engineered API |
-| 🐦 X/Twitter | Posts, Threads | Public pages only |
-| 📱 Xiaohongshu | Notes, Profiles | Public content |
-| 🇨🇳 Weibo | Posts | Public posts |
-| 🔶 Hacker News | Discussions | Full comment trees |
-| 🤖 Reddit | Threads | Public threads |
-| 🌐 Generic HTML | Any webpage | Fallback crawler |
-
----
-
-### 📖 Knowledge Base Structure
-
-Tapestry organizes content into a **book-like hierarchy**:
-
-```
-knowledge-base/
-├── index.md                    # Root navigation
-├── topic-1/
-│   ├── index.md               # Topic overview
-│   ├── chapter-1/
-│   │   ├── index.md          # Chapter content
-│   │   └── artifacts/        # Supporting files
-│   └── chapter-2/
-└── topic-2/
-```
-
-The synthesis skill automatically:
-- Decides where content belongs based on semantic fit
-- Creates new topics/chapters when needed
-- Updates all parent `index.md` files for navigation
-- Maintains governance rules for consistency
-
----
-
-### 🎨 Visual Frontend
-
-Generate a browsable website from your knowledge base:
-
-```bash
-# Your AI assistant will run this for you when you say:
-# "Show me my knowledge base as a website"
-
-python skills/tapestry/display/_scripts/publish_viewer.py
-python -m http.server 8766 --directory knowledge-base/_viewer
-```
-
-Visit `http://localhost:8766` to browse your organized content with proper navigation and structure.
-
----
-
-### 🧪 Testing
-
-Validation lives alongside the code:
-
-```bash
-cd skills/tapestry/_tests
-pytest
-```
-
-Tests cover the shared `_src` support code and registry behavior.
-
----
-
-### ❓ Frequently Asked Questions
-
-#### What is Tapestry?
-
-Tapestry is a skill pack for agent frameworks that crawls web content from multiple platforms and organizes it into a structured knowledge base. It's not a traditional library or tool, but an AI-native workflow that works through natural language conversation.
-
-#### Do I need programming experience?
-
-No. You simply talk to your AI assistant naturally to use Tapestry.
-
-#### Will I get blocked by platforms?
-
-Tapestry respects platform rate limits and robots.txt. For public content, the risk is low. However:
-- Don't crawl too frequently
-- Follow platform Terms of Service
-- Only crawl publicly accessible content
-
-#### Where is data stored?
-
-All data is stored on your local filesystem. Tapestry does not send data to any external servers (except the original platforms).
-
-#### How do I backup my knowledge base?
-
-Simply backup the entire project directory, especially `captures/`, `feeds/`, `notes/`, and `knowledge-base/` directories.
-
-#### How do I add a crawler for a new platform?
-
-See the Contributing section below. Basic steps:
-1. Create new module in `_src/crawlers/`
-2. Implement `CrawlerDefinition` and `CrawlHandler`
-3. Register in `registry.py`
-4. Add Feed spec
-5. Write tests
-
-#### What if I encounter issues?
-
-- Check [Issues](https://github.com/NatsuFox/Tapestry/issues) for similar problems
-- Create a new [Bug Report](https://github.com/NatsuFox/Tapestry/issues/new?template=bug_report.md)
-- Join [Discussions](https://github.com/NatsuFox/Tapestry/discussions) to ask questions
-
----
-
-### 🤝 Contributing
-
-We welcome all forms of contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details on:
-
-- Adding new platform crawlers
-- Improving feed specifications
-- Enhancing the frontend
-- Refining knowledge base governance
-- Documentation improvements
-
-Before submitting a PR, ensure:
-- Code follows project style
-- All tests pass
-- Documentation is updated
-- Commit messages follow Conventional Commits
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete guide.
-
----
-
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-<div align="center">
-
-**Built with ❤️ for Agent Frameworks**
-
-*Transform scattered web content into organized knowledge*
-
-[⬆ Back to Top](#-tapestry)
-
-</div>

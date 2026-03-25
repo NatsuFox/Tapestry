@@ -2,7 +2,7 @@
 
 <img src="assets/tapestry_logo.png" alt="Tapestry Logo" width="400"/>
 
-**AI 原生的网络书签知识库 | AI-Native Web Bookmark Knowledge Base**
+**AI 原生网页智能与知识库技能包 | AI-Native Web Intelligence and Knowledge Base Skill Bundle**
 
 *通过与 Agent 助手的自然对话，将分散的网络内容转化为有组织、可搜索的知识库*
 
@@ -17,6 +17,12 @@
 
 https://natsufox.github.io/Tapestry
 
+### 🔎 核心页面 | Core Pages
+
+- Install: https://natsufox.github.io/Tapestry/install.html
+- Sources: https://natsufox.github.io/Tapestry/supported-sources.html
+- Use Cases: https://natsufox.github.io/Tapestry/use-cases.html
+- FAQ: https://natsufox.github.io/Tapestry/faq.html
 
 ### ⭐ 支持项目 | Support the Project
 

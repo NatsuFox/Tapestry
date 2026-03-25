@@ -2,11 +2,17 @@
 
 <img src="assets/tapestry_logo.png" alt="Tapestry Logo" width="400"/>
 
-# Tapestry — AI-Native Web Bookmark Knowledge Base
+# Tapestry — AI-Native Web Intelligence and Knowledge Base Skill Bundle
 
 *Transform scattered web content into organized, searchable knowledge through natural conversation with your Agent assistant*
 
 **Compatible Frameworks**: Claude Code, OpenClaw, Codex, and other mainstream agent frameworks
+
+**Core Pages**
+- [Install](https://natsufox.github.io/Tapestry/install.html)
+- [Supported Sources](https://natsufox.github.io/Tapestry/supported-sources.html)
+- [Use Cases](https://natsufox.github.io/Tapestry/use-cases.html)
+- [FAQ](https://natsufox.github.io/Tapestry/faq.html)
 
 > **If Tapestry helps you, please give the project a Star!**
 >
@@ -945,7 +951,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 *Transform scattered web content into organized knowledge*
 
-[⬆ Back to Top](#tapestry--ai-native-web-bookmark-knowledge-base)
+[⬆ Back to Top](#tapestry--ai-native-web-intelligence-and-knowledge-base-skill-bundle)
 
 </div>
 

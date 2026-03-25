@@ -31,6 +31,9 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Validate portal SEO surface
+        run: python3 tools/check_portal_seo.py
+
       - name: Upload portal artifact
         uses: actions/upload-pages-artifact@v3
         with:

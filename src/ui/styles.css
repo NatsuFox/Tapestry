@@ -175,7 +175,8 @@ svg {
 }
 
 .site-nav a:hover,
-.site-nav a:focus-visible {
+.site-nav a:focus-visible,
+.site-nav a[aria-current="page"] {
   background: rgba(255, 255, 255, 0.56);
   color: var(--ink-strong);
   transform: translateY(-1px);
@@ -1240,6 +1241,177 @@ main {
 
 }
 
+.resource-hub {
+  display: grid;
+}
+
+.subpage-main {
+  display: grid;
+  gap: 1.45rem;
+}
+
+.subpage-panel {
+  padding: clamp(1.35rem, 2.8vw, 2rem);
+}
+
+.page-intro-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.page-intro {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.page-intro h1,
+.prose-card h2,
+.prose-card h3,
+.resource-copy h2,
+.cta-ribbon h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+}
+
+.page-intro h1 {
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+}
+
+.page-summary,
+.prose-card p,
+.prose-card li,
+.breadcrumb,
+.resource-copy p {
+  color: var(--ink-soft);
+}
+
+.page-summary,
+.prose-card p {
+  margin: 0;
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.inline-links,
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.resource-copy {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1.1rem;
+}
+
+.link-grid,
+.two-column-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.prose-card {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1.15rem;
+  border-radius: 1.35rem;
+  background: rgba(255, 250, 245, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.54);
+}
+
+.prose-card h3 {
+  font-size: 1.18rem;
+}
+
+.prose-card .section-english,
+.prose-card .source-en {
+  margin: 0;
+  max-width: none;
+}
+
+.prose-card a,
+.breadcrumb a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.point-list {
+  margin: 0.7rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.point-list li + li {
+  margin-top: 0.45rem;
+}
+
+.code-panel {
+  margin-top: 0.8rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1.2rem;
+  background: rgba(31, 23, 20, 0.96);
+  color: #fffaf4;
+  overflow-x: auto;
+}
+
+.code-panel pre,
+.code-panel code {
+  margin: 0;
+  font-family: "SFMono-Regular", "SFMono", "Menlo", "Consolas", monospace;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.cta-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.faq-shell {
+  display: grid;
+}
+
+.faq-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.faq-item {
+  padding: 1rem 1.1rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 250, 245, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.54);
+}
+
+.faq-item summary {
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 1.16rem;
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+.faq-item summary::marker {
+  color: var(--accent-copper);
+}
+
+.faq-item p {
+  margin: 0.75rem 0 0;
+  color: var(--ink-soft);
+}
+
 .site-footer {
   padding: 1.35rem 0.2rem 0;
   color: var(--ink-soft);
@@ -1314,6 +1486,11 @@ main {
     padding-top: 0.8rem;
   }
 
+  .link-grid,
+  .two-column-panel {
+    grid-template-columns: 1fr;
+  }
+
   .site-header {
     flex-wrap: wrap;
     align-items: flex-start;
@@ -1350,8 +1527,15 @@ main {
   .hero-metrics,
   .terminal-layout,
   .sources-summary,
-  .source-grid {
+  .source-grid,
+  .link-grid,
+  .two-column-panel {
     grid-template-columns: 1fr;
+  }
+
+  .cta-ribbon {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .preview-header,
@@ -1378,7 +1562,9 @@ main {
     width: 100%;
   }
 
-  .site-footer-inner {
+  .site-footer-inner,
+  .footer-nav,
+  .inline-links {
     flex-direction: column;
   }
 

@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Tapestry | AI 原生知识门户",
-    "description": "Tapestry 是一套面向 Agent 的多平台内容采集、知识综合与展示技能库，用于把零散网页转化为可回访的知识资产",
+    "title": "Tapestry | AI-Native Web Intelligence and Knowledge Base Skill Bundle",
+    "description": "Tapestry 是面向 Agent 的 AI-native web intelligence 与知识库技能包，可抓取多平台内容、规范化 Feed，并将 URL 转化为可搜索、可发布的知识资产。",
     "logoAlt": "Tapestry logo",
     "brandAriaLabel": "Tapestry 首页"
   },

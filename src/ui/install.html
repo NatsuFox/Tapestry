@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Tapestry 安装指南，适用于 Claude Code、Codex、OpenClaw 等 Agent 框架，覆盖插件市场、npx skills 与手动 bundle 安装方式。"
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#f8f1e8" />
+    <title>Tapestry 安装指南 | Install and Setup</title>
+    <link rel="canonical" href="https://natsufox.github.io/Tapestry/install.html" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Tapestry" />
+    <meta property="og:url" content="https://natsufox.github.io/Tapestry/install.html" />
+    <meta property="og:title" content="Tapestry 安装指南 | Install and Setup" />
+    <meta
+      property="og:description"
+      content="了解 Tapestry 在主流 Agent 框架中的安装方式、bundle 结构与首轮验证流程。"
+    />
+    <meta
+      property="og:image"
+      content="https://natsufox.github.io/Tapestry/assets/knowledge-base-demo-overview.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tapestry 安装指南 | Install and Setup" />
+    <meta
+      name="twitter:description"
+      content="了解 Tapestry 在主流 Agent 框架中的安装方式、bundle 结构与首轮验证流程。"
+    />
+    <meta
+      name="twitter:image"
+      content="https://natsufox.github.io/Tapestry/assets/knowledge-base-demo-overview.png"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Tapestry",
+                "item": "https://natsufox.github.io/Tapestry/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Install",
+                "item": "https://natsufox.github.io/Tapestry/install.html"
+              }
+            ]
+          },
+          {
+            "@type": "HowTo",
+            "name": "Install Tapestry",
+            "description": "Install the Tapestry skill bundle into an agent framework and verify the first run path.",
+            "step": [
+              {
+                "@type": "HowToStep",
+                "name": "Choose an installation path",
+                "text": "Use the Claude plugin marketplace, npx skills, or the manual release bundle depending on your framework and permissions."
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Install the bundle",
+                "text": "Add the Tapestry skill bundle to your agent's skills directory or install it through the framework-native marketplace flow."
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Run an ingest command",
+                "text": "Use a real URL to confirm that capture, feed, synthesis, and display flows are available after installation."
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" type="image/png" sizes="512x512" href="./assets/tapestry-favicon.png" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./assets/tapestry-favicon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header glass-panel">
+        <a class="brand" href="./index.html" aria-label="Tapestry 首页 | Tapestry home">
+          <img class="brand-logo" src="./assets/tapestry-logo-transparent.png" alt="Tapestry logo" />
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="切换导航 | Toggle navigation"
+        >
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="主导航 | Primary navigation">
+          <a href="./index.html">
+            <span class="nav-stack">
+              <span class="nav-label">主页</span>
+              <span class="nav-sub">Home</span>
+            </span>
+          </a>
+          <a href="./install.html" aria-current="page">
+            <span class="nav-stack">
+              <span class="nav-label">安装</span>
+              <span class="nav-sub">Install</span>
+            </span>
+          </a>
+          <a href="./supported-sources.html">
+            <span class="nav-stack">
+              <span class="nav-label">来源</span>
+              <span class="nav-sub">Sources</span>
+            </span>
+          </a>
+          <a href="./use-cases.html">
+            <span class="nav-stack">
+              <span class="nav-label">场景</span>
+              <span class="nav-sub">Use Cases</span>
+            </span>
+          </a>
+          <a href="./faq.html">
+            <span class="nav-stack">
+              <span class="nav-label">问答</span>
+              <span class="nav-sub">FAQ</span>
+            </span>
+          </a>
+          <a class="nav-cta" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">
+            <span class="nav-stack">
+              <span class="nav-label">GitHub</span>
+              <span class="nav-sub">Repo</span>
+            </span>
+          </a>
+        </nav>
+      </header>
+
+      <main class="subpage-main">
+        <section class="glass-panel subpage-panel page-intro-panel section-animate">
+          <div class="breadcrumb" aria-label="Breadcrumb">
+            <a href="./index.html">Tapestry</a>
+            <span>/</span>
+            <span>Install</span>
+          </div>
+          <div class="page-intro">
+            <p class="eyebrow">
+              <span class="eyebrow-cn">安装指南</span>
+              <span class="eyebrow-sep">·</span>
+              <span class="eyebrow-en">Install and Setup</span>
+            </p>
+            <h1>Tapestry 的安装与接入方式</h1>
+            <p class="page-summary">
+              Tapestry 以 bundle-first 的方式接入 Agent 框架。这里聚焦的是实际可运行的安装路径、bundle 放置位置，以及第一次使用时最值得验证的工作流入口。
+            </p>
+            <p class="hero-english section-english">
+              Install Tapestry through the marketplace path, the universal npx flow, or a manual release bundle, then verify the first real ingest so the workflow is proven instead of merely installed.
+            </p>
+            <div class="inline-links">
+              <a class="button primary" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">查看 GitHub Repo</a>
+              <a class="button secondary" href="./faq.html">查看常见问题</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="glass-panel subpage-panel section-animate delay-1">
+          <div class="section-copy">
+            <p class="eyebrow">
+              <span class="eyebrow-cn">接入路径</span>
+              <span class="eyebrow-sep">·</span>
+              <span class="eyebrow-en">Setup Paths</span>
+            </p>
+            <h2>选择与你的 Agent 运行环境最匹配的安装方式</h2>
+            <p class="hero-english section-english">
+              The goal is consistent access to the same Tapestry bundle across frameworks, not forcing every user through a single shell path.
+            </p>
+          </div>
+          <div class="link-grid">
+            <article class="prose-card interactive-card">
+              <p class="card-label">插件市场 · Marketplace</p>
+              <h3>Claude Code 插件市场安装</h3>
+              <p class="section-english">Use the framework-native marketplace flow when you want the cleanest Claude Code setup.</p>
+              <div class="code-panel">
+                <pre><code>claude plugin marketplace add https://github.com/NatsuFox/Tapestry
+claude plugin install tapestry@tapestry-skills</code></pre>
+              </div>
+            </article>
+            <article class="prose-card interactive-card">
+              <p class="card-label">通用安装 · Universal</p>
+              <h3>npx skills 方式安装</h3>
+              <p class="section-english">A portable install path for compatible skill-based agent runtimes.</p>
+              <div class="code-panel">
+                <pre><code>npx skills add NatsuFox/Tapestry --skill tapestry</code></pre>
+              </div>
+            </article>
+            <article class="prose-card interactive-card">
+              <p class="card-label">Release Bundle</p>
+              <h3>手动发布包接入</h3>
+              <p class="section-english">Use this when you want a pinned artifact, offline review, or explicit vendoring.</p>
+              <div class="code-panel">
+                <pre><code>cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.claude/skills/
+cp -r tapestry-skills-vX.Y.Z/skills/tapestry ~/.codex/skills/</code></pre>
+              </div>
+            </article>
+            <article class="prose-card interactive-card">
+              <p class="card-label">首次验证 · First Run</p>
+              <h3>安装完成后立刻跑一次真实摄取</h3>
+              <p class="section-english">The first useful verification is an actual ingest, not a passive install screen.</p>
+              <div class="code-panel">
+                <pre><code>/tapestry https://www.zhihu.com/question/12345/answer/67890</code></pre>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="glass-panel subpage-panel two-column-panel section-animate delay-2">
+          <article class="prose-card interactive-card">
+            <p class="card-label">Bundle Scope</p>
+            <h3>安装进去的并不只是一个命令别名</h3>
+            <p class="section-english">The installed bundle includes crawlers, a feed layer, synthesis logic, and display/export surfaces.</p>
+            <ul class="point-list">
+              <li>平台感知的多来源 crawler。</li>
+              <li>保留来源语义的 feed 中间层。</li>
+              <li>把 captures 与 feeds 组织成知识库章节的 synthesis 能力。</li>
+              <li>发布静态前端与导出 Markdown、HTML、PDF 的 display/export 路径。</li>
+            </ul>
+          </article>
+          <article class="prose-card interactive-card">
+            <p class="card-label">Data Roots</p>
+            <h3>生成的数据会写到哪里</h3>
+            <p class="section-english">Skill-only installs keep captures, feeds, notes, and viewer outputs under the installed Tapestry skill root.</p>
+            <ul class="point-list">
+              <li><code>~/.claude/skills/tapestry/_data/</code></li>
+              <li><code>~/.codex/skills/tapestry/_data/</code></li>
+              <li><code>~/.openclaw/skills/tapestry/_data/</code></li>
+              <li>这些根目录会持续累积原始证据、规范化结果与发布产物。</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="glass-panel subpage-panel cta-ribbon section-animate delay-3">
+          <div>
+            <p class="eyebrow">
+              <span class="eyebrow-cn">继续阅读</span>
+              <span class="eyebrow-sep">·</span>
+              <span class="eyebrow-en">Continue</span>
+            </p>
+            <h2>安装完成后，最自然的下一步通常是确认来源覆盖和实际使用场景</h2>
+            <p class="hero-english section-english">Move next into source coverage, practical workflows, or the FAQ depending on what you need to validate.</p>
+          </div>
+          <div class="inline-links">
+            <a class="footer-link" href="./supported-sources.html">来源覆盖 / Sources</a>
+            <a class="footer-link" href="./use-cases.html">使用场景 / Use Cases</a>
+            <a class="footer-link" href="./faq.html">常见问题 / FAQ</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="site-footer-inner">
+          <p>Tapestry · 面向 Agent 的原生内容采集与知识库发布技能套件</p>
+          <div class="footer-nav">
+            <a class="footer-link" href="./index.html">主页 / Home</a>
+            <a class="footer-link" href="./supported-sources.html">来源 / Sources</a>
+            <a class="footer-link" href="./use-cases.html">场景 / Use Cases</a>
+            <a class="footer-link" href="./faq.html">问答 / FAQ</a>
+            <a class="footer-link" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">GitHub Repo</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

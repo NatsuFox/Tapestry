@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Tapestry 常见问题，覆盖安装方式、支持框架、数据存储、发布路径、crawler 行为与知识库工作流。"
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#f8f1e8" />
+    <title>Tapestry 常见问题 | FAQ</title>
+    <link rel="canonical" href="https://natsufox.github.io/Tapestry/faq.html" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Tapestry" />
+    <meta property="og:url" content="https://natsufox.github.io/Tapestry/faq.html" />
+    <meta property="og:title" content="Tapestry 常见问题 | FAQ" />
+    <meta
+      property="og:description"
+      content="查看 Tapestry 关于安装、来源感知抓取、数据根目录、知识库发布与使用方式的常见问题。"
+    />
+    <meta
+      property="og:image"
+      content="https://natsufox.github.io/Tapestry/assets/knowledge-base-demo-overview.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tapestry 常见问题 | FAQ" />
+    <meta
+      name="twitter:description"
+      content="查看 Tapestry 关于安装、来源感知抓取、数据根目录、知识库发布与使用方式的常见问题。"
+    />
+    <meta
+      name="twitter:image"
+      content="https://natsufox.github.io/Tapestry/assets/knowledge-base-demo-overview.png"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Tapestry", "item": "https://natsufox.github.io/Tapestry/" },
+              { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://natsufox.github.io/Tapestry/faq.html" }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is Tapestry?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Tapestry is an AI-native web intelligence and knowledge-base skill bundle for capturing multi-platform web content, normalizing it into feeds, synthesizing it into structured notes, and publishing readable outputs."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How is Tapestry different from bookmarks or a one-off scraper?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Bookmarks preserve only links, and one-off scrapers often flatten source context. Tapestry keeps source-aware captures, a normalized feed layer, and publishable knowledge outputs."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which frameworks can install Tapestry?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Tapestry is positioned for Claude Code, Codex, OpenClaw, and compatible skill-based agent runtimes."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Where does Tapestry store generated data?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Skill installs write operational artifacts under the installed Tapestry skill directory inside _data, including captures, feeds, notes, and viewer outputs."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can Tapestry publish a knowledge base as a website?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Tapestry includes a display path for generating publishable static frontends from the synthesized knowledge base."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" type="image/png" sizes="512x512" href="./assets/tapestry-favicon.png" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./assets/tapestry-favicon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header glass-panel">
+        <a class="brand" href="./index.html" aria-label="Tapestry 首页 | Tapestry home">
+          <img class="brand-logo" src="./assets/tapestry-logo-transparent.png" alt="Tapestry logo" />
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="切换导航 | Toggle navigation">
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="主导航 | Primary navigation">
+          <a href="./index.html">
+            <span class="nav-stack">
+              <span class="nav-label">主页</span>
+              <span class="nav-sub">Home</span>
+            </span>
+          </a>
+          <a href="./install.html">
+            <span class="nav-stack">
+              <span class="nav-label">安装</span>
+              <span class="nav-sub">Install</span>
+            </span>
+          </a>
+          <a href="./supported-sources.html">
+            <span class="nav-stack">
+              <span class="nav-label">来源</span>
+              <span class="nav-sub">Sources</span>
+            </span>
+          </a>
+          <a href="./use-cases.html">
+            <span class="nav-stack">
+              <span class="nav-label">场景</span>
+              <span class="nav-sub">Use Cases</span>
+            </span>
+          </a>
+          <a href="./faq.html" aria-current="page">
+            <span class="nav-stack">
+              <span class="nav-label">问答</span>
+              <span class="nav-sub">FAQ</span>
+            </span>
+          </a>
+          <a class="nav-cta" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">
+            <span class="nav-stack">
+              <span class="nav-label">GitHub</span>
+              <span class="nav-sub">Repo</span>
+            </span>
+          </a>
+        </nav>
+      </header>
+
+      <main class="subpage-main">
+        <section class="glass-panel subpage-panel page-intro-panel section-animate">
+          <div class="breadcrumb" aria-label="Breadcrumb">
+            <a href="./index.html">Tapestry</a>
+            <span>/</span>
+            <span>FAQ</span>
+          </div>
+          <div class="page-intro">
+            <p class="eyebrow">
+              <span class="eyebrow-cn">常见问题</span>
+              <span class="eyebrow-sep">·</span>
+              <span class="eyebrow-en">FAQ</span>
+            </p>
+            <h1>关于 Tapestry 的常见问题</h1>
+            <p class="page-summary">
+              这里集中回答的是项目本身最常被问到的问题：它是什么、如何安装、数据写到哪里、为什么强调来源感知抓取，以及它最终如何发布成知识库页面。
+            </p>
+            <p class="hero-english section-english">
+              This page focuses on the practical questions people ask before adopting Tapestry into a real workflow.
+            </p>
+          </div>
+        </section>
+
+        <section class="glass-panel subpage-panel faq-shell section-animate delay-1">
+          <div class="faq-list">
+            <details class="faq-item interactive-card" open>
+              <summary>什么是 Tapestry？ | What is Tapestry?</summary>
+              <p>Tapestry 是一个面向 Agent 的 AI-native web intelligence 与知识库技能包。它会抓取多来源网页内容、整理成统一 feed，再综合成结构化 notes、chapters 与可发布的展示结果。</p>
+            </details>
+            <details class="faq-item interactive-card">
+              <summary>它和普通书签有什么区别？ | How is it different from bookmarks?</summary>
+              <p>书签保留的是链接；Tapestry 保留的是来源感知的 captures、normalized feeds 与后续知识输出。当原始页面变化、失效或需要重新分析时，这个差异会非常明显。</p>
+            </details>
+            <details class="faq-item interactive-card">
+              <summary>它和一次性的 scraper 脚本有什么区别？ | How is it different from a one-off scraper?</summary>
+              <p>一次性 scraper 可以抓内容，但通常不会提供稳定的 feed 模型、章节级 synthesis、以及后续可发布的知识库展示路径。Tapestry 的价值在整条工作流，而不只是抓取动作本身。</p>
+            </details>
+            <details class="faq-item interactive-card">
+              <summary>支持哪些 Agent 框架？ | Which frameworks can use it?</summary>
+              <p>当前项目定位围绕 Claude Code、Codex、OpenClaw 等 skill-compatible Agent 运行环境展开，安装方式也保持 bundle-first 而不是仅依赖某一种命令入口。</p>
+            </details>
+            <details class="faq-item interactive-card">
+              <summary>数据会写到哪里？ | Where does it store data?</summary>
+              <p>通过 skill 安装后的数据会写到已安装的 Tapestry skill 根目录下的 <code>_data/</code> 中，包含 captures、feeds、notes 和 viewer outputs。</p>
+            </details>
+            <details class="faq-item interactive-card">
+              <summary>可以把知识库发布成网站吗？ | Can it publish a knowledge base as a site?</summary>
+              <p>可以。Tapestry 自带 display 路径，可以把 synthesis 结果发布成可浏览的静态前端，便于本地查看、共享和归档。</p>
+            </details>
+            <details class="faq-item interactive-card">
+              <summary>为什么强调来源感知抓取？ | Why is source-aware crawling important?</summary>
+              <p>因为 Reddit thread、知乎回答、公众号文章和普通博客页的结构完全不同。Tapestry 的设计重点是先保留这些差异，再把它们整理进统一知识工作流，而不是先把一切都扁平化。</p>
+            </details>
+            <details class="faq-item interactive-card">
+              <summary>读完这里以后应该看哪一页？ | What should I read next?</summary>
+              <p>如果你正在评估接入方式，请看 <a href="./install.html">安装指南</a>；如果你在确认覆盖面，请看 <a href="./supported-sources.html">支持的来源</a>；如果你在判断是否适合你的工作流，请看 <a href="./use-cases.html">使用场景</a>。</p>
+            </details>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="site-footer-inner">
+          <p>Tapestry · 面向 Agent 的原生内容采集与知识库发布技能套件</p>
+          <div class="footer-nav">
+            <a class="footer-link" href="./index.html">主页 / Home</a>
+            <a class="footer-link" href="./install.html">安装 / Install</a>
+            <a class="footer-link" href="./supported-sources.html">来源 / Sources</a>
+            <a class="footer-link" href="./use-cases.html">场景 / Use Cases</a>
+            <a class="footer-link" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">GitHub Repo</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

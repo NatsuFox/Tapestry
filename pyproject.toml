@@ -58,7 +58,7 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/NatsuFox/Tapestry"
+Homepage = "https://natsufox.github.io/Tapestry/"
 Repository = "https://github.com/NatsuFox/Tapestry"
 Issues = "https://github.com/NatsuFox/Tapestry/issues"
 

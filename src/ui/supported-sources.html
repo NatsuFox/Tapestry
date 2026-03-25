@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="查看 Tapestry 支持的内容来源与平台感知 crawler，包括知乎、Reddit、Hacker News、X、小红书、微博、微信公众号与通用 HTML 页面。"
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#f8f1e8" />
+    <title>Tapestry 支持的来源 | Supported Sources</title>
+    <link rel="canonical" href="https://natsufox.github.io/Tapestry/supported-sources.html" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Tapestry" />
+    <meta property="og:url" content="https://natsufox.github.io/Tapestry/supported-sources.html" />
+    <meta property="og:title" content="Tapestry 支持的来源 | Supported Sources" />
+    <meta
+      property="og:description"
+      content="了解 Tapestry 如何把多平台内容路由到 source-aware crawler，并进入统一的 feed 与知识库管线。"
+    />
+    <meta
+      property="og:image"
+      content="https://natsufox.github.io/Tapestry/assets/knowledge-base-demo-overview.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tapestry 支持的来源 | Supported Sources" />
+    <meta
+      name="twitter:description"
+      content="了解 Tapestry 如何把多平台内容路由到 source-aware crawler，并进入统一的 feed 与知识库管线。"
+    />
+    <meta
+      name="twitter:image"
+      content="https://natsufox.github.io/Tapestry/assets/knowledge-base-demo-overview.png"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Tapestry",
+                "item": "https://natsufox.github.io/Tapestry/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Supported Sources",
+                "item": "https://natsufox.github.io/Tapestry/supported-sources.html"
+              }
+            ]
+          },
+          {
+            "@type": "ItemList",
+            "name": "Tapestry Supported Sources",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Zhihu" },
+              { "@type": "ListItem", "position": 2, "name": "Reddit" },
+              { "@type": "ListItem", "position": 3, "name": "Hacker News" },
+              { "@type": "ListItem", "position": 4, "name": "X / Twitter" },
+              { "@type": "ListItem", "position": 5, "name": "WeChat articles" },
+              { "@type": "ListItem", "position": 6, "name": "Weibo" },
+              { "@type": "ListItem", "position": 7, "name": "Xiaohongshu" },
+              { "@type": "ListItem", "position": 8, "name": "Generic HTML pages" }
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="icon" type="image/png" sizes="512x512" href="./assets/tapestry-favicon.png" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./assets/tapestry-favicon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header glass-panel">
+        <a class="brand" href="./index.html" aria-label="Tapestry 首页 | Tapestry home">
+          <img class="brand-logo" src="./assets/tapestry-logo-transparent.png" alt="Tapestry logo" />
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="切换导航 | Toggle navigation">
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="主导航 | Primary navigation">
+          <a href="./index.html">
+            <span class="nav-stack">
+              <span class="nav-label">主页</span>
+              <span class="nav-sub">Home</span>
+            </span>
+          </a>
+          <a href="./install.html">
+            <span class="nav-stack">
+              <span class="nav-label">安装</span>
+              <span class="nav-sub">Install</span>
+            </span>
+          </a>
+          <a href="./supported-sources.html" aria-current="page">
+            <span class="nav-stack">
+              <span class="nav-label">来源</span>
+              <span class="nav-sub">Sources</span>
+            </span>
+          </a>
+          <a href="./use-cases.html">
+            <span class="nav-stack">
+              <span class="nav-label">场景</span>
+              <span class="nav-sub">Use Cases</span>
+            </span>
+          </a>
+          <a href="./faq.html">
+            <span class="nav-stack">
+              <span class="nav-label">问答</span>
+              <span class="nav-sub">FAQ</span>
+            </span>
+          </a>
+          <a class="nav-cta" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">
+            <span class="nav-stack">
+              <span class="nav-label">GitHub</span>
+              <span class="nav-sub">Repo</span>
+            </span>
+          </a>
+        </nav>
+      </header>
+
+      <main class="subpage-main">
+        <section class="glass-panel subpage-panel page-intro-panel section-animate">
+          <div class="breadcrumb" aria-label="Breadcrumb">
+            <a href="./index.html">Tapestry</a>
+            <span>/</span>
+            <span>Supported Sources</span>
+          </div>
+          <div class="page-intro">
+            <p class="eyebrow">
+              <span class="eyebrow-cn">支持来源</span>
+              <span class="eyebrow-sep">·</span>
+              <span class="eyebrow-en">Supported Sources</span>
+            </p>
+            <h1>Tapestry 的平台覆盖与来源感知抓取能力</h1>
+            <p class="page-summary">
+              Tapestry 不是把所有网页都一视同仁地扁平抓取，而是优先保留来源结构、上下文语义与平台差异，再把内容整理进统一的 feed 与知识库管线。
+            </p>
+            <p class="hero-english section-english">
+              Each source enters the same overall workflow, but the acquisition path stays platform-aware so threads, metadata, and content context survive the crawl.
+            </p>
+          </div>
+        </section>
+
+        <section class="glass-panel subpage-panel section-animate delay-1">
+          <div class="section-copy">
+            <p class="eyebrow">
+              <span class="eyebrow-cn">来源覆盖</span>
+              <span class="eyebrow-sep">·</span>
+              <span class="eyebrow-en">Coverage</span>
+            </p>
+            <h2>每一种来源都会进入同一条知识管线，但不会丢失各自的来源语义</h2>
+            <p class="hero-english section-english">
+              Source-specific crawling first, unified feed modeling second, knowledge-base synthesis and display after that.
+            </p>
+          </div>
+          <div class="source-grid">
+            <article class="source-card interactive-card">
+              <span class="source-icon zhihu" aria-hidden="true">知</span>
+              <div>
+                <strong>知乎</strong>
+                <span class="source-en">Zhihu</span>
+                <p>覆盖问题、回答、专栏与评论链，适合沉淀中文知识社区中的长链路问答与观点结构。</p>
+                <div class="source-tags">
+                  <span>问题</span>
+                  <span>回答</span>
+                  <span>专栏</span>
+                </div>
+              </div>
+            </article>
+            <article class="source-card interactive-card">
+              <span class="source-icon reddit" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation">
+                  <circle cx="12" cy="13" r="6.4"></circle>
+                  <circle cx="9.2" cy="12.4" r="1.1" class="cut"></circle>
+                  <circle cx="14.8" cy="12.4" r="1.1" class="cut"></circle>
+                  <path d="M8.7 15.1c1 .95 2 1.35 3.3 1.35 1.3 0 2.35-.4 3.35-1.35" class="stroke"></path>
+                  <path d="M13.2 6.9l1.1-3.1 2.7.65" class="stroke"></path>
+                  <circle cx="17.7" cy="4.5" r="1.2"></circle>
+                  <path d="M6.2 11.2c-.75-.45-1.2-1.15-1.2-1.95 0-1.35 1.1-2.4 2.45-2.4.55 0 1.05.15 1.45.45" class="stroke"></path>
+                  <path d="M17.8 11.2c.75-.45 1.2-1.15 1.2-1.95 0-1.35-1.1-2.4-2.45-2.4-.55 0-1.05.15-1.45.45" class="stroke"></path>
+                </svg>
+              </span>
+              <div>
+                <strong>Reddit</strong>
+                <span class="source-en">Threaded Communities</span>
+                <p>完整保留 thread 层级与评论树，为后续聚类、综合与引用关系提供结构基础。</p>
+                <div class="source-tags">
+                  <span>Threads</span>
+                  <span>评论树</span>
+                  <span>Subreddit</span>
+                </div>
+              </div>
+            </article>
+            <article class="source-card interactive-card">
+              <span class="source-icon hackernews" aria-hidden="true">Y</span>
+              <div>
+                <strong>Hacker News</strong>
+                <span class="source-en">Technical Link Discussions</span>
+                <p>抓取技术链接、高信号评论串与开发者反馈，合并保存新闻入口与原始讨论。</p>
+                <div class="source-tags">
+                  <span>Links</span>
+                  <span>评论串</span>
+                  <span>高信号讨论</span>
+                </div>
+              </div>
+            </article>
+            <article class="source-card interactive-card">
+              <span class="source-icon xmark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation">
+                  <path d="M5 4.4h3.9l4.18 5.58L17.9 4.4H19.7l-5.76 6.45 6.06 8.75h-3.91l-4.42-6.13L6.06 19.6H4.3l6.4-7.17z"></path>
+                </svg>
+              </span>
+              <div>
+                <strong>X / Twitter</strong>
+                <span class="source-en">Fast Public Signals</span>
+                <p>短帖、转发链与公共信号快照，捕捉长文来源之外的实时舆论与观点传播。</p>
+                <div class="source-tags">
+                  <span>Posts</span>
+                  <span>转发链</span>
+                  <span>实时信号</span>
+                </div>
+              </div>
+            </article>
+            <article class="source-card interactive-card">
+              <span class="source-icon wechat" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation">
+                  <path d="M10 6.1c-4 0-7 2.65-7 6.05 0 1.55.67 2.95 1.82 4l-.72 2.35 2.73-1.35c.92.28 1.95.43 3.02.43 4 0 7.15-2.62 7.15-6.03C17 8.72 13.95 6.1 10 6.1z"></path>
+                  <path d="M16.65 10.6c2.45 0 4.35 1.65 4.35 3.82 0 1-.4 1.9-1.15 2.6l.42 1.55-1.82-.92c-.6.18-1.23.28-1.9.28-2.45 0-4.4-1.68-4.4-3.85 0-2.14 1.95-3.48 4.5-3.48z" class="cut"></path>
+                  <circle cx="7.9" cy="11.75" r="0.8" class="cut"></circle>
+                  <circle cx="11.95" cy="11.75" r="0.8" class="cut"></circle>
+                  <circle cx="15.8" cy="14.2" r="0.65"></circle>
+                  <circle cx="18.4" cy="14.2" r="0.65"></circle>
+                </svg>
+              </span>
+              <div>
+                <strong>微信公众号</strong>
+                <span class="source-en">WeChat Articles</span>
+                <p>图文长文、栏目内容与公众号资料，连续发布的内容会自然组织进统一主题与章节体系。</p>
+                <div class="source-tags">
+                  <span>公众号文章</span>
+                  <span>栏目</span>
+                  <span>长文</span>
+                </div>
+              </div>
+            </article>
+            <article class="source-card interactive-card">
+              <span class="source-icon weibo" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation">
+                  <ellipse cx="11.2" cy="14.4" rx="5.9" ry="4.25"></ellipse>
+                  <circle cx="9.1" cy="13.85" r="1.05" class="cut"></circle>
+                  <circle cx="13.35" cy="13.85" r="1.05" class="cut"></circle>
+                  <path d="M8.3 16c.85.6 1.8.85 2.95.85 1.12 0 2.05-.25 2.88-.85" class="stroke"></path>
+                  <path d="M15.55 7.55c1.55-.2 3.02.42 3.95 1.7" class="stroke"></path>
+                  <path d="M16.45 4.9c2.2-.2 4.33.72 5.75 2.55" class="stroke"></path>
+                </svg>
+              </span>
+              <div>
+                <strong>微博</strong>
+                <span class="source-en">Weibo Trends</span>
+                <p>热度追踪、短消息扩散与公开反应记录，适合保留舆论变化与时间线上下文。</p>
+                <div class="source-tags">
+                  <span>趋势</span>
+                  <span>公开反应</span>
+                  <span>时间线</span>
+                </div>
+              </div>
+            </article>
+            <article class="source-card interactive-card">
+              <span class="source-icon xhs" aria-hidden="true">书</span>
+              <div>
+                <strong>小红书</strong>
+                <span class="source-en">Xiaohongshu</span>
+                <p>图文笔记与视觉导向内容一起进入知识库，保留生活方式语境与文本说明。</p>
+                <div class="source-tags">
+                  <span>图文笔记</span>
+                  <span>视觉内容</span>
+                  <span>评论</span>
+                </div>
+              </div>
+            </article>
+            <article class="source-card interactive-card">
+              <span class="source-icon html" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation">
+                  <path d="M8.2 6.6L3.9 12l4.3 5.4" class="stroke"></path>
+                  <path d="M15.8 6.6L20.1 12l-4.3 5.4" class="stroke"></path>
+                  <path d="M13.65 5.1L10.35 18.9" class="stroke"></path>
+                </svg>
+              </span>
+              <div>
+                <strong>通用 HTML</strong>
+                <span class="source-en">Generic HTML Pages</span>
+                <p>为普通网页与未定制站点提供后备入口，让来源扩展能力不受平台边界限制。</p>
+                <div class="source-tags">
+                  <span>Fallback</span>
+                  <span>文章页</span>
+                  <span>通用入口</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="glass-panel subpage-panel two-column-panel section-animate delay-2">
+          <article class="prose-card interactive-card">
+            <p class="card-label">Source Semantics</p>
+            <h3>为什么要做来源感知抓取</h3>
+            <p class="section-english">Thread depth, author metadata, discussion context, and page structure should survive acquisition instead of being flattened away.</p>
+            <ul class="point-list">
+              <li>评论树、作者信息与上下文不会在抓取阶段被抹平。</li>
+              <li>不同平台的原始结构差异会被保留下来，再统一进入 feed 层。</li>
+              <li>后续 synthesis 能基于更完整的证据做主题与章节组织。</li>
+            </ul>
+          </article>
+          <article class="prose-card interactive-card">
+            <p class="card-label">Unified Pipeline</p>
+            <h3>统一输出并不等于牺牲来源特征</h3>
+            <p class="section-english">Tapestry standardizes the downstream model while keeping the acquisition side faithful to the source.</p>
+            <ul class="point-list">
+              <li>异构来源最终进入同一套 notes、chapters、index 与 display 结果。</li>
+              <li>阅读体验统一，但引用回溯仍然保留来源语义。</li>
+              <li>这让知识库既能长期积累，也能回到原始证据层验证。</li>
+            </ul>
+          </article>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="site-footer-inner">
+          <p>Tapestry · 面向 Agent 的原生内容采集与知识库发布技能套件</p>
+          <div class="footer-nav">
+            <a class="footer-link" href="./index.html">主页 / Home</a>
+            <a class="footer-link" href="./install.html">安装 / Install</a>
+            <a class="footer-link" href="./use-cases.html">场景 / Use Cases</a>
+            <a class="footer-link" href="./faq.html">问答 / FAQ</a>
+            <a class="footer-link" href="https://github.com/NatsuFox/Tapestry" target="_blank" rel="noreferrer">GitHub Repo</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

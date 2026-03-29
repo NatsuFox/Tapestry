@@ -19,10 +19,13 @@ https://natsufox.github.io/Tapestry
 
 ### 🔎 核心页面 | Core Pages
 
-- Install: https://natsufox.github.io/Tapestry/install.html
-- Sources: https://natsufox.github.io/Tapestry/supported-sources.html
-- Use Cases: https://natsufox.github.io/Tapestry/use-cases.html
-- FAQ: https://natsufox.github.io/Tapestry/faq.html
+Install: https://natsufox.github.io/Tapestry/install.html
+
+Sources: https://natsufox.github.io/Tapestry/supported-sources.html
+
+Use Cases: https://natsufox.github.io/Tapestry/use-cases.html
+
+FAQ: https://natsufox.github.io/Tapestry/faq.html
 
 ### ⭐ 支持项目 | Support the Project
 

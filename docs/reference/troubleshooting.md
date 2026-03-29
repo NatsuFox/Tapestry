@@ -509,3 +509,71 @@ If you've found a bug:
 
 ### `MemoryError`
 → See [Memory Issues](#memory-issues)
+
+### Viewer shows only one topic
+→ See [Viewer Shows Only One Topic](#viewer-shows-only-one-topic-instead-of-all-knowledge-bases)
+
+### Ingested data missing from viewer
+→ See [Data Written to Wrong Directory](#data-written-to-wrong-directory)
+
+---
+
+## Display / Viewer Issues
+
+### Viewer Shows Only One Topic Instead of All Knowledge Bases
+
+**Symptom**: The viewer loads but displays only one KB topic (e.g., `dingyi-dex-weekly`) even though multiple topics exist under `_data/books/`.
+
+**Root cause**: Either:
+- `publish_viewer.py` was called with `--data-path _data/books/<topic>`, scoping the build to one topic.
+- The HTTP server was started from a topic-specific `_viewer/` instead of `_data/books/_viewer`.
+
+**Solution**:
+```bash
+# 1. Rebuild the full KB viewer (omit --data-path entirely)
+python skills/tapestry/display/_scripts/publish_viewer.py --force
+
+# 2. Kill any old server
+fuser -k <port>/tcp   # or: kill <PID>
+
+# 3. Serve from the FULL books/_viewer
+python -m http.server <port> --directory <skill_root>/_data/books/_viewer
+```
+
+**Rule**: `--data-path` scopes the viewer to that path only. Omit it to show all topics.
+
+---
+
+### Data Written to Wrong Directory
+
+**Symptom**: After ingestion/synthesis, notes and books appear under a path like `/root/.agents/_data/` but the viewer (which reads from `<config data_dir>`) shows nothing.
+
+**Root cause**: The skill's working directory at invocation time differed from `config.data_dir`. Files were written relative to CWD instead of the canonical `data_dir`.
+
+**Diagnosis**:
+```bash
+# Check what data_dir is configured
+cat <skill_root>/config/tapestry.config.json | grep data_dir
+
+# Check where notes actually landed
+ls <wrong_path>/notes/
+ls <correct_data_dir>/notes/
+```
+
+**Solution** (merge wrong → correct path):
+```bash
+# Merge notes, captures, feeds, books
+cp -rn <wrong_data_dir>/notes/  <correct_data_dir>/notes/
+cp -rn <wrong_data_dir>/captures/ <correct_data_dir>/captures/
+cp -rn <wrong_data_dir>/feeds/   <correct_data_dir>/feeds/
+cp -rn <wrong_data_dir>/books/   <correct_data_dir>/books/
+
+# Merge catalog entries (avoid duplicates)
+cat <wrong_data_dir>/catalog.jsonl >> <correct_data_dir>/catalog.jsonl
+sort -u <correct_data_dir>/catalog.jsonl -o <correct_data_dir>/catalog.jsonl
+```
+
+**Prevention**: Before running ingest/synthesis, verify `config.data_dir` matches the intended path:
+```bash
+python3 -c "from tapestry._src.config import TapestryConfig; c = TapestryConfig.load(); print(c.data_dir)"
+```

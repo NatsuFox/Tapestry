@@ -113,6 +113,12 @@ class TapestryConfig(BaseModel):
             data["paths"] = {}
         data["paths"]["project_root"] = str(sr)
 
+        # Also resolve data_dir to an absolute path so it is unambiguous
+        # regardless of the Agent's working directory at runtime.
+        raw_data_dir = data["paths"].get("data_dir", "_data").strip() or "_data"
+        if not Path(raw_data_dir).is_absolute():
+            data["paths"]["data_dir"] = str((sr / raw_data_dir).resolve())
+
         # Best-effort write — if the filesystem is read-only, in-memory config
         # is still correct for this session.
         try:

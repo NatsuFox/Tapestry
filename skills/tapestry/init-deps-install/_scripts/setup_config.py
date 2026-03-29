@@ -73,11 +73,21 @@ def setup_config(project_root=None):
     current_root = config.get("paths", {}).get("project_root", ".")
     new_root = str(project_root)
 
+    if "paths" not in config:
+        config["paths"] = {}
+
     if current_root != new_root:
-        if "paths" not in config:
-            config["paths"] = {}
         config["paths"]["project_root"] = new_root
         result["updated"] = True
+
+    # Resolve data_dir to an absolute path so it is unambiguous regardless
+    # of the Agent's working directory at runtime.
+    raw_data_dir = config["paths"].get("data_dir", "_data").strip() or "_data"
+    if not os.path.isabs(raw_data_dir):
+        abs_data_dir = str((project_root / raw_data_dir).resolve())
+        if config["paths"].get("data_dir") != abs_data_dir:
+            config["paths"]["data_dir"] = abs_data_dir
+            result["updated"] = True
 
     # Write config
     if result["created"] or result["updated"]:

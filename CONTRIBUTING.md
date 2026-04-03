@@ -54,12 +54,14 @@ ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 # 或直接复制
 cp -r skills/tapestry ~/.claude/skills/
 
-# 运行测试
-cd skills/tapestry/_tests
-pytest -v
+# 运行与 GitHub Actions tests.yml 一致的本地 CI 检查
+./tools/run_local_ci.sh
+
+# 安装 pre-commit hook，在每次提交前自动运行同样的检查
+./tools/install_git_hooks.sh
 
 # 运行特定测试
-pytest test_ingest.py -v
+python3 -m pytest tests/test_ingest.py -v
 ```
 
 #### 4. 提交变更
@@ -109,7 +111,7 @@ git push origin feature/your-feature-name
 
 - [ ] 代码遵循项目现有的风格
 - [ ] 添加了必要的类型注解和文档字符串
-- [ ] 所有测试通过（`pytest`）
+- [ ] 本地 CI 检查通过（`./tools/run_local_ci.sh`）
 - [ ] 更新了相关文档
 - [ ] 提交信息清晰且遵循约定式提交规范
 - [ ] PR 描述清楚说明了变更的动机和内容
@@ -147,7 +149,7 @@ git push origin feature/your-feature-name
 ## 检查清单
 - [ ] 代码遵循项目风格指南
 - [ ] 添加了必要的测试
-- [ ] 所有测试通过
+- [ ] 本地 CI 检查通过（`./tools/run_local_ci.sh`）
 - [ ] 更新了相关文档
 - [ ] 提交信息清晰明确
 ```
@@ -202,18 +204,20 @@ git push origin feature/your-feature-name
 ### 测试指南
 
 ```bash
-# 运行所有测试
-cd skills/tapestry/_tests
-pytest
+# 运行与 GitHub Actions tests.yml 一致的完整本地检查
+./tools/run_local_ci.sh
+
+# 安装 pre-commit hook，在每次提交前自动运行本地检查
+./tools/install_git_hooks.sh
 
 # 运行特定测试文件
-pytest test_ingest.py
+python3 -m pytest tests/test_ingest.py
 
 # 运行特定测试函数
-pytest test_ingest.py::test_function_name
+python3 -m pytest tests/test_ingest.py::test_function_name
 
 # 查看覆盖率
-pytest --cov=_src --cov-report=html
+python3 -m pytest tests/ --cov=skills/tapestry/_src --cov-report=html
 ```
 
 ### 文档规范
@@ -348,12 +352,14 @@ ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 # Or direct copy
 cp -r skills/tapestry ~/.claude/skills/
 
-# Run tests
-cd skills/tapestry/_tests
-pytest -v
+# Run the same local CI check as GitHub Actions tests.yml
+./tools/run_local_ci.sh
 
-# Run specific tests
-pytest test_ingest.py -v
+# Install the pre-commit hook so every commit runs the same check
+./tools/install_git_hooks.sh
+
+# Run a specific test file
+python3 -m pytest tests/test_ingest.py -v
 ```
 
 #### 4. Commit Changes
@@ -403,7 +409,7 @@ Before submitting a PR, ensure:
 
 - [ ] Code follows existing project style
 - [ ] Added necessary type annotations and docstrings
-- [ ] All tests pass (`pytest`)
+- [ ] Local CI check passes (`./tools/run_local_ci.sh`)
 - [ ] Updated relevant documentation
 - [ ] Commit messages are clear and follow Conventional Commits
 - [ ] PR description clearly explains motivation and changes
@@ -441,7 +447,7 @@ When creating a PR, please include:
 ## Checklist
 - [ ] Code follows project style guide
 - [ ] Added necessary tests
-- [ ] All tests pass
+- [ ] Local CI check passes (`./tools/run_local_ci.sh`)
 - [ ] Updated relevant documentation
 - [ ] Commit messages are clear
 ```
@@ -496,18 +502,20 @@ When creating a PR, please include:
 ### Testing Guidelines
 
 ```bash
-# Run all tests
-cd skills/tapestry/_tests
-pytest
+# Run the full local check that mirrors GitHub Actions tests.yml
+./tools/run_local_ci.sh
 
-# Run specific test file
-pytest test_ingest.py
+# Install the pre-commit hook so every commit runs the local check
+./tools/install_git_hooks.sh
 
-# Run specific test function
-pytest test_ingest.py::test_function_name
+# Run a specific test file
+python3 -m pytest tests/test_ingest.py
+
+# Run a specific test function
+python3 -m pytest tests/test_ingest.py::test_function_name
 
 # View coverage
-pytest --cov=_src --cov-report=html
+python3 -m pytest tests/ --cov=skills/tapestry/_src --cov-report=html
 ```
 
 ### Documentation Standards

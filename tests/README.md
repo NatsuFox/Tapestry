@@ -5,17 +5,20 @@ Unit tests for the Tapestry skill pack.
 ## Running Tests
 
 ```bash
-# Run all tests
-pytest tests/
+# Run the local CI command that mirrors .github/workflows/tests.yml
+./tools/run_local_ci.sh
 
-# Run specific test file
-pytest tests/test_parse.py
+# Install the pre-commit hook so every commit runs the same check
+./tools/install_git_hooks.sh
+
+# Run a specific test file
+python3 -m pytest tests/test_parse.py
 
 # Run with coverage
-pytest --cov=skills/tapestry tests/
+python3 -m pytest tests/ --cov=skills/tapestry/_src --cov-report=html
 
 # Run with verbose output
-pytest -v tests/
+python3 -m pytest -v tests/
 ```
 
 ## Test Structure
@@ -47,6 +50,6 @@ def test_feature_name():
 Run tests with coverage to ensure code quality:
 
 ```bash
-pytest --cov=skills/tapestry --cov-report=html tests/
+python3 -m pytest tests/ --cov=skills/tapestry/_src --cov-report=html
 open htmlcov/index.html
 ```

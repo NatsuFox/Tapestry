@@ -36,9 +36,11 @@ class KnowledgeBaseStore:
     """Persist each ingest stage to the project tree."""
 
     def __init__(self, project_root: Path, *, config: TapestryConfig | None = None) -> None:
-        config = config or TapestryConfig.load()
         self._project_root = Path(project_root).resolve()
-        self._data_root = config.resolve_data_root(self._project_root)
+        if config is None:
+            self._data_root = (self._project_root / "_data").resolve()
+        else:
+            self._data_root = config.resolve_data_root(self._project_root)
         self._capture_root = self._data_root / "captures"
         self._feed_root = self._data_root / "feeds"
         self._note_root = self._data_root / "notes"
@@ -175,11 +177,9 @@ class KnowledgeBaseStore:
                 yield CatalogRecord.model_validate(json.loads(line))
 
     def _find_record_by_note_path(self, note_path: str | None) -> CatalogRecord | None:
-        normalized = (note_path or "").strip()
-        normalized = normalized.removeprefix(str(self._project_root) + "/")
-        normalized = normalized.lstrip("./")
+        normalized = self._normalize_catalog_path(note_path)
         for record in self._iter_catalog_records() or []:
-            if record.note_path == normalized:
+            if self._normalize_catalog_path(record.note_path) == normalized:
                 return record
         return None
 
@@ -208,6 +208,19 @@ class KnowledgeBaseStore:
         if not path.exists():
             return {}
         return json.loads(path.read_text(encoding="utf-8"))
+
+    def _normalize_catalog_path(self, path_value: str | None) -> str:
+        normalized = (path_value or "").strip()
+        if not normalized:
+            return ""
+        candidate = Path(normalized).expanduser()
+        candidate_text = candidate.as_posix()
+        project_root_prefix = f"{self._project_root.as_posix()}/"
+        if candidate.is_absolute():
+            if candidate_text.startswith(project_root_prefix):
+                return candidate_text.removeprefix(project_root_prefix)
+            return candidate_text
+        return candidate_text.lstrip("./")
 
     @staticmethod
     def _render_note(

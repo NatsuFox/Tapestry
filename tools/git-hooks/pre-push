@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${TAPESTRY_SKIP_LOCAL_CI:-0}" == "1" ]]; then
+  echo "[pre-push] Skipping local CI because TAPESTRY_SKIP_LOCAL_CI=1"
+  exit 0
+fi
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+exec "$ROOT_DIR/tools/run_local_ci.sh"

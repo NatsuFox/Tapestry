@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-import pytest
 import _src.store as store_module
+import pytest
 from _src.config import TapestryConfig
 from _src.ingest import IngestionService
 from _src.models import CapturedPage, FetchMode

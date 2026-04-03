@@ -5,10 +5,10 @@ Unit tests for the Tapestry skill pack.
 ## Running Tests
 
 ```bash
-# Run the local CI command that mirrors .github/workflows/tests.yml
+# Run the local workflow command that mirrors the repo's locally reproducible GitHub Actions steps
 ./tools/run_local_ci.sh
 
-# Install the pre-commit hook so every commit runs the same check
+# Install the pre-commit and pre-push hooks so every commit and push runs the same check
 ./tools/install_git_hooks.sh
 
 # Run a specific test file

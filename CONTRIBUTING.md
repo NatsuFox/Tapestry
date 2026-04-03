@@ -54,10 +54,10 @@ ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 # 或直接复制
 cp -r skills/tapestry ~/.claude/skills/
 
-# 运行与 GitHub Actions tests.yml 一致的本地 CI 检查
+# 运行与本仓库 GitHub Actions 可本地复现步骤一致的检查套件
 ./tools/run_local_ci.sh
 
-# 安装 pre-commit hook，在每次提交前自动运行同样的检查
+# 安装 pre-commit 和 pre-push hooks，在每次提交和推送前自动运行同样的检查
 ./tools/install_git_hooks.sh
 
 # 运行特定测试
@@ -204,10 +204,10 @@ git push origin feature/your-feature-name
 ### 测试指南
 
 ```bash
-# 运行与 GitHub Actions tests.yml 一致的完整本地检查
+# 运行与本仓库 GitHub Actions 可本地复现步骤一致的完整检查
 ./tools/run_local_ci.sh
 
-# 安装 pre-commit hook，在每次提交前自动运行本地检查
+# 安装 pre-commit 和 pre-push hooks，在每次提交和推送前自动运行本地检查
 ./tools/install_git_hooks.sh
 
 # 运行特定测试文件
@@ -352,10 +352,10 @@ ln -s "$(pwd)/skills/tapestry" ~/.claude/skills/tapestry
 # Or direct copy
 cp -r skills/tapestry ~/.claude/skills/
 
-# Run the same local CI check as GitHub Actions tests.yml
+# Run the local check suite that mirrors the repo's locally reproducible GitHub Actions steps
 ./tools/run_local_ci.sh
 
-# Install the pre-commit hook so every commit runs the same check
+# Install the pre-commit and pre-push hooks so every commit and push runs the same check
 ./tools/install_git_hooks.sh
 
 # Run a specific test file
@@ -502,10 +502,10 @@ When creating a PR, please include:
 ### Testing Guidelines
 
 ```bash
-# Run the full local check that mirrors GitHub Actions tests.yml
+# Run the full local check suite that mirrors the repo's locally reproducible GitHub Actions steps
 ./tools/run_local_ci.sh
 
-# Install the pre-commit hook so every commit runs the local check
+# Install the pre-commit and pre-push hooks so every commit and push runs the local check
 ./tools/install_git_hooks.sh
 
 # Run a specific test file

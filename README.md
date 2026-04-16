@@ -775,26 +775,19 @@ Tapestry 尊重平台的速率限制和 robots.txt。对于公开内容，风险
 
 ---
 
-### 📖 文档 | Documentation
+### 📖 使用与参考 | Usage and Reference
 
-完整的文档现已在 `docs/` 目录中提供：
+公开仓库中的长期参考入口保留在本 README 与根目录文档中；`docs/` 目录改为本地工作区使用，不再作为远程仓库内容发布。
 
-**入门指南**
-- [安装指南](docs/installation.md) - 详细的安装步骤
-- [快速参考](docs/quick-reference.md) - 常用命令和工作流
-- [基础使用](docs/guides/basic-usage.md) - 开始使用 Tapestry
+**本 README 中的核心章节**
+- `安装` - 详细的安装步骤与验证方式
+- `配置与合并频率` - 配置结构、合并模式与性能权衡
+- `工作流概览` - 日常使用路径与操作顺序
+- `架构设计` - 分层职责、数据流与扩展思路
+- `支持的来源` - 当前支持的内容平台
+- `常见问题` - 常见问题、故障定位与使用边界
 
-**架构与设计**
-- [架构概览](docs/architecture/overview.md) - 系统设计和组件
-- [技能架构](docs/architecture/skill-architecture.md) - 技能系统工作原理
-- [内容管道](docs/architecture/content-pipeline.md) - 数据流和处理
-- [爬虫系统](docs/architecture/crawlers.md) - 平台特定爬虫
-
-**参考文档**
-- [支持的平台](docs/reference/platforms.md) - 所有支持的内容源
-- [故障排除](docs/reference/troubleshooting.md) - 常见问题和解决方案
-
-**开发文档**
+**根目录文档**
 - [贡献指南](CONTRIBUTING.md) - 如何为 Tapestry 做贡献
 - [更新日志](CHANGELOG.md) - 版本历史和更新
 - [路线图](ROADMAP.md) - 未来计划和功能

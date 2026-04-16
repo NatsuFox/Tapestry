@@ -19,7 +19,6 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 STATIC_FILES = (
     Path("LICENSE"),
     Path("README.md"),
-    Path("docs/installation.md"),
     Path("pyproject.toml"),
     Path(".claude-plugin/plugin.json"),
     Path(".claude-plugin/marketplace.json"),

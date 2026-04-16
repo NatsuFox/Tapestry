@@ -792,18 +792,19 @@ See the Contributing section below. Basic steps:
 
 ---
 
-## 📚 Documentation
+## 📚 Usage and Reference
 
-**Architecture**
-- [How It Works](docs/architecture/how-it-works.md) - Core design and operation
-- [Content Pipeline](docs/architecture/content-pipeline.md) - Data flow and processing
-- [Crawler System](docs/architecture/crawlers.md) - Platform-specific crawlers
+The public repository keeps its durable reference surface in this README and the root-level project files. The `docs/` directory is now treated as a local workspace and is no longer part of the remote repo.
 
-**Reference**
-- [Supported Platforms](docs/reference/platforms.md) - All supported content sources
-- [Troubleshooting](docs/reference/troubleshooting.md) - Common issues and solutions
+**Core sections in this README**
+- `Installation` - setup paths and verification steps
+- `Configuration and Merge Frequency` - configuration shape, merge modes, and tradeoffs
+- `Workflow Overview` - everyday usage flow
+- `Architecture Design` - layered responsibilities, data flow, and extension seams
+- `Supported Sources` - currently supported platforms
+- `Frequently Asked Questions` - troubleshooting and operational boundaries
 
-**Development**
+**Root-level project files**
 - [Contributing Guide](CONTRIBUTING.md) - How to contribute to Tapestry
 - [Changelog](CHANGELOG.md) - Version history and updates
 - [Roadmap](ROADMAP.md) - Future plans and features
@@ -954,4 +955,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [⬆ Back to Top](#tapestry--ai-native-web-intelligence-and-knowledge-base-skill-bundle)
 
 </div>
-

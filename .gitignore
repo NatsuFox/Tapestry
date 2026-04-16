@@ -47,5 +47,6 @@ libs/
 backup.sh
 backup_*.sh
 src/*
+docs/
 !src/ui/
 !src/ui/**

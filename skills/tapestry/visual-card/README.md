@@ -12,11 +12,11 @@ python skills/tapestry/visual-card/_scripts/generate_card.py \
 
 ## Documentation
 
-For complete documentation, see:
+The repository keeps extended working docs local-only. The tracked references for this skill are:
 
-- **[Visual Cards Guide](../../../docs/guides/visual-cards.md)** - User guide with examples and usage patterns
-- **[Visual Card Integration](../../../docs/architecture/visual-card-integration.md)** - Architecture and integration details
 - **[SKILL.md](SKILL.md)** - Skill definition and workflow
+- **[README.en.md](../../../README.en.md)** - Repository overview, installation, and visual frontend context
+- **`visual-card/_templates/card_template_spec.md`** - Template block specification used during synthesis
 
 ## Features
 

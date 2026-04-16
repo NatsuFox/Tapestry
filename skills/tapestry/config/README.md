@@ -22,7 +22,10 @@ To customize configuration:
 
 ## Configuration Options
 
-See [Configuration Reference](../../docs/reference/configuration.md) for detailed documentation.
+The tracked configuration reference now lives in the repository root docs:
+
+- [README.en.md](../../../README.en.md) - see the `Configuration and Merge Frequency` section for merge modes, defaults, and operational tradeoffs
+- `tapestry.config.example.json` - canonical configuration template in this directory
 
 ### Quick Reference
 
